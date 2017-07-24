@@ -1,4 +1,4 @@
-info 'Installing vim-plug + plugins'
+printf "Installing vim-plug + plugins \n\n\n"
 
 curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs \
   https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
