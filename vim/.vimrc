@@ -36,13 +36,17 @@ filetype plugin on    " Enable filetype-specific plugins
 ""
 color smyck
 
+" netrw
+let g:netrw_browse_split = 2
+let g:netrw_banner = 0
+
 ""
 "" Whitespace
 ""
-set wrap linebreak nolist         " Wraps words when it reaches borders
-set expandtab                     " use spaces, not tabs
 set tabstop=2                     " a tab is two spaces
 set shiftwidth=2                  " an autoindent (with <<) is two spaces
 set backspace=indent,eol,start    " backspace through everything in insert mode
+set expandtab                     " use spaces, not tabs
+set nowrap
 
 autocmd BufWritePre * :%s/\s\+$//e " Strips white spaces on save
