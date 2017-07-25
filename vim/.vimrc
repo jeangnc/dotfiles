@@ -10,25 +10,40 @@ Plug 'brendonrapp/smyck-vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all'  }
 Plug 'junegunn/fzf.vim'
 Plug 'vim-airline/vim-airline'
+Plug 'neomake/neomake'
 
 call plug#end()
 
 
 ""
+"" Configurations
+""
+let mapleader = "-"
+let g:netrw_browse_split = 2
+let g:netrw_banner = 0
+
+""
 "" Keymapping
 ""
-:let mapleader = "-"
 
+" others
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>f :FZF<cr>
 nnoremap <leader>h :History<cr>
+
+" buffers
 nnoremap <leader><tab><space> :bnext<cr>
 nnoremap <leader><backspace> :bd<cr>
 nnoremap <leader><tab><tab> :Buffers<cr>
-nnoremap <leader>t :execute "!rd-docker e web rspec " . substitute(expand("%"),'/var/www/rd/rdstation/','','g')<cr>
+
+" tabs
 nnoremap <left> :tabp<cr>
 nnoremap <right> :tabn<cr>
+
+" tools
+nnoremap <leader>t :execute "!rd-docker e web rspec " . substitute(expand("%"),'/var/www/rd/rdstation/','','g')<cr>
+
 
 ""
 "" Basic
@@ -64,15 +79,19 @@ set wildignore+=*/tmp/cache/assets/*/sprockets/*,*/tmp/cache/assets/*/sass/*
 set wildignore+=*.swp,*~,._*
 
 ""
+"" Neomake
+""
+autocmd! BufReadPost,BufWritePost * Neomake
+
+let g:neomake_error_sign = { 'text': '✖', 'texthl': 'NeomakeErrorSign' }
+let g:neomake_warning_sign = { 'text': '⚠', 'texthl': 'NeomakeWarningSign' }
+let g:neomake_message_sign = { 'text': '➤', 'texthl': 'NeomakeMessageSign' }
+let g:neomake_info_sign = { 'text': 'ℹ', 'texthl': 'NeomakeInfoSign' }
+
+""
 "" Appearance
 ""
 color smyck
-
-""
-"" Configurations
-""
-let g:netrw_browse_split = 2
-let g:netrw_banner = 0
 
 ""
 "" Whitespace
