@@ -19,7 +19,6 @@ call plug#end()
 ""
 :let mapleader = "-"
 
-nnoremap <leader>t :execute "!rd-docker e web rspec " . bufname("#")<cr>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>f :FZF<cr>
@@ -27,10 +26,14 @@ nnoremap <leader>h :History<cr>
 nnoremap <leader><tab><space> :bnext<cr>
 nnoremap <leader><backspace> :bd<cr>
 nnoremap <leader><tab><tab> :Buffers<cr>
+nnoremap <leader>t :execute "!rd-docker e web rspec " . bufname("#")<cr>
+nnoremap <left> :tabp<cr>
+nnoremap <right> :tabn<cr>
 
 ""
 "" Basic
 ""
+set hidden
 set number
 set cursorline
 set colorcolumn=100
