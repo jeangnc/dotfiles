@@ -26,7 +26,7 @@ nnoremap <leader>h :History<cr>
 nnoremap <leader><tab><space> :bnext<cr>
 nnoremap <leader><backspace> :bd<cr>
 nnoremap <leader><tab><tab> :Buffers<cr>
-nnoremap <leader>t :execute "!rd-docker e web rspec " . bufname("#")<cr>
+nnoremap <leader>t :execute "!rd-docker e web rspec " . substitute(expand("%"),'/var/www/rd/rdstation/','','g')<cr>
 nnoremap <left> :tabp<cr>
 nnoremap <right> :tabn<cr>
 
