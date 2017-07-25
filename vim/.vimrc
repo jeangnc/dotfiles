@@ -18,14 +18,15 @@ call plug#end()
 "" Keymapping
 ""
 :let mapleader = "-"
+
+nnoremap <leader>t :execute "!rd-docker e web rspec " . bufname("#")<cr>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>f :FZF<cr>
-nnoremap <leader><tab><tab> :buffers<cr>:buffer<space>
+nnoremap <leader>h :History<cr>
 nnoremap <leader><tab><space> :bnext<cr>
 nnoremap <leader><backspace> :bd<cr>
-nnoremap <Leader>t :!rd-docker e web rspec expand('%')
-
+nnoremap <leader><tab><tab> :Buffers<cr>
 
 ""
 "" Basic
