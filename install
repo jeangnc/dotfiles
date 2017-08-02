@@ -1,0 +1,8 @@
+#!/bin/bash
+
+USER=$(whoami)
+HOME=/home/${USER}
+
+ln -s $HOME/.dotfiles/zsh/.zshrc $HOME
+ln -s $HOME/.dotfiles/vim/.vimrc $HOME
+

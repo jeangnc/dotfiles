@@ -19,6 +19,7 @@ call plug#end()
 "" Configurations
 ""
 let mapleader = "-"
+
 let g:netrw_browse_split = 2
 let g:netrw_banner = 0
 
@@ -33,7 +34,6 @@ nnoremap <leader>f :FZF<cr>
 nnoremap <leader>h :History<cr>
 
 " buffers
-nnoremap <leader><tab><space> :bnext<cr>
 nnoremap <leader><backspace> :bd<cr>
 nnoremap <leader><tab><tab> :Buffers<cr>
 
@@ -71,7 +71,7 @@ filetype plugin on    " Enable filetype-specific plugins
 "" Wildmenu
 ""
 set wildmenu
-set wildignore+=*.o,*.out,*.obj,.git,*.rbc,*.rbo,*.class,.svn,*.gem
+set wildignore+=*.o,*.out,*.obj,.git,*.rbc,*.rbo,*.class,.svn,*.gem,*.log,*.cache
 set wildignore+=*.zip,*.tar.gz,*.tar.bz2,*.rar,*.tar.xz
 set wildignore+=*/vendor/gems/*,*/vendor/cache/*,*/.bundle/*,*/.sass-cache/*
 set wildignore+=*/tmp/librarian/*,*/.vagrant/*,*/.kitchen/*,*/vendor/cookbooks/*
@@ -87,6 +87,13 @@ let g:neomake_error_sign = { 'text': '✖', 'texthl': 'NeomakeErrorSign' }
 let g:neomake_warning_sign = { 'text': '⚠', 'texthl': 'NeomakeWarningSign' }
 let g:neomake_message_sign = { 'text': '➤', 'texthl': 'NeomakeMessageSign' }
 let g:neomake_info_sign = { 'text': 'ℹ', 'texthl': 'NeomakeInfoSign' }
+
+" jslint
+let g:neomake_javascript_jshint_maker = {
+    \ 'args': ['--verbose'],
+    \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
+    \ }
+let g:neomake_javascript_enabled_makers = ['jshint']
 
 ""
 "" Appearance
