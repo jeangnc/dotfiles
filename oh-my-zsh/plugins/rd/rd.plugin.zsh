@@ -19,6 +19,7 @@ function start_frontend() {
   ember s
 }
 
+#wip
 function start_everything() {
   start_station
   start_frontend
