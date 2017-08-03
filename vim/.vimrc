@@ -34,7 +34,8 @@ nnoremap <leader>f :FZF<cr>
 nnoremap <leader>h :History<cr>
 
 " buffers
-noremap <F8> :sbnext<CR>
+nnoremap <leader><backspace> :bd<CR>
+nnoremap <F8> :sbnext<CR>
 nnoremap <S-F8> :sbprevious<CR>
 nnoremap <C-Left> :tabp<cr>
 nnoremap <C-right> :tabn<cr>
