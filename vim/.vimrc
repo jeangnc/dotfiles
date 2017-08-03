@@ -16,7 +16,7 @@ call plug#end()
 
 
 ""
-"" Configurations
+"" Vars
 ""
 let mapleader = "-"
 
@@ -34,16 +34,10 @@ nnoremap <leader>f :FZF<cr>
 nnoremap <leader>h :History<cr>
 
 " buffers
-nnoremap <leader><backspace> :bd<cr>
-nnoremap <leader><tab><tab> :Buffers<cr>
-
-" tabs
-nnoremap <left> :tabp<cr>
-nnoremap <right> :tabn<cr>
-
-" tools
-nnoremap <leader>t :execute "!rd-docker e web rspec " . substitute(expand("%"),'/var/www/rd/rdstation/','','g')<cr>
-
+noremap <F8> :sbnext<CR>
+nnoremap <S-F8> :sbprevious<CR>
+nnoremap <C-Left> :tabp<cr>
+nnoremap <C-right> :tabn<cr>
 
 ""
 "" Basic
@@ -51,11 +45,12 @@ nnoremap <leader>t :execute "!rd-docker e web rspec " . substitute(expand("%"),'
 set hidden
 set number
 set cursorline
-set colorcolumn=100
-set encoding=utf-8
 set ruler
 set splitbelow "open new splits below
 set splitright "open new splits at the right
+set switchbuf=usetab
+set colorcolumn=100
+set encoding=utf-8
 set langmenu=en_US.UTF-8
 
 ""
