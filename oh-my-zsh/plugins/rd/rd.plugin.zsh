@@ -25,6 +25,8 @@ function start_everything() {
   start_frontend
 }
 
+alias rd-s=start_everything #start everything
 alias rd-ss=start_station #start station
 alias rd-sf=start_frontend #start frontend
-alias rd-s=start_everything #start everything
+alias rd-c="cd $RD_STATION && rd-docker e web rails c"
+alias rd-cc="cd $RD_STATION && rd-docker e web cucumber -t"
