@@ -2,7 +2,6 @@
 "" Plugins
 ""
 call plug#begin('~/.vim/plugins')
-
 Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-rails'
 Plug 'sheerun/vim-polyglot'
@@ -11,7 +10,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all'  }
 Plug 'junegunn/fzf.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'neomake/neomake'
-
 call plug#end()
 
 
@@ -35,7 +33,11 @@ let g:neomake_javascript_enabled_makers = ['jshint']
 
 " netrw
 let g:netrw_banner = 0
-let g:netrw_browse_split = 2
+let g:netrw_winsize = 25
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_list_hide = &wildignore
+let g:netrw_altv = 1
 
 ""
 "" Basic configuration
@@ -62,9 +64,13 @@ set wildignore+=*/tmp/cache/assets/*/sprockets/*,*/tmp/cache/assets/*/sass/*
 set wildignore+=*.swp,*~,._*
 
 " whitespace
-set nowrap                          " break line after it reachs the limit
+set nowrap                        " break line after it reachs the limit
 set expandtab                     " use spaces, not tabs
 set backspace=indent,eol,start    " backspace through everything in insert mode
+
+" allow gf to work with PHP namespaced classes
+set includeexpr=substitute(v:fname,'\\\','/','g')
+set suffixesadd+=.php
 
 ""
 "" Commands
@@ -101,6 +107,7 @@ nnoremap <leader>h :History<cr>
 nnoremap <leader><backspace> :bd<CR>
 nnoremap <F8> :bnext<CR>
 nnoremap <S-F8> :bprevious<CR>
-nnoremap <C-Left> :tabp<cr>
+nnoremap <C-left> :tabp<cr>
 nnoremap <C-right> :tabn<cr>
+nnoremap <C-e> :Vex<cr>
 
