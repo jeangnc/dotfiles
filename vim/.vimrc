@@ -7,9 +7,12 @@ Plug 'tpope/vim-rails'
 Plug 'sheerun/vim-polyglot'
 Plug 'brendonrapp/smyck-vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all'  }
-Plug 'junegunn/fzf.vim'
-Plug 'vim-airline/vim-airline'
-Plug 'neomake/neomake'
+Plug 'junegunn/fzf.vim' " fuzzyfinder plugin for vim
+Plug 'vim-airline/vim-airline' " very useful fixed bar
+Plug 'neomake/neomake' " allow me to run linters and etc after saving a file
+Plug 'terryma/vim-multiple-cursors' " multiple cursor edition
+Plug 'ervandew/supertab' " allow me to use tab for evereything
+Plug 'docteurklein/vim-symfony' " very useful for php + symfony
 call plug#end()
 
 
@@ -26,18 +29,19 @@ let g:neomake_info_sign = { 'text': 'ℹ', 'texthl': 'NeomakeInfoSign' }
 
 " jslint
 let g:neomake_javascript_jshint_maker = {
-    \ 'args': ['--verbose'],
-    \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
-    \ }
+      \ 'args': ['--verbose'],
+      \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
+      \ }
 let g:neomake_javascript_enabled_makers = ['jshint']
 
 " netrw
 let g:netrw_banner = 0
 let g:netrw_winsize = 25
 let g:netrw_liststyle = 3
-let g:netrw_browse_split = 4
+let g:netrw_browse_split = 0
 let g:netrw_list_hide = &wildignore
 let g:netrw_altv = 1
+let g:netrw_keepdir=0
 
 ""
 "" Basic configuration
@@ -68,10 +72,6 @@ set nowrap                        " break line after it reachs the limit
 set expandtab                     " use spaces, not tabs
 set backspace=indent,eol,start    " backspace through everything in insert mode
 
-" allow gf to work with PHP namespaced classes
-set includeexpr=substitute(v:fname,'\\\','/','g')
-set suffixesadd+=.php
-
 ""
 "" Commands
 ""
@@ -79,6 +79,7 @@ autocmd FileType * set tabstop=2|set shiftwidth=2
 autocmd FileType php set tabstop=4|set shiftwidth=4
 autocmd FileType ruby set tabstop=4|set shiftwidth=4
 autocmd FileType python set tabstop=4|set shiftwidth=4
+autocmd FileType xml set tabstop=4|set shiftwidth=4
 autocmd BufWritePre * :%s/\s\+$//e " strips white spaces on save
 autocmd! BufReadPost,BufWritePost * Neomake " neomake
 
