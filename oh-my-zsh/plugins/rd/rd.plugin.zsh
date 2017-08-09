@@ -30,3 +30,4 @@ alias rd-ss=start_station #start station
 alias rd-sf=start_frontend #start frontend
 alias rd-c="cd $RD_STATION && rd-docker e web rails c"
 alias rd-cc="cd $RD_STATION && rd-docker e web cucumber -t"
+alias rd-rc="cd $RD_STATION && rd-docker e web rspec"

@@ -1,3 +1,6 @@
+printf "Install vim-gtk"
+apt-get install -y vim-gtk
+
 printf "Installing vim-plug + plugins \n\n\n"
 
 curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs \
