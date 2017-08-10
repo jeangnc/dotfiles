@@ -5,16 +5,18 @@ call plug#begin('~/.vim/plugins')
 Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-rails'
 Plug 'sheerun/vim-polyglot'
+Plug 'tpope/vim-markdown'
 Plug 'vim-airline/vim-airline' " very useful fixed bar
 Plug 'terryma/vim-multiple-cursors' " multiple cursor edition
-Plug 'brendonrapp/smyck-vim'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all'  }
+Plug 'brendonrapp/smyck-vim' " fucking beautiful color scheme
 Plug 'junegunn/fzf.vim' " fuzzyfinder plugin for vim
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all'  }
 Plug 'neomake/neomake' " allow me to run linters and etc after saving a file
 Plug 'ervandew/supertab' " allow me to use tab for evereything
-Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree' " filesystem explorer
 Plug 'docteurklein/vim-symfony' " very useful for php + symfony
 Plug 'stanangeloff/php.vim'
+Plug 'moll/vim-bbye'
 call plug#end()
 
 
@@ -92,7 +94,7 @@ nnoremap <leader>f :FZF<cr>
 nnoremap <leader>sh :History:<cr>
 
 " buffers
-nnoremap <leader><backspace> :bd<CR>
+nnoremap <leader><backspace> :Bdelete<CR>
 nnoremap <F8> :bnext<CR>
 nnoremap <S-F8> :bprevious<CR>
 nnoremap <C-left> :tabp<cr>
