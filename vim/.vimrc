@@ -89,7 +89,7 @@ filetype plugin on    " enable filetype-specific plugins
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>f :FZF<cr>
-nnoremap <leader>h :History<cr>
+nnoremap <leader>sh :History:<cr>
 
 " buffers
 nnoremap <leader><backspace> :bd<CR>
@@ -103,6 +103,8 @@ nnoremap <C-f> :NERDTreeFind<cr>
 ""
 "" Commands
 ""
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+autocmd BufWritePre * :%s/\s\+$//e " strips white spaces on save
 
 " languagues
 autocmd FileType * set tabstop=2|set shiftwidth=2
@@ -110,10 +112,6 @@ autocmd FileType php set tabstop=4|set shiftwidth=4
 autocmd FileType python set tabstop=4|set shiftwidth=4
 autocmd FileType ruby set tabstop=2|set shiftwidth=2
 autocmd FileType xml set tabstop=4|set shiftwidth=4
-
-" others
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-autocmd BufWritePre * :%s/\s\+$//e " strips white spaces on save
 
 " neomake
 autocmd! BufReadPost,BufWritePost * Neomake
