@@ -16,7 +16,7 @@ Plug 'ervandew/supertab' " allow me to use tab for evereything
 Plug 'scrooloose/nerdtree' " filesystem explorer
 Plug 'docteurklein/vim-symfony' " very useful for php + symfony
 Plug 'stanangeloff/php.vim'
-Plug 'moll/vim-bbye'
+Plug 'rbgrouleff/bclose.vim'
 call plug#end()
 
 
@@ -94,7 +94,7 @@ nnoremap <leader>f :FZF<cr>
 nnoremap <leader>sh :History:<cr>
 
 " buffers
-nnoremap <leader><backspace> :Bdelete<CR>
+nnoremap <leader><backspace> :Bclose<CR>
 nnoremap <F8> :bnext<CR>
 nnoremap <S-F8> :bprevious<CR>
 nnoremap <C-left> :tabp<cr>
