@@ -16,6 +16,7 @@ Plug 'ervandew/supertab' " allow me to use tab for evereything
 Plug 'scrooloose/nerdtree' " filesystem explorer
 Plug 'docteurklein/vim-symfony' " very useful for php + symfony
 Plug 'stanangeloff/php.vim'
+Plug 'gorkunov/smartgf.vim' "Adds gf support for PHP using silver searcher
 Plug 'rbgrouleff/bclose.vim'
 call plug#end()
 
@@ -24,7 +25,6 @@ call plug#end()
 "" Variables
 ""
 let mapleader = "-"
-
 
 " nerdtree
 let NERDTreeQuitOnOpen = 1
@@ -39,7 +39,7 @@ let NERDTreeDirArrowCollapsible = '~'
 let g:neomake_javascript_jshint_maker = {
       \ 'args': ['--verbose'],
       \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
-      \ }
+    \ }
 
 
 ""
