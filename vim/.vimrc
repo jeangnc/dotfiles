@@ -26,6 +26,11 @@ call plug#end()
 ""
 let mapleader = "-"
 
+" smartgf
+let smartgf_create_default_mappings = 0 " disable custom mapping, and use your own
+let smartgf_max_entries_per_page = 5
+let smartgf_divider_width = 30
+
 " nerdtree
 let NERDTreeQuitOnOpen = 1
 let NERDTreeMinimalUI = 1
@@ -92,6 +97,10 @@ nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>f :FZF<cr>
 nnoremap <leader>sh :History:<cr>
+
+" smartgf
+nmap sgf <Plug>(smartgf-search)
+vmap sgf <Plug>(smartgf-search)
 
 " buffers
 nnoremap <leader><backspace> :Bclose<CR>
