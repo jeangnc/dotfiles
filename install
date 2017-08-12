@@ -1,8 +1,19 @@
 #!/bin/bash
 
 USER=$(whoami)
-HOME=/home/${USER}
+HOME=/home/$USER
+DOTFILES=/$HOME/.dotfiles
 
-ln -s $HOME/.dotfiles/zsh/.zshrc $HOME
-ln -s $HOME/.dotfiles/vim/.vimrc $HOME
+printf "Running install scripts"
+
+sudo $DOTFILES/zsh/install
+sudo $DOTFILES/vim/install
+sudo $DOTFILES/tmux/install
+
+
+printf "Creating symlinks"
+
+rm $HOME/.zshrc && ln -s $DOTFILES/zsh/.zshrc $HOME
+rm $HOME/.vimrc && ln -s $DOTFILES/vim/.vimrc $HOME
+rm $HOME/.tmux.conf && ln -s $DOTFILES/tmux/.tmux.conf $HOME
 
