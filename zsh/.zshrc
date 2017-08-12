@@ -88,3 +88,6 @@ export GEM_PATH=~/.rvm/gems/ruby-2.4.0
 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# loads tmux by default
+if [ "$TMUX" = "" ]; then tmux; fi

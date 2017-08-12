@@ -16,7 +16,6 @@ Plug 'ervandew/supertab' " allow me to use tab for evereything
 Plug 'scrooloose/nerdtree' " filesystem explorer
 Plug 'docteurklein/vim-symfony' " very useful for php + symfony
 Plug 'stanangeloff/php.vim'
-Plug 'gorkunov/smartgf.vim' "Adds gf support for PHP using silver searcher
 Plug 'rbgrouleff/bclose.vim'
 call plug#end()
 
@@ -25,11 +24,6 @@ call plug#end()
 "" Variables
 ""
 let mapleader = "-"
-
-" smartgf
-let smartgf_create_default_mappings = 0 " disable custom mapping, and use your own
-let smartgf_max_entries_per_page = 5
-let smartgf_divider_width = 30
 
 " nerdtree
 let NERDTreeQuitOnOpen = 1
@@ -54,13 +48,14 @@ set hidden
 set number
 set cursorline
 set ruler
-set splitbelow               " open new splits below
-set splitright               " open new splits at the right
+set splitbelow " open new splits below
+set splitright " open new splits at the right
 set switchbuf=usetab
 set colorcolumn=100
 set encoding=utf-8
 set langmenu=en_US.UTF-8
-set nocompatible      " we're running Vim, not Vi!
+set term=screen-256color
+set nocompatible " we're running Vim, not Vi!
 set ignorecase
 
 " wildmenu
@@ -73,14 +68,14 @@ set wildignore+=*/tmp/cache/assets/*/sprockets/*,*/tmp/cache/assets/*/sass/*
 set wildignore+=*.swp,*~,._*
 
 " whitespace
-set nowrap                        " break line after it reachs the limit
-set expandtab                     " use spaces, not tabs
-set backspace=indent,eol,start    " backspace through everything in insert mode
+set nowrap " break line after it reachs the limit
+set expandtab " use spaces, not tabs
+set backspace=indent,eol,start " backspace through everything in insert mode
 
-""
-"" Appearance
-""
-color smyck
+" allow gf to work with PHP namespaced classes.
+set path+=**
+set includeexpr=substitute(v:fname,'\\\','/','g')
+set suffixesadd+=.php
 
 ""
 "" Languages
@@ -90,6 +85,7 @@ filetype on           " enable filetype detection
 filetype indent on    " enable filetype-specific indenting
 filetype plugin on    " enable filetype-specific plugins
 
+
 ""
 "" Keymapping
 ""
@@ -97,10 +93,6 @@ nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>f :FZF<cr>
 nnoremap <leader>sh :History:<cr>
-
-" smartgf
-nmap sgf <Plug>(smartgf-search)
-vmap sgf <Plug>(smartgf-search)
 
 " buffers
 nnoremap <leader><backspace> :Bclose<CR>
@@ -110,6 +102,7 @@ nnoremap <C-left> :tabp<cr>
 nnoremap <C-right> :tabn<cr>
 nnoremap <C-e> :NERDTreeToggle<cr>
 nnoremap <C-f> :NERDTreeFind<cr>
+
 
 ""
 "" Commands
@@ -137,3 +130,10 @@ augroup phpSyntaxOverride
   autocmd!
   autocmd FileType php call PhpSyntaxOverride()
 augroup END
+
+
+""
+"" Appearance
+""
+color smyck
+highlight ColorColumn guibg=#303030 ctermbg=0
