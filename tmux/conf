@@ -8,10 +8,11 @@ set -g @scroll-speed-num-lines-per-scroll 5 # faster scroll
 set -g prefix C-a
 set -g default-terminal "screen-256color" # fixes tmux + vim colors issue
 set -g visual-activity on # ?
-set -g mouse on # allow selecting panes, resizing panes and select windows with mouse
-setw -g monitor-activity on # ?
-setw -g automatic-rename # automatically set window title to running command
+set -g mouse on
+
 setw -g mode-keys vi # vi mode to copy text
+setw -g automatic-rename # automatically set window title to running command
+setw -g monitor-activity on # ?
 
 ## unbind keys
 unbind p
@@ -19,8 +20,10 @@ unbind C-b
 
 ## key bindings
 bind C-a send-prefix # changes ctrl + b to ctrl + a
-bind \ split-window -h # split panes horizontal
-bind - split-window -v # split panes vertically
+
+# splits
+bind-key h split-window -v
+bind-key v split-window -h
 
 # vim like text copy
 bind p paste-buffer
