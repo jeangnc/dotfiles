@@ -7,7 +7,9 @@
 set -g @scroll-speed-num-lines-per-scroll 5 # faster scroll
 set -g prefix C-a
 set -g default-terminal "screen-256color" # fixes tmux + vim colors issue
+set -g visual-activity on # ?
 set -g mouse on # allow selecting panes, resizing panes and select windows with mouse
+setw -g monitor-activity on # ?
 setw -g automatic-rename # automatically set window title to running command
 setw -g mode-keys vi # vi mode to copy text
 
