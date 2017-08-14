@@ -72,6 +72,12 @@ set nowrap " break line after it reachs the limit
 set expandtab " use spaces, not tabs
 set backspace=indent,eol,start " backspace through everything in insert mode
 
+" search
+set incsearch   " incremental searching
+set ignorecase  " searches are case insensitive...
+set smartcase   " ... unless they contain at least one capital letter
+
+
 " allow gf to work with PHP namespaced classes.
 set path+=**
 set includeexpr=substitute(v:fname,'\\\','/','g')
@@ -116,6 +122,9 @@ autocmd FileType php set tabstop=4|set shiftwidth=4
 autocmd FileType python set tabstop=4|set shiftwidth=4
 autocmd FileType ruby set tabstop=2|set shiftwidth=2
 autocmd FileType xml set tabstop=4|set shiftwidth=4
+
+" automatically resize splits when resizing MacVim window
+autocmd VimResized * wincmd =
 
 " neomake
 autocmd! BufReadPost,BufWritePost * Neomake
