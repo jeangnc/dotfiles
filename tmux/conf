@@ -13,6 +13,7 @@ set -g mouse on
 setw -g mode-keys vi # vi mode to copy text
 setw -g automatic-rename # automatically set window title to running command
 setw -g monitor-activity on # ?
+setw -g xterm-keys on # allow ctrl + arrow keys
 
 set-option -g mouse-resize-pane on
 set-option -g mouse-select-pane on
