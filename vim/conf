@@ -43,9 +43,6 @@ let g:neomake_javascript_jshint_maker = {
     \ }
 
 
-" makes supertab use omnicompletion functions
-let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
-
 ""
 "" Basic configuration
 ""
@@ -55,13 +52,13 @@ set cursorline
 set ruler
 set splitbelow " open new splits below
 set splitright " open new splits at the right
+set nocompatible " we're running Vim, not Vi!
+set ignorecase
 set switchbuf=usetab
 set colorcolumn=100
 set encoding=utf-8
 set langmenu=en_US.UTF-8
 set term=screen-256color
-set nocompatible " we're running Vim, not Vi!
-set ignorecase
 
 " autocomple
 set completeopt=longest,menuone
@@ -127,11 +124,29 @@ inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
   \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
 
 " tmux will send xterm-style keys when its xterm-keys option is on
-if &term =~ '^screen'
+if &term =~ '^screen' && exists('$TMUX')
   execute "set <xUp>=\e[1;*A"
   execute "set <xDown>=\e[1;*B"
   execute "set <xRight>=\e[1;*C"
   execute "set <xLeft>=\e[1;*D"
+  execute "set <xHome>=\e[1;*H"
+  execute "set <xEnd>=\e[1;*F"
+  execute "set <Insert>=\e[2;*~"
+  execute "set <Delete>=\e[3;*~"
+  execute "set <PageUp>=\e[5;*~"
+  execute "set <PageDown>=\e[6;*~"
+  execute "set <xF1>=\e[1;*P"
+  execute "set <xF2>=\e[1;*Q"
+  execute "set <xF3>=\e[1;*R"
+  execute "set <xF4>=\e[1;*S"
+  execute "set <F5>=\e[15;*~"
+  execute "set <F6>=\e[17;*~"
+  execute "set <F7>=\e[18;*~"
+  execute "set <F8>=\e[19;*~"
+  execute "set <F9>=\e[20;*~"
+  execute "set <F10>=\e[21;*~"
+  execute "set <F11>=\e[23;*~"
+  execute "set <F12>=\e[24;*~"
 endif
 
 ""
@@ -147,8 +162,11 @@ autocmd FileType ruby set tabstop=2|set shiftwidth=2
 autocmd FileType xml set tabstop=4|set shiftwidth=4
 
 " php
-autocmd FileType php set tabstop=4|set shiftwidth=4
+autocmd FileType php set tabstop=4|set shiftwidth=4|let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 autocmd FileType php setlocal omnifunc=phpcomplete_extended#CompletePHP
+
+" makes supertab use omnicompletion functions
+autocmd FileType php let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 
 " automatically resize splits when resizing MacVim window
 autocmd VimResized * wincmd =

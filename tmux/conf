@@ -1,23 +1,14 @@
-# quick guide
-# ctrl-b + arrow to navigate through panes
-# ctrl-b + x closes a pane (or ctrl + d)
-# ctrl-b + % opens a vertical pane
-# ctrl-b + % opens a horizontal pane
-
-set -g @scroll-speed-num-lines-per-scroll 5 # faster scroll
 set -g prefix C-a
-set -g default-terminal "screen-256color" # fixes tmux + vim colors issue
 set -g visual-activity on # ?
+set -g set-titles on
 set -g mouse on
+set -g @scroll-speed-num-lines-per-scroll 5 # faster scroll
+set -sg escape-time 0 # No delay for escape key press
 
 setw -g mode-keys vi # vi mode to copy text
 setw -g automatic-rename # automatically set window title to running command
 setw -g monitor-activity on # ?
 setw -g xterm-keys on # allow ctrl + arrow keys
-
-set-option -g mouse-resize-pane on
-set-option -g mouse-select-pane on
-set-option -g mouse-select-window on
 
 ## unbind keys
 unbind p
@@ -27,14 +18,14 @@ unbind C-b
 bind C-a send-prefix # changes ctrl + b to ctrl + a
 
 # splits
-bind-key h split-window -v
-bind-key v split-window -h
+bind h split-window -v
+bind v split-window -h
 
 # vim like text copy
 bind p paste-buffer
-bind-key -t vi-copy 'v' begin-selection
-bind-key -t vi-copy 'y' copy-selection
+bind -t vi-copy 'v' begin-selection
+bind -t vi-copy 'y' copy-selection
 
 # adds an alias to reload tmux file
-bind-key r source-file ~/.tmux.conf \; display-message "~/.tmux.conf reloaded"
+bind r source-file ~/.tmux.conf \; display-message "~/.tmux.conf reloaded"
 
