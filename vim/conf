@@ -36,13 +36,6 @@ let NERDTreeChDirMode = 1
 let NERDTreeDirArrowExpandable = '+'
 let NERDTreeDirArrowCollapsible = '~'
 
-" jslint
-let g:neomake_javascript_jshint_maker = {
-      \ 'args': ['--verbose'],
-      \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
-    \ }
-
-
 ""
 "" Basic configuration
 ""
@@ -155,24 +148,22 @@ endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 autocmd BufWritePre * :%s/\s\+$//e " strips white spaces on save
 
+" automatically resize splits when resizing MacVim window
+autocmd VimResized * wincmd =
+
 " languagues
 autocmd FileType * set tabstop=2|set shiftwidth=2
 autocmd FileType python set tabstop=4|set shiftwidth=4
-autocmd FileType ruby set tabstop=2|set shiftwidth=2
 autocmd FileType xml set tabstop=4|set shiftwidth=4
+
+" neomake
+autocmd FileType ruby set tabstop=2|set shiftwidth=2
+autocmd! BufReadPost,BufWritePost * Neomake
 
 " php
 autocmd FileType php set tabstop=4|set shiftwidth=4|let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 autocmd FileType php setlocal omnifunc=phpcomplete_extended#CompletePHP
-
-" makes supertab use omnicompletion functions
-autocmd FileType php let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
-
-" automatically resize splits when resizing MacVim window
-autocmd VimResized * wincmd =
-
-" neomake
-autocmd! BufReadPost,BufWritePost * Neomake
+autocmd FileType php let g:SuperTabDefaultCompletionType = "<c-x><c-o>" " makes supertab use omnicompletion functions
 
 " php.vim
 function! PhpSyntaxOverride()
