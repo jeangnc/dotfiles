@@ -8,7 +8,6 @@ sudo $DOTFILES/zsh/install.sh
 sudo $DOTFILES/vim/install.sh
 sudo $DOTFILES/tmux/install.sh
 
-
 echo "Creating symlinks\n\n"
 
 rm -rf $HOME/.zshrc && ln -s $DOTFILES/zsh/conf $HOME/.zshrc
@@ -20,6 +19,9 @@ echo "Installing custom vim plugins"
 for i in $(ls $DOTFILES/vim/plugins); do
   rm -rf $HOME/.vim/plugins/$i && ln -s $DOTFILES/vim/plugins/$i $HOME/.vim/plugins/
 done
+
+printf "Setting up vim filetype plugin"
+rm -rf $HOME/.vim/ftplugin && ln -s $DOTFILES/vim/languages $HOME/.vim/ftplugin
 
 echo "Installing zsh plugins"
 

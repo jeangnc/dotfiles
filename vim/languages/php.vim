@@ -7,8 +7,6 @@ set suffixesadd+=.php
 set tabstop=4
 set shiftwidth=4
 
-setlocal omnifunc=phpcomplete_extended#CompletePHP
-
 " php.vim
 function! PhpSyntaxOverride()
   hi! def link phpDocTags  phpDefine

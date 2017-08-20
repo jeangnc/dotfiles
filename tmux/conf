@@ -18,8 +18,14 @@ unbind C-b
 bind C-a send-prefix # changes ctrl + b to ctrl + a
 
 # splits
-bind h split-window -v
-bind v split-window -h
+bind - split-window -v
+bind | split-window -h
+
+# Vim style pane selection
+bind h select-pane -L
+bind j select-pane -D
+bind k select-pane -U
+bind l select-pane -R
 
 # vim like text copy
 bind p paste-buffer

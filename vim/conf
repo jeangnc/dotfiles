@@ -19,7 +19,6 @@ Plug 'Shougo/unite.vim'
 Plug 'm2mdas/phpcomplete-extended'
 Plug 'stanangeloff/php.vim'
 Plug 'ervandew/supertab'
-Plug 'goerz/ipynb_notedown.vim'
 
 "colorschemes
 Plug 'brendonrapp/smyck-vim'
@@ -42,8 +41,6 @@ let NERDTreeChDirMode = 1
 let NERDTreeDirArrowExpandable = '+'
 let NERDTreeDirArrowCollapsible = '~'
 
-let g:notedown_enable=1
-let g:notedown_code_match='all'
 
 ""
 "" Basic configuration
@@ -159,7 +156,10 @@ autocmd BufWritePre * :%s/\s\+$//e
 " automatically resize splits when resizing MacVim window
 autocmd VimResized * wincmd =
 
-"
+" autocomplete definition doesn't work inside ftplugin :/
+autocmd  FileType  php setlocal omnifunc=phpcomplete_extended#CompletePHP
+
+
 ""
 "" Appearance
 ""
