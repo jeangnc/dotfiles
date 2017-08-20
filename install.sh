@@ -15,6 +15,12 @@ rm -rf $HOME/.zshrc && ln -s $DOTFILES/zsh/conf $HOME/.zshrc
 rm -rf $HOME/.vimrc && ln -s $DOTFILES/vim/conf $HOME/.vimrc
 rm -rf $HOME/.tmux.conf && ln -s $DOTFILES/tmux/conf $HOME/.tmux.conf
 
+echo "Installing custom vim plugins"
+
+for i in $(ls $DOTFILES/vim/plugins); do
+  rm -rf $HOME/.vim/plugins/$i && ln -s $DOTFILES/vim/plugins/$i $HOME/.vim/plugins/
+done
+
 echo "Installing zsh plugins"
 
 for i in $(ls $DOTFILES/zsh/oh-my-zsh/plugins); do

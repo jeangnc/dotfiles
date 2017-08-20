@@ -2,6 +2,7 @@
 "" Plugins
 ""
 call plug#begin('~/.vim/plugins')
+
 Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-rails'
 Plug 'sheerun/vim-polyglot'
@@ -13,12 +14,17 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all'  }
 Plug 'neomake/neomake' " allow me to run linters and etc after saving a file
 Plug 'scrooloose/nerdtree' " filesystem explorer
 Plug 'rbgrouleff/bclose.vim'
-Plug 'brendonrapp/smyck-vim' " fucking beautiful color scheme
 Plug 'Shougo/vimproc.vim', {'do' : 'make'} " required for phpcomplete-extend
 Plug 'Shougo/unite.vim'
 Plug 'm2mdas/phpcomplete-extended'
 Plug 'stanangeloff/php.vim'
 Plug 'ervandew/supertab'
+Plug 'goerz/ipynb_notedown.vim'
+
+"colorschemes
+Plug 'brendonrapp/smyck-vim'
+Plug 'siltaar/primaries.vim'
+
 call plug#end()
 
 
@@ -35,6 +41,9 @@ let NERDTreeShowHidden = 0
 let NERDTreeChDirMode = 1
 let NERDTreeDirArrowExpandable = '+'
 let NERDTreeDirArrowCollapsible = '~'
+
+let g:notedown_enable=1
+let g:notedown_code_match='all'
 
 ""
 "" Basic configuration
@@ -69,17 +78,13 @@ set wildignore+=*.swp,*~,._*
 set nowrap " break line after it reachs the limit
 set expandtab " use spaces, not tabs
 set backspace=indent,eol,start " backspace through everything in insert mode
+set tabstop=4
+set shiftwidth=4
 
 " search
 set incsearch   " incremental searching
 set ignorecase  " searches are case insensitive...
 set smartcase   " ... unless they contain at least one capital letter
-
-
-" allow gf to work with PHP namespaced classes.
-set path+=**
-set includeexpr=substitute(v:fname,'\\\','/','g')
-set suffixesadd+=.php
 
 ""
 "" Languages
@@ -142,41 +147,19 @@ if &term =~ '^screen' && exists('$TMUX')
   execute "set <F12>=\e[24;*~"
 endif
 
+"
 ""
 "" Commands
 ""
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-autocmd BufWritePre * :%s/\s\+$//e " strips white spaces on save
+
+" strips white spaces on save
+autocmd BufWritePre * :%s/\s\+$//e
 
 " automatically resize splits when resizing MacVim window
 autocmd VimResized * wincmd =
 
-" languagues
-autocmd FileType * set tabstop=2|set shiftwidth=2
-autocmd FileType python set tabstop=4|set shiftwidth=4
-autocmd FileType xml set tabstop=4|set shiftwidth=4
-
-" neomake
-autocmd FileType ruby set tabstop=2|set shiftwidth=2
-autocmd! BufReadPost,BufWritePost * Neomake
-
-" php
-autocmd FileType php set tabstop=4|set shiftwidth=4|let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
-autocmd FileType php setlocal omnifunc=phpcomplete_extended#CompletePHP
-autocmd FileType php let g:SuperTabDefaultCompletionType = "<c-x><c-o>" " makes supertab use omnicompletion functions
-
-" php.vim
-function! PhpSyntaxOverride()
-  hi! def link phpDocTags  phpDefine
-  hi! def link phpDocParam phpType
-endfunction
-
-augroup phpSyntaxOverride
-  autocmd!
-  autocmd FileType php call PhpSyntaxOverride()
-augroup END
-
-
+"
 ""
 "" Appearance
 ""
