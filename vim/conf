@@ -14,13 +14,9 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all'  }
 Plug 'neomake/neomake' " allow me to run linters and etc after saving a file
 Plug 'scrooloose/nerdtree' " filesystem explorer
 Plug 'rbgrouleff/bclose.vim'
-Plug 'Shougo/vimproc.vim', {'do' : 'make'} " required for phpcomplete-extend
-Plug 'Shougo/unite.vim'
-Plug 'm2mdas/phpcomplete-extended'
-Plug 'stanangeloff/php.vim'
 Plug 'ervandew/supertab'
 
-"colorschemes
+" colorschemes
 Plug 'brendonrapp/smyck-vim'
 Plug 'siltaar/primaries.vim'
 
@@ -79,6 +75,7 @@ set tabstop=4
 set shiftwidth=4
 
 " search
+set hlsearch
 set incsearch   " incremental searching
 set ignorecase  " searches are case insensitive...
 set smartcase   " ... unless they contain at least one capital letter
@@ -108,6 +105,7 @@ nnoremap <C-left> :tabp<cr>
 nnoremap <C-right> :tabn<cr>
 nnoremap <C-e> :NERDTreeToggle<cr>
 nnoremap <C-f> :NERDTreeFind<cr>
+nnoremap <C-l> :noh<cr>
 
 " autocomplete
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
@@ -155,9 +153,6 @@ autocmd BufWritePre * :%s/\s\+$//e
 
 " automatically resize splits when resizing MacVim window
 autocmd VimResized * wincmd =
-
-" autocomplete definition doesn't work inside ftplugin :/
-autocmd  FileType  php setlocal omnifunc=phpcomplete_extended#CompletePHP
 
 
 ""

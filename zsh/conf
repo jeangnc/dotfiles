@@ -86,6 +86,9 @@ source $ZSH/oh-my-zsh.sh
 
 export GEM_PATH=~/.rvm/gems/ruby-2.4.0
 
+# added by Anaconda2 4.4.0 installer
+export PATH="/opt/anaconda2/bin:$PATH"
+
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 

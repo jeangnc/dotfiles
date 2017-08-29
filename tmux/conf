@@ -11,7 +11,6 @@ setw -g monitor-activity on # ?
 setw -g xterm-keys on # allow ctrl + arrow keys
 
 ## unbind keys
-unbind p
 unbind C-b
 
 ## key bindings
@@ -28,8 +27,6 @@ bind k select-pane -U
 bind l select-pane -R
 
 # vim like text copy
-bind p paste-buffer
-bind -t vi-copy 'v' begin-selection
 bind -t vi-copy 'y' copy-selection
 
 # adds an alias to reload tmux file

@@ -31,3 +31,5 @@ alias rd-sf=start_frontend #start frontend
 alias rd-c="cd $RD_STATION && rd-docker e web rails c"
 alias rd-cc="cd $RD_STATION && rd-docker e web cucumber -t"
 alias rd-rc="cd $RD_STATION && rd-docker e web rspec"
+
+alias gcl="git branch --merged | grep -v '*' | grep -v 'master' | xargs git branch -d && git remote prune origin"
