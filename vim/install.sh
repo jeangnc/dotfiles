@@ -1,5 +1,8 @@
 USER=$(whoami)
 
+printf "Installing silversearcher"
+sudo apt-get install -y silversearcher-ag
+
 printf "Installing vim-gtk"
 sudo apt-get install -y vim-gtk
 
