@@ -4,9 +4,9 @@ DOTFILES=$HOME/.dotfiles
 
 echo "Running install scripts\n\n"
 
-sudo $DOTFILES/zsh/install.sh
-sudo $DOTFILES/vim/install.sh
-sudo $DOTFILES/tmux/install.sh
+$DOTFILES/zsh/install.sh
+$DOTFILES/vim/install.sh
+$DOTFILES/tmux/install.sh
 
 echo "Creating symlinks\n\n"
 

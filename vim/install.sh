@@ -1,7 +1,7 @@
 USER=$(whoami)
 
 printf "Installing vim-gtk"
-apt-get install -y vim-gtk
+sudo apt-get install -y vim-gtk
 
 printf "Installing vim-plug + plugins \n\n\n"
 
