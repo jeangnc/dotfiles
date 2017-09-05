@@ -1,13 +1,13 @@
 set -g prefix C-a
-set -g visual-activity on # ?
+set -g visual-activity on
 set -g set-titles on
 set -g mouse on
-set -g @scroll-speed-num-lines-per-scroll 5 # faster scroll
+set -g @scroll-speed-num-lines-per-scroll 10 # faster scroll
 set -sg escape-time 0 # No delay for escape key press
 
 setw -g mode-keys vi # vi mode to copy text
 setw -g automatic-rename # automatically set window title to running command
-setw -g monitor-activity on # ?
+setw -g monitor-activity on
 setw -g xterm-keys on # allow ctrl + arrow keys
 
 ## unbind keys
