@@ -94,3 +94,7 @@ export PATH="/opt/anaconda2/bin:$PATH"
 
 # loads tmux by default
 if [ "$TMUX" = "" ]; then tmux; fi
+
+# node virtual machine manager
+export NVM_DIR="/home/jean/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
