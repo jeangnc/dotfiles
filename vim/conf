@@ -96,11 +96,12 @@ nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>f :FZF<cr>
 nnoremap <leader>sh :History:<cr>
+nnoremap <leader>gs "+yiw:Ag <C-r>"<cr>
 
 " buffers
-nnoremap <leader><backspace> :Bclose<CR>
-nnoremap <F8> :bnext<CR>
-nnoremap <S-F8> :bprevious<CR>
+nnoremap <leader><backspace> :Bclose<cr>
+nnoremap <F8> :bnext<cr>
+nnoremap <S-F8> :bprevious<cr>
 nnoremap <C-left> :tabp<cr>
 nnoremap <C-right> :tabn<cr>
 nnoremap <C-e> :NERDTreeToggle<cr>
@@ -108,13 +109,13 @@ nnoremap <C-f> :NERDTreeFind<cr>
 nnoremap <C-l> :noh<cr>
 
 " autocomplete
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<cr>"
 
 inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
-  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<cr>'
 
 inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
-  \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+  \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<cr>'
 
 " tmux will send xterm-style keys when its xterm-keys option is on
 if &term =~ '^screen' && exists('$TMUX')
