@@ -11,7 +11,8 @@ Plug 'vim-airline/vim-airline' " very useful fixed bar
 Plug 'terryma/vim-multiple-cursors'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all'  }
 Plug 'junegunn/fzf.vim' " fuzzyfinder plugin for vim
-Plug 'neomake/neomake' " allow me to run linters and etc after saving a file
+Plug 'vim-syntastic/syntastic' " allow me to run linters and etc after saving a file
+Plug 'mtscout6/syntastic-local-eslint.vim' " allow local configuration to eslint
 Plug 'scrooloose/nerdtree' " filesystem explorer
 Plug 'rbgrouleff/bclose.vim'
 Plug 'ervandew/supertab'
@@ -37,6 +38,18 @@ let NERDTreeChDirMode = 1
 let NERDTreeDirArrowExpandable = '+'
 let NERDTreeDirArrowCollapsible = '~'
 
+" syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_ruby_checkers = ['rubocop', 'reek']
+"let g:syntastic_debug = 1
 
 ""
 "" Basic configuration
