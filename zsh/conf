@@ -88,13 +88,12 @@ export GEM_PATH=~/.rvm/gems/ruby-2.4.0
 
 # added by Anaconda2 4.4.0 installer
 export PATH="/opt/anaconda2/bin:$PATH"
+export NVM_DIR="/home/jean/.nvm"
 
+# loads nvm
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+# aliases
+alias rmswp="rm -i `find . | grep .swp$`"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# loads tmux by default
-if [ "$TMUX" = "" ]; then tmux; fi
-
-# node virtual machine manager
-export NVM_DIR="/home/jean/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
