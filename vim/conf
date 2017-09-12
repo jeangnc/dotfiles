@@ -3,19 +3,25 @@
 ""
 call plug#begin('~/.vim/plugins')
 
+Plug 'ervandew/supertab'
 Plug 'junegunn/vim-easy-align'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'scrooloose/nerdtree' " filesystem explorer
+Plug 'vim-airline/vim-airline' " very useful fixed bar
+Plug 'jeetsukumaran/vim-indentwise' " indent based motions
+
+" languages
 Plug 'tpope/vim-rails'
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-markdown'
-Plug 'vim-airline/vim-airline' " very useful fixed bar
-Plug 'terryma/vim-multiple-cursors'
+
+" fzf
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all'  }
 Plug 'junegunn/fzf.vim' " fuzzyfinder plugin for vim
+
+" syntastic
 Plug 'vim-syntastic/syntastic' " allow me to run linters and etc after saving a file
 Plug 'mtscout6/syntastic-local-eslint.vim' " allow local configuration to eslint
-Plug 'scrooloose/nerdtree' " filesystem explorer
-Plug 'rbgrouleff/bclose.vim'
-Plug 'ervandew/supertab'
 
 " colorschemes
 Plug 'brendonrapp/smyck-vim'
