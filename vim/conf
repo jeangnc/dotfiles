@@ -9,6 +9,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'scrooloose/nerdtree' " filesystem explorer
 Plug 'vim-airline/vim-airline' " very useful fixed bar
 Plug 'jeetsukumaran/vim-indentwise' " indent based motions
+Plug 'christoomey/vim-tmux-navigator'
 
 " languages
 Plug 'tpope/vim-rails'
