@@ -120,7 +120,7 @@ nnoremap <leader>sh :History:<cr>
 nnoremap <leader>gs "+yiw:Ag <C-r>"<cr>
 
 " buffers
-nnoremap <leader><backspace> :Bclose<cr>
+nnoremap <F9> :bd<cr>
 nnoremap <F8> :bnext<cr>
 nnoremap <S-F8> :bprevious<cr>
 nnoremap <C-left> :tabp<cr>
