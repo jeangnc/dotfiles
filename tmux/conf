@@ -9,6 +9,7 @@ setw -g mode-keys vi # vi mode to copy text
 setw -g automatic-rename # automatically set window title to running command
 setw -g monitor-activity on
 setw -g xterm-keys on # allow ctrl + arrow keys
+setw -g window-status-current-bg blue
 
 ## unbind keys
 unbind C-b
@@ -25,6 +26,7 @@ bind h select-pane -L
 bind j select-pane -D
 bind k select-pane -U
 bind l select-pane -R
+bind C-l send-keys 'C-l'
 
 # vim like text copy
 bind -t vi-copy 'y' copy-selection
