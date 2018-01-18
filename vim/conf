@@ -62,7 +62,7 @@ let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_ruby_checkers = ['rubocop', 'reek']
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_error_symbol = "✗"
-"let g:syntastic_debug = 1
+" let g:syntastic_debug = 1
 
 " multiple-cursors
 let g:multi_cursor_use_default_mapping=1
