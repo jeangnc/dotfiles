@@ -20,6 +20,9 @@ Plug 'tpope/vim-markdown'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all'  }
 Plug 'junegunn/fzf.vim' " fuzzyfinder plugin for vim
 
+" git
+Plug 'tpope/vim-fugitive'
+
 " syntastic
 Plug 'vim-syntastic/syntastic' " allow me to run linters and etc after saving a file
 Plug 'mtscout6/syntastic-local-eslint.vim' " allow local configuration to eslint
