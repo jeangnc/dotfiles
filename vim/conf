@@ -30,6 +30,8 @@ Plug 'mtscout6/syntastic-local-eslint.vim' " allow local configuration to eslint
 " colorschemes
 Plug 'brendonrapp/smyck-vim'
 Plug 'siltaar/primaries.vim'
+Plug 'crusoexia/vim-monokai'
+Plug 'jacoborus/tender.vim'
 
 call plug#end()
 
@@ -163,7 +165,7 @@ autocmd VimResized * wincmd =
 ""
 "" Appearance
 ""
-color smyck
+color tender
 highlight ColorColumn guibg=#303030 ctermbg=0
 
 
