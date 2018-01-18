@@ -65,7 +65,13 @@ let g:syntastic_error_symbol = "✗"
 " let g:syntastic_debug = 1
 
 " multiple-cursors
-let g:multi_cursor_use_default_mapping=1
+let g:multi_cursor_next_key='<C-m>'
+let g:multi_cursor_prev_key='<C-p>'
+let g:multi_cursor_skip_key='<C-x>'
+let g:multi_cursor_quit_key='<C-c>'
+
+" fzf
+let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 
 ""
 "" Basic configuration
@@ -139,23 +145,31 @@ nnoremap <leader>f :FZF<cr>
 nnoremap <leader>sh :History:<cr>
 nnoremap <leader>gs "+yiw:Ag <C-r>"<cr>
 nnoremap <leader>q :noh<cr>
-vnoremap // y/<C-R>"<CR>
-vnoremap "" "+y
+
+nnoremap <F12> :SyntasticToggleMode<cr>
+nnoremap <S-h> :tabp<cr>
+nnoremap <S-l> :tabn<cr>
 
 " buffers
 nnoremap <leader>d :bd<cr>
-nnoremap <F12> :SyntasticToggleMode<cr>
 nnoremap <F8> :bnext<cr>
 nnoremap <S-F8> :bprevious<cr>
-nnoremap <C-left> :tabp<cr>
-nnoremap <C-right> :tabn<cr>
+
+" nerdtree
 nnoremap <C-f> :NERDTreeToggle<cr>
 nnoremap <C-e> :NERDTreeFind<cr>
 
+" visual
+vnoremap // y/<C-R>"<CR>
+vnoremap "" "+y
+
+" multiple cursors
+nnoremap <C-c> :call multiple_cursors#quit()<CR>
+
 " easy-align
-" Start interactive EasyAlign in visual mode (e.g. vipga)
+" start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
-" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+" start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
 
