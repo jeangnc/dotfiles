@@ -22,6 +22,7 @@ Plug 'junegunn/fzf.vim' " fuzzyfinder plugin for vim
 
 " git
 Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 
 " syntastic
 Plug 'vim-syntastic/syntastic' " allow me to run linters and etc after saving a file
