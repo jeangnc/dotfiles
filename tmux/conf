@@ -8,15 +8,17 @@ set -g status-fg white
 set -sg escape-time 0 # No delay for escape key press
 
 setw -g mode-keys vi # vi mode to copy text
-setw -g automatic-rename # automatically set window title to running command
 setw -g monitor-activity on
 setw -g xterm-keys on # allow ctrl + arrow keys
 setw -g window-status-current-bg colour8
 
-## unbind keys
+#
+set-option -g allow-rename off
+
+# unbind keys
 unbind C-b
 
-## key bindings
+# key bindings
 bind C-a send-prefix # changes ctrl + b to ctrl + a
 
 # splits
