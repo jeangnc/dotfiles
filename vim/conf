@@ -83,6 +83,11 @@ let g:airline_section_z = airline#section#create([])
 " fzf
 let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-h': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
 ""
 "" Basic configuration
 ""
