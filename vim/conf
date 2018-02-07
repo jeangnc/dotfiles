@@ -15,6 +15,7 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-rails'
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-markdown'
+Plug 'lumiliet/vim-twig'
 
 " fzf
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all'  }
