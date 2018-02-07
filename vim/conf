@@ -72,6 +72,14 @@ let g:multi_cursor_prev_key='<C-p>'
 let g:multi_cursor_skip_key='<C-x>'
 let g:multi_cursor_quit_key='<C-c>'
 
+" airline
+let g:airline_powerline_fonts = 0
+let g:airline#extensions#fugitiveline#enabled = 0
+let g:airline#extensions#branch#enabled = 0
+let g:airline_section_x = airline#section#create([])
+let g:airline_section_y = airline#section#create([])
+let g:airline_section_z = airline#section#create([])
+
 " fzf
 let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 
