@@ -166,7 +166,9 @@ nnoremap <S-h> :tabp<cr>
 nnoremap <S-l> :tabn<cr>
 
 " buffers
-nnoremap <leader>d :bd<cr>
+nnoremap <leader>b :bd<cr>
+nnoremap <leader>B :bufdo bd<cr>
+
 nnoremap <F8> :bnext<cr>
 nnoremap <S-F8> :bprevious<cr>
 
