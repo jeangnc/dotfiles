@@ -1,5 +1,6 @@
 set -g prefix C-a
 set -g visual-activity on
+set -g detach-on-destroy off
 set -g set-titles on
 set -g mouse on
 set -g @scroll-speed-num-lines-per-scroll 10 # faster scroll
