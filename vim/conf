@@ -167,6 +167,8 @@ nnoremap <leader>f :FZF<cr>
 nnoremap <leader>sh :History:<cr>
 nnoremap <leader>gs "+yiw:Ag <C-r>"<cr>
 nnoremap <leader>q :noh<cr>
+nnoremap <leader>th :tabm -1<cr>
+nnoremap <leader>tl :tabm +1<cr>
 
 nnoremap <F12> :SyntasticToggleMode<cr>
 nnoremap <S-h> :tabp<cr>
@@ -174,7 +176,7 @@ nnoremap <S-l> :tabn<cr>
 
 " buffers
 nnoremap <leader>b :bd<cr>
-nnoremap <leader>B :bufdo bd<cr>
+nnoremap <leader>B :bufdo bd!<cr>
 
 nnoremap <F8> :bnext<cr>
 nnoremap <S-F8> :bprevious<cr>
@@ -185,7 +187,7 @@ nnoremap <C-e> :NERDTreeFind<cr>
 
 " visual
 vnoremap // y/<C-R>"<CR>
-vnoremap "" "+y
+vnoremap <leader>y "+y
 
 " multiple cursors
 nnoremap <C-c> :call multiple_cursors#quit()<CR>
