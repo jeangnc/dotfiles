@@ -214,8 +214,9 @@ autocmd VimResized * wincmd =
 ""
 "" Appearance
 ""
-color tender
+color smyck
 highlight ColorColumn guibg=#303030 ctermbg=0
+highlight CursorLine cterm=NONE ctermbg=darkblue ctermfg=white guibg=darkred guifg=white
 
 
 ""
