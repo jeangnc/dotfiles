@@ -11,7 +11,7 @@ set -sg escape-time 0 # No delay for escape key press
 setw -g mode-keys vi # vi mode to copy text
 setw -g monitor-activity on
 setw -g xterm-keys on # allow ctrl + arrow keys
-setw -g window-status-current-bg colour8
+setw -g window-status-current-style bg=colour8
 
 #
 set-option -g allow-rename off
