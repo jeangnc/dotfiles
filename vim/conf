@@ -58,6 +58,8 @@ let NERDTreeWinSize = 40
 let NERDTreeAutoDeleteBuffer = 1
 let NERDTreeDirArrowExpandable = '+'
 let NERDTreeDirArrowCollapsible = '~'
+let NERDTreeMapOpenInTab = '<C-t>'
+let NERDTreeMapOpenVSplit = '<C-v>'
 
 " syntastic
 let g:syntastic_loc_list_height=3
