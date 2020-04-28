@@ -13,9 +13,14 @@ Plug 'christoomey/vim-tmux-navigator'
 
 " languages
 Plug 'tpope/vim-rails'
-Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-markdown'
+Plug 'sheerun/vim-polyglot'
 Plug 'lumiliet/vim-twig'
+
+"" clojure
+Plug 'tpope/vim-fireplace'
+Plug 'guns/vim-clojure-static'
+Plug 'guns/vim-clojure-highlight'
 
 " fzf
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all'  }
