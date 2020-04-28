@@ -88,7 +88,7 @@ let g:airline_section_y = airline#section#create([])
 let g:airline_section_z = airline#section#create([])
 
 " fzf
-let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+let $FZF_DEFAULT_COMMAND = 'ag --ignore-dir=vendor -g ""'
 
 let g:fzf_action = {
             \ 'ctrl-t': 'tab split',
