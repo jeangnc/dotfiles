@@ -34,7 +34,8 @@ bind l select-pane -R
 bind C-l send-keys 'C-l'
 
 # vim like text copy
-bind -t vi-copy 'y' copy-selection
+bind-key -T copy-mode-vi v send -X begin-selection
+bind-key -T copy-mode-vi y send -X copy-pipe-and-cancel "reattach-to-user-namespace pbcopy"
 
 # Smart pane switching with awareness of Vim splits.
 # See: https://github.com/christoomey/vim-tmux-navigator
