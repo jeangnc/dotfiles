@@ -85,6 +85,10 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
 
+# open on fullscreen by default
+wmctrl -r ':ACTIVE:' -b toggle,fullscreen
+
+
 # loads nvm
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
