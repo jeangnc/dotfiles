@@ -83,26 +83,16 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
-export GEM_PATH=~/.rvm/gems/ruby-2.4.0
-
-# added by Anaconda2 4.4.0 installer
-export PATH="/opt/anaconda2/bin:$PATH"
-export NVM_DIR="/home/jean/.nvm"
+export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
 
 # loads nvm
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
 # aliases
 alias gcl="git checkout master && git pull origin master && git branch --merged | grep -v '*' | grep -v 'master' | xargs git branch -d && git remote prune origin"
-alias rmswp="rm -v `find . | grep .swp$`"
-alias rmswo="rm -v `find . | grep .swo$`"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources
 
-# initializes tmux on startup
-if command -v tmux>/dev/null; then
-    [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && exec tmux
-fi
-
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+alias vi='vimx'
+alias vim='vimx'
