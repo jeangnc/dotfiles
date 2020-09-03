@@ -112,6 +112,7 @@ set encoding=utf-8
 set langmenu=en_US.UTF-8
 set term=screen-256color
 set number relativenumber
+set directory=$HOME/.vim/swapfiles/
 
 augroup numbertoggle
     autocmd!
