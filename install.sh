@@ -1,27 +1,15 @@
-USER=$(whoami)
-HOME=/home/$USER
-DOTFILES=$HOME/.dotfiles
+DOTFILES=`realpath $(dirname "$0")`
 
-echo "Running install scripts\n\n"
+echo "Creating symlinks"
 
-$DOTFILES/zsh/install.sh
-$DOTFILES/vim/install.sh
-$DOTFILES/tmux/install.sh
-
-echo "Creating symlinks\n\n"
-
-rm -rf $HOME/.zshrc && ln -s $DOTFILES/zsh/conf $HOME/.zshrc
-rm -rf $HOME/.vimrc && ln -s $DOTFILES/vim/conf $HOME/.vimrc
-rm -rf $HOME/.tmux.conf && ln -s $DOTFILES/tmux/conf $HOME/.tmux.conf
+rm -rf $HOME/.zshrc && ln -s $DOTFILES/zsh/zshrc $HOME/.zshrc
+rm -rf $HOME/.vimrc && ln -s $DOTFILES/vim/vimrc $HOME/.vimrc
+rm -rf $HOME/.tmux.conf && ln -s $DOTFILES/tmux/tmuxconf $HOME/.tmux.conf
+rm -rf $HOME/.bashrc && ln -s $DOTFILES/system/bashrc $HOME/.bashrc
+rm -rf $HOME/.aliases && ln -s $DOTFILES/system/aliases $HOME/.aliases
+rm -rf $HOME/.profile && ln -s $DOTFILES/system/profile $HOME/.profile
 
 
 echo  "Setting up vim filetype plugin"
 
 rm -rf $HOME/.vim/ftplugin && ln -s $DOTFILES/vim/languages $HOME/.vim/ftplugin
-
-
-echo "Installing zsh plugins"
-
-for i in $(ls $DOTFILES/zsh/oh-my-zsh/plugins); do
-  rm -rf $ZSH/plugins/$i && ln -s $DOTFILES/zsh/oh-my-zsh/plugins/$i $ZSH/plugins/
-done
