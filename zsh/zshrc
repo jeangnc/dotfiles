@@ -83,16 +83,7 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
 
-# loads nvm
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-
-# aliases
-alias gcl="git checkout master && git pull origin master && git branch --merged | grep -v '*' | grep -v 'master' | xargs git branch -d && git remote prune origin"
-alias vi='vimx'
-alias vim='vimx'
-
-[[ -s "$HOME/.profile" ]] && source "$HOME/.profile" # Load the default .profile
 [ -f "$HOME/.fzf.zsh" ] && source ~/.fzf.zsh
 [[ -f "$HOME/.Xresources" ]] && xrdb -merge ~/.Xresources
+[[ -s "$HOME/.profile" ]] && source "$HOME/.profile" # Load the default .profile
