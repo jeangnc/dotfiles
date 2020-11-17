@@ -9,6 +9,8 @@ rm -rf $HOME/.bashrc && ln -s $DOTFILES/system/bashrc $HOME/.bashrc
 rm -rf $HOME/.aliases && ln -s $DOTFILES/system/aliases $HOME/.aliases
 rm -rf $HOME/.profile && ln -s $DOTFILES/system/profile $HOME/.profile
 
+# git
+rm -rf $HOME/.gitignore_global && ln -s $DOTFILES/git/gitignore_global $HOME/.gitignore_global
 
 echo  "Setting up vim filetype plugin"
 
