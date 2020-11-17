@@ -1,2 +1,4 @@
 export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
 
+# load all aliases
+[[ -s "$HOME/.aliases" ]] && source "$HOME/.aliases"
