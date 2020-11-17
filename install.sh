@@ -12,6 +12,12 @@ rm -rf $HOME/.profile && ln -s $DOTFILES/system/profile $HOME/.profile
 # git
 rm -rf $HOME/.gitignore_global && ln -s $DOTFILES/git/gitignore_global $HOME/.gitignore_global
 
+echo "Installing fonts"
+mkdir -p $HOME/.fonts/{truetype,opentype}/
+cp $DOTFILES/fonts/*.ttf $HOME/.fonts/truetype/
+cp $DOTFILES/fonts/*.otf $HOME/.fonts/opentype/
+fc-cache -fv $HOME/.fonts
+
 echo  "Setting up vim filetype plugin"
 
 rm -rf $HOME/.vim/ftplugin && ln -s $DOTFILES/vim/languages $HOME/.vim/ftplugin
