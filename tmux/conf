@@ -15,6 +15,7 @@ setw -g window-status-current-style bg=colour8
 
 #
 set-option -g allow-rename off
+set-option -g repeat-time 1000
 set-option -g default-shell /bin/zsh
 
 # unbind keys
