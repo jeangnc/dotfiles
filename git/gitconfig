@@ -1,0 +1,3 @@
+[core]
+    excludesfile = /home/jean/.gitignore_global
+    editor = vimx
