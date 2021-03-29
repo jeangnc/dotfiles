@@ -1,9 +1,9 @@
 export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
 
+export GOROOT=/usr/lib/go
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+
 [[ -f "$HOME/.Xresources" ]] && xrdb -merge ~/.Xresources
-
-# load all aliases
 [[ -s "$HOME/.aliases" ]] && source "$HOME/.aliases"
-
-# source local profile
 [[ -s "$HOME/.profile.local" ]] && source "$HOME/.profile.local"
