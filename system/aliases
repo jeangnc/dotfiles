@@ -22,3 +22,5 @@ if type vimx &> /dev/null; then
     alias vim='vimx'
 fi
 
+# source local aliases
+[[ -s "$HOME/.aliases.local" ]] && source "$HOME/.aliases.local"
