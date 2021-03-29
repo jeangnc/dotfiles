@@ -56,6 +56,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-
-# Load default profile
+[ -f "$HOME/.fzf.bash" ] && source "$HOME/.fzf.bash"
 [[ -s "$HOME/.profile" ]] && source "$HOME/.profile"
+
