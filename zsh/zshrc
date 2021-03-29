@@ -85,5 +85,4 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 [ -f "$HOME/.fzf.zsh" ] && source ~/.fzf.zsh
-[[ -f "$HOME/.Xresources" ]] && xrdb -merge ~/.Xresources
-[[ -s "$HOME/.profile" ]] && source "$HOME/.profile" # Load the default .profile
+[[ -s "$HOME/.profile" ]] && source "$HOME/.profile"

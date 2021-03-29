@@ -1,5 +1,7 @@
 export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
 
+[[ -f "$HOME/.Xresources" ]] && xrdb -merge ~/.Xresources
+
 # load all aliases
 [[ -s "$HOME/.aliases" ]] && source "$HOME/.aliases"
 [[ -s "$HOME/.aliases.local" ]] && source "$HOME/.aliases.local"
