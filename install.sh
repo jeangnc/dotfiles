@@ -16,8 +16,8 @@ rm -rf $HOME/.gitignore_global && ln -s $DOTFILES/git/gitignore_global $HOME/.gi
 
 echo "Installing fonts"
 mkdir -p $HOME/.fonts/{truetype,opentype}/
-cp $DOTFILES/fonts/*.ttf $HOME/.fonts/truetype/
-cp $DOTFILES/fonts/*.otf $HOME/.fonts/opentype/
+cp $DOTFILES/fonts/*.ttf $HOME/.fonts/truetype/ 2>/dev/null
+cp $DOTFILES/fonts/*.otf $HOME/.fonts/opentype/ 2>/dev/null
 fc-cache -fv $HOME/.fonts
 
 echo  "Setting up vim filetype plugin"
