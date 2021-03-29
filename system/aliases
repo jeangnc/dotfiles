@@ -1,3 +1,24 @@
+# kubernetes
+NAMESPACE=core
+
+function pod {
+    pods $1 | head -n1 | awk '{print $1}'
+}
+
+function pods {
+    kubectl -n $NAMESPACE get pods | grep $1
+}
+
+alias kc='kubectl -n $NAMESPACE'
+alias kp='pod'
+alias kps='pods'
+
+# git
 alias gcl="git checkout master && git pull origin master && git branch --merged | grep -v '*' | grep -v 'master' | xargs git branch -d && git remote prune origin"
-alias vi='vimx'
-alias vim='vimx'
+
+# vim
+if type vimx &> /dev/null; then
+    alias vi='vimx'
+    alias vim='vimx'
+fi
+
