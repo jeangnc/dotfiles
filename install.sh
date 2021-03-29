@@ -22,4 +22,4 @@ fc-cache -fv $HOME/.fonts
 
 echo  "Setting up vim filetype plugin"
 
-ln -sf $DOTFILES/vim/languages $HOME/.vim/ftplugin
+rm -rf $HOME/.vim/ftplugin && ln -s $DOTFILES/vim/languages $HOME/.vim/ftplugin
