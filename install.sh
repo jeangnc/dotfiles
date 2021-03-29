@@ -4,9 +4,9 @@ DOTFILES=`realpath $(dirname "$0")`
 ln -sf $DOTFILES/zsh/zshrc $HOME/.zshrc
 ln -sf $DOTFILES/vim/vimrc $HOME/.vimrc
 ln -sf $DOTFILES/tmux/tmuxconf $HOME/.tmux.conf
-ln -sf $DOTFILES/system/bashrc $HOME/.bashrc
-ln -sf $DOTFILES/system/aliases $HOME/.aliases
-ln -sf $DOTFILES/system/profile $HOME/.profile
+ln -sf $DOTFILES/bash/bashrc $HOME/.bashrc
+ln -sf $DOTFILES/aliases $HOME/.aliases
+ln -sf $DOTFILES/profile $HOME/.profile
 
 rm -rf $HOME/.vim/ftplugin && ln -s $DOTFILES/vim/languages $HOME/.vim/ftplugin
 
