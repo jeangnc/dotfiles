@@ -17,6 +17,9 @@ Plug 'tpope/vim-markdown'
 Plug 'sheerun/vim-polyglot'
 Plug 'lumiliet/vim-twig'
 
+"" go
+Plug 'fatih/vim-go'
+
 "" clojure
 Plug 'tpope/vim-fireplace'
 Plug 'guns/vim-clojure-static'
@@ -94,6 +97,11 @@ let g:fzf_action = {
             \ 'ctrl-t': 'tab split',
             \ 'ctrl-s': 'split',
             \ 'ctrl-v': 'vsplit' }
+
+" go
+let g:go_auto_type_info = 1
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
 
 ""
 "" Basic configuration
