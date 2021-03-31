@@ -1,4 +1,4 @@
-DOTFILES=`realpath $(dirname "$0")`
+DOTFILES=$(cd "$(dirname "$0")" ; pwd -P)
 
 # symlinks
 ln -sf $DOTFILES/zsh/zshrc $HOME/.zshrc
