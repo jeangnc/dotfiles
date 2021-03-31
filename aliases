@@ -23,4 +23,4 @@ if type vimx &> /dev/null; then
 fi
 
 # source local aliases
-[[ -s "$HOME/.aliases.local" ]] && source "$HOME/.aliases.local"
+[ -f "$HOME/.aliases.local" ] && source "$HOME/.aliases.local"

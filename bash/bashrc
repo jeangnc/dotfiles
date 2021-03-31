@@ -57,5 +57,5 @@ if ! shopt -oq posix; then
 fi
 
 [ -f "$HOME/.fzf.bash" ] && source "$HOME/.fzf.bash"
-[[ -s "$HOME/.profile" ]] && source "$HOME/.profile"
+[ -f "$HOME/.profile" ] && source "$HOME/.profile"
 
