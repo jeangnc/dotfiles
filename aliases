@@ -13,7 +13,7 @@ function k8s_pod {
 }
 
 alias kc='kubectl'
-alias kcn='k8s_change_context'
+alias kn='k8s_change_context'
 alias kp='k8s_pod'
 alias kps='k8s_pods'
 
