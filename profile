@@ -3,7 +3,6 @@ export VIM=$( [ -x "$(command -v vimx)" ] && echo "vimx" || echo "vim" )
 
 # kubernetes
 export KUBE_EDITOR=$VIM
-export KUBE_NAMESPACE=core
 
 # go
 export GOROOT=/usr/local/go

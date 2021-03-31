@@ -1,14 +1,22 @@
-function pod {
-    pods $1 | head -n1 | awk '{print $1}'
+# kubernetes
+function k8s_change_context {
+    kubectl config set-context --current --namespace=$1
+    echo "Namespace changed to $1"
 }
 
-function pods {
-    kubectl -n $KUBE_NAMESPACE get pods | grep $1
+function k8s_pods {
+    kubectl get pods | grep $1
 }
 
-alias kc='kubectl -n $KUBE_NAMESPACE'
-alias kp='pod'
-alias kps='pods'
+function k8s_pod {
+    kubectl get pods | grep $1 | head -n1 | awk '{print $1}'
+}
+
+alias kc='kubectl'
+alias kcn='k8s_change_context'
+alias kp='k8s_pod'
+alias kps='k8s_pods'
+
 
 # git
 alias gcl="git checkout master && git pull origin master && git branch --merged | grep -v '*' | grep -v 'master' | xargs git branch -d && git remote prune origin"
