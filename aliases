@@ -1,15 +1,12 @@
-# kubernetes
-NAMESPACE=core
-
 function pod {
     pods $1 | head -n1 | awk '{print $1}'
 }
 
 function pods {
-    kubectl -n $NAMESPACE get pods | grep $1
+    kubectl -n $KUBE_NAMESPACE get pods | grep $1
 }
 
-alias kc='kubectl -n $NAMESPACE'
+alias kc='kubectl -n $KUBE_NAMESPACE'
 alias kp='pod'
 alias kps='pods'
 
