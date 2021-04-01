@@ -1,8 +1,8 @@
 export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
-export VIM=$( [ -x "$(command -v vimx)" ] && echo "vimx" || echo "vim" )
+export VIM_VERSION=$( [ -x "$(command -v vimx)" ] && echo "vimx" || echo "vim" )
 
 # kubernetes
-export KUBE_EDITOR=$VIM
+export KUBE_EDITOR=$VIM_VERSION
 
 # go
 export GOROOT=/usr/local/go
