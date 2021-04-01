@@ -8,10 +8,17 @@ ln -sf $DOTFILES/bash/bashrc $HOME/.bashrc
 ln -sf $DOTFILES/aliases $HOME/.aliases
 ln -sf $DOTFILES/profile $HOME/.profile
 
-rm -rf $HOME/.vim/ftplugin && ln -s $DOTFILES/vim/languages $HOME/.vim/ftplugin
-
 touch $HOME/.aliases.local
 touch $HOME/.profile.local
+
+# vim
+mkdir -p $HOME/.vim/swapfiles
+
+rm -rf $HOME/.vim/ftplugin && ln -s $DOTFILES/vim/languages $HOME/.vim/ftplugin
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+vim +PlugInstall
 
 # git
 rm -rf $HOME/.gitignore_global && ln -s $DOTFILES/git/gitignore_global $HOME/.gitignore_global
