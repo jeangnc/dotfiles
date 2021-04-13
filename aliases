@@ -1,5 +1,10 @@
 # kubernetes
-function k8s_change_context {
+function k8s_context {
+    kubectl config use-context $1
+    echo "Context changed to $1"
+}
+
+function k8s_namespace {
     kubectl config set-context --current --namespace=$1
     echo "Namespace changed to $1"
 }
@@ -13,7 +18,8 @@ function k8s_pod {
 }
 
 alias kc='kubectl'
-alias kn='k8s_change_context'
+alias kx='k8s_context'
+alias kn='k8s_namespace'
 alias kp='k8s_pod'
 alias kps='k8s_pods'
 
