@@ -2,4 +2,5 @@
 *.swp
 *.swn
 *.iml
+cover.out
 /.idea
