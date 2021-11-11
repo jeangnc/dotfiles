@@ -25,7 +25,9 @@ alias kps='k8s_pods'
 
 
 # git
+alias gc="git commit -v --no-verify"
 alias gcl="git checkout master && git pull origin master && git branch --merged | grep -v '*' | grep -v 'master' | xargs git branch -d && git remote prune origin"
+alias gclm="git checkout main && git pull origin main && git branch --merged | grep -v '*' | grep -v 'main' | xargs git branch -d && git remote prune origin"
 
 # vim
 alias vi=$VIM_VERSION
