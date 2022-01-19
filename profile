@@ -7,7 +7,7 @@ export KUBE_EDITOR=$VIM_VERSION
 # go
 export GOROOT=/usr/local/go
 export GOPATH=$HOME/.go
-export PATH=$PATH:$GOROOT/bin:$GOPATH/bin:/usr/local/kubebuilder/bin
+export PATH=$PATH:$HOME/.local/bin:$GOROOT/bin:$GOPATH/bin:/usr/local/kubebuilder/bin
 
 [ -f "$HOME/.Xresources" ] && xrdb -merge  "$HOME/.Xresources"
 [ -f "$HOME/.aliases" ] && source "$HOME/.aliases"
