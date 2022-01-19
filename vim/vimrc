@@ -3,19 +3,12 @@
 ""
 call plug#begin('~/.vim/plugins')
 
-Plug 'ervandew/supertab'
 Plug 'junegunn/vim-easy-align'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'scrooloose/nerdtree' " filesystem explorer
 Plug 'vim-airline/vim-airline' " very useful fixed bar
 Plug 'jeetsukumaran/vim-indentwise' " indent based motions
 Plug 'christoomey/vim-tmux-navigator'
-
-" languages
-Plug 'tpope/vim-rails'
-Plug 'tpope/vim-markdown'
-Plug 'sheerun/vim-polyglot'
-Plug 'lumiliet/vim-twig'
 
 "" go
 Plug 'fatih/vim-go'
@@ -25,8 +18,13 @@ Plug 'tpope/vim-fireplace'
 Plug 'guns/vim-clojure-static'
 Plug 'guns/vim-clojure-highlight'
 
+" other languages
+Plug 'tpope/vim-rails'
+Plug 'sheerun/vim-polyglot'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+
 " fzf
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all'  }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim' " fuzzyfinder plugin for vim
 
 " git
@@ -35,7 +33,6 @@ Plug 'airblade/vim-gitgutter'
 
 " syntastic
 Plug 'vim-syntastic/syntastic' " allow me to run linters and etc after saving a file
-Plug 'mtscout6/syntastic-local-eslint.vim' " allow local configuration to eslint
 
 " colorschemes
 Plug 'brendonrapp/smyck-vim'
