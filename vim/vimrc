@@ -177,6 +177,8 @@ filetype plugin on    " enable filetype-specific plugins
 "" Keymapping
 ""
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>ea :vsplit $HOME/.alacritty.yml<cr>
+nnoremap <leader>et :vsplit $HOME/.tmux.conf<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>f :FZF<cr>
 nnoremap <leader>sh :History:<cr>
