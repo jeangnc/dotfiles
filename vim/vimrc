@@ -9,6 +9,7 @@ Plug 'scrooloose/nerdtree' " filesystem explorer
 Plug 'vim-airline/vim-airline' " very useful fixed bar
 Plug 'jeetsukumaran/vim-indentwise' " indent based motions
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'dkarter/bullets.vim'
 
 "" go
 Plug 'fatih/vim-go'
@@ -99,6 +100,14 @@ let g:fzf_action = {
 let g:go_auto_type_info = 1
 let g:go_def_mode='gopls'
 let g:go_info_mode='gopls'
+
+" bullets.vim
+let g:bullets_enabled_file_types = [
+            \ 'markdown',
+            \ 'text',
+            \ 'gitcommit',
+            \ 'scratch'
+            \]
 
 ""
 "" Basic configuration
