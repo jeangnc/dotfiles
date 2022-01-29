@@ -1,0 +1,149 @@
+# Configuration for Alacritty, the GPU enhanced terminal emulator
+
+# Any items in the `env` entry below will be added as
+# environment variables. Some entries may override variables
+# set by alacritty it self.
+env:
+  # TERM env customization.
+  #
+  # If this property is not set, alacritty will set it to xterm-256color.
+  #
+  # Note that some xterm terminfo databases don't declare support for italics.
+  # You can verify this by checking for the presence of `smso` and `sitm` in
+  # `infocmp xterm-256color`.
+  TERM: xterm-256color
+
+# Window dimensions in character columns and lines
+# (changes require restart)
+window:
+  decorations: full
+
+  # Window dimensions (changes require restart)
+  #
+  # Number of lines/columns (not pixels) in the terminal. The number of columns
+  # must be at least `2`, while using a value of `0` for columns and lines will
+  # fall back to the window manager's recommended size.
+  dimensions:
+    columns: 150
+    lines: 35
+
+  # Window position (changes require restart)
+  #
+  # Specified in number of pixels.
+  # If the position is not set, the window manager will handle the placement.
+  position:
+    x: 700
+    y: 200
+
+  # Adds this many blank pixels of padding around the window
+  # Units are physical pixels; this is not DPI aware.
+  # (change requires restart)
+  padding:
+    x: 0
+    y: 0
+
+  #startup_mode: Maximized
+  opacity: 1
+
+# The FreeType rasterizer needs to know the device DPI for best results
+# (changes require restart)
+dpi:
+  x: 128.0
+  y: 128.0
+
+# When true, bold text is drawn using the bright variant of colors.
+draw_bold_text_with_bright_colors: true
+
+# Font configuration (changes require restart)
+font:
+  # The normal (roman) font face to use.
+  normal:
+    family: DejaVu Sans Mono
+    # Style can be specified to pick a specific face.
+    # style: Regular
+
+  # The bold font face
+  bold:
+    family: DejaVu Sans Mono
+    # Style can be specified to pick a specific face.
+    # style: Bold
+
+  # The italic font face
+  italic:
+    family: DejaVu Sans Mono
+    # Style can be specified to pick a specific face.
+    # style: Italic
+
+  # Point size of the font
+  size: 18
+
+  # Offset is the extra space around each character. offset.y can be thought of
+  # as modifying the linespacing, and offset.x as modifying the letter spacing.
+  offset:
+    x: 0
+    y: 0
+
+  # Glyph offset determines the locations of the glyphs within their cells with
+  # the default being at the bottom. Increase the x offset to move the glyph to
+  # the right, increase the y offset to move the glyph upward.
+  glyph_offset:
+    x: 0
+    y: 0
+
+  # OS X only: use thin stroke font rendering. Thin strokes are suitable
+  # for retina displays, but for non-retina you probably want this set to
+  # false.
+  use_thin_strokes: false
+
+# Should display the render timer
+debug.render_timer: false
+
+# https://github.com/Rigellute/rigel
+colors:
+  # Default colors
+  primary:
+    background: '0x002635'
+    foreground: '0xe6e6dc'
+
+  # Normal colors
+  normal:
+    black:   '0x00384d'
+    red:     '0xc43061'
+    green:   '0x7fc06e'
+    yellow:  '0xf08e48'
+    blue:    '0x1c8db2'
+    magenta: '0xc694ff'
+    cyan:    '0x00cccc'
+    white:   '0x77929e'
+
+  # Bright colors
+  bright:
+    black:   '0x517f8d'
+    red:     '0xff5a67'
+    green:   '0x9cf087'
+    yellow:  '0xffcc1b'
+    blue:    '0x7eb2dd'
+    magenta: '0xfb94ff'
+    cyan:    '0x00ffff'
+    white:   '0xb7cff9'
+
+  cursor:
+    text: "0x002635"
+    cursor: "0xffcc1b"
+
+mouse:
+  double_click: { threshold: 300 }
+  triple_click: { threshold: 300 }
+
+selection:
+  semantic_escape_chars: ",│`|:\"' ()[]{}<>"
+
+# Shell
+#
+# You can set shell.program to the path of your favorite shell, e.g. /bin/fish.
+# Entries in shell.args are passed unmodified as arguments to the shell.
+#
+shell:
+  program: /bin/zsh
+  args:
+    - --login
