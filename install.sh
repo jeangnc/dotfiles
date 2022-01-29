@@ -1,12 +1,12 @@
 DOTFILES=$(cd "$(dirname "$0")" ; pwd -P)
 
 # symlinks
-ln -sf $DOTFILES/zsh/zshrc $HOME/.zshrc
-ln -sf $DOTFILES/vim/vimrc $HOME/.vimrc
-ln -sf $DOTFILES/tmux/tmuxconf $HOME/.tmux.conf
-ln -sf $DOTFILES/bash/bashrc $HOME/.bashrc
-ln -sf $DOTFILES/aliases $HOME/.aliases
-ln -sf $DOTFILES/profile $HOME/.profile
+ln -sf $DOTFILES/zsh/.zshrc $HOME/.zshrc
+ln -sf $DOTFILES/vim/.vimrc $HOME/.vimrc
+ln -sf $DOTFILES/tmux/.tmux.conf $HOME/.tmux.conf
+ln -sf $DOTFILES/bash/.bashrc $HOME/.bashrc
+ln -sf $DOTFILES/.aliases $HOME/.aliases
+ln -sf $DOTFILES/.profile $HOME/.profile
 
 touch $HOME/.aliases.local
 touch $HOME/.profile.local
@@ -21,7 +21,7 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 vim +PlugInstall
 
 # git
-rm -rf $HOME/.gitignore_global && ln -s $DOTFILES/git/gitignore_global $HOME/.gitignore_global
+rm -rf $HOME/.gitignore_global && ln -s $DOTFILES/git/.gitignore_global $HOME/.gitignore_global
 
 # fonts
 mkdir -p $HOME/.fonts/{truetype,opentype}/
