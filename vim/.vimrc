@@ -221,18 +221,18 @@ vnoremap <C-c> "+y
 nnoremap <C-p> :set paste <bar> :put <bar> :set nopaste<CR>
 " nnoremap <C-v> :set paste <bar> :put + <bar> :set nopaste<CR>
 
+function PasteWithoutIndent()
+    :set paste
+    :put
+    :set nopaste
+endfunction
+
 " easy-align
 " start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 " start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
-
-function PasteWithoutIndent()
-    :set paste
-    :put
-    :set nopaste
-endfunction
 
 ""
 "" Commands
