@@ -11,6 +11,20 @@ ln -sf $DOTFILES/.profile $HOME/.profile
 touch $HOME/.aliases.local
 touch $HOME/.profile.local
 
+# alacritty
+ALACRITTY_CONFIG_FOLDER=$HOME/.config/alacritty/
+ALACRITTY_CONFIG_FILE=$ALACRITTY_CONFIG_FOLDER/alacritty.yml
+mkdir -p $ALACRITTY_CONFIG_FOLDER
+
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    ln -sf $DOTFILES/alacritty/.alacritty.linux.yml $ALACRITTY_CONFIG_FILE
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    # Mac OSX
+    ln -sf $DOTFILES/alacritty/.alacritty.mac.yml $ALACRITTY_CONFIG_FILE
+else
+    { echo "Unkown SO"; exit 1; }
+fi
+
 # vim
 mkdir -p $HOME/.vim/swapfiles
 
