@@ -4,7 +4,6 @@
 call plug#begin('~/.vim/plugins')
 
 Plug 'junegunn/vim-easy-align'
-Plug 'terryma/vim-multiple-cursors'
 Plug 'scrooloose/nerdtree' " filesystem explorer
 Plug 'vim-airline/vim-airline' " very useful fixed bar
 Plug 'jeetsukumaran/vim-indentwise' " indent based motions
@@ -32,9 +31,6 @@ Plug 'junegunn/fzf.vim' " fuzzyfinder plugin for vim
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
-" syntastic
-Plug 'vim-syntastic/syntastic' " allow me to run linters and etc after saving a file
-
 " colorschemes
 Plug 'brendonrapp/smyck-vim'
 Plug 'siltaar/primaries.vim'
@@ -61,24 +57,6 @@ let NERDTreeDirArrowExpandable = '+'
 let NERDTreeDirArrowCollapsible = '~'
 let NERDTreeMapOpenInTab = '<C-t>'
 let NERDTreeMapOpenVSplit = '<C-v>'
-
-" syntastic
-let g:syntastic_loc_list_height=3
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_ruby_checkers = ['rubocop', 'reek']
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_error_symbol = "✗"
-" let g:syntastic_debug = 1
-
-" multiple-cursors
-let g:multi_cursor_next_key='<C-m>'
-let g:multi_cursor_prev_key='<C-p>'
-let g:multi_cursor_skip_key='<C-x>'
-let g:multi_cursor_quit_key='<C-c>'
 
 " airline
 let g:airline_powerline_fonts = 0
@@ -133,11 +111,6 @@ augroup numbertoggle
     autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
     autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 augroup END
-
-" syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
 
 " autocomple
 set completeopt=longest,menuone
