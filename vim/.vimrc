@@ -145,62 +145,6 @@ filetype on           " enable filetype detection
 filetype indent on    " enable filetype-specific indenting
 filetype plugin on    " enable filetype-specific plugins
 
-
-""
-"" Keymapping
-""
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-nnoremap <leader>ea :vsplit $HOME/.alacritty.yml<cr>
-nnoremap <leader>et :vsplit $HOME/.tmux.conf<cr>
-nnoremap <leader>sv :source $MYVIMRC<cr>
-nnoremap <leader>f :FZF<cr>
-nnoremap <leader>sh :History:<cr>
-nnoremap <leader>gs "+yiw:Ag <C-r>"<cr>
-nnoremap <leader>q :noh<cr>
-nnoremap <leader>th :tabm -1<cr>
-nnoremap <leader>tl :tabm +1<cr>
-
-nnoremap <F12> :SyntasticToggleMode<cr>
-nnoremap <S-h> :tabp<cr>
-nnoremap <S-l> :tabn<cr>
-
-" buffers
-nnoremap <leader>b :bd<cr>
-nnoremap <leader>B :bufdo bd!<cr>
-
-nnoremap <F8> :bnext<cr>
-nnoremap <S-F8> :bprevious<cr>
-
-" nerdtree
-nnoremap <C-f> :NERDTreeToggle<cr>
-nnoremap <C-e> :NERDTreeFind<cr>
-
-" visual
-vnoremap // y/<C-R>"<CR>
-vnoremap <leader>y "+y
-
-" multiple cursors
-nnoremap <C-c> :call multiple_cursors#quit()<CR>
-
-" easy-align
-" start interactive EasyAlign in visual mode (e.g. vipga)
-xmap ga <Plug>(EasyAlign)
-" start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
-
-
-""
-"" Commands
-""
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-" strips white spaces on save
-autocmd BufWritePre * :%s/\s\+$//e
-
-" automatically resize splits when resizing MacVim window
-autocmd VimResized * wincmd =
-
-
 ""
 "" Appearance
 ""
@@ -237,3 +181,66 @@ if &term =~ '^screen' && exists('$TMUX')
     execute "set <F11>=\e[23;*~"
     execute "set <F12>=\e[24;*~"
 endif
+
+
+""
+"" Keymapping
+""
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>ea :vsplit $HOME/.alacritty.yml<cr>
+nnoremap <leader>et :vsplit $HOME/.tmux.conf<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
+
+" tabs
+nnoremap <leader>th :tabm -1<cr>
+nnoremap <leader>tl :tabm +1<cr>
+nnoremap <S-h> :tabp<cr>
+nnoremap <S-l> :tabn<cr>
+
+" buffers
+nnoremap <leader>b :bd<cr>
+nnoremap <leader>B :bufdo bd!<cr>
+nnoremap <F8> :bnext<cr>
+nnoremap <S-F8> :bprevious<cr>
+
+" nerdtree
+nnoremap <C-f> :NERDTreeToggle<cr>
+nnoremap <C-e> :NERDTreeFind<cr>
+
+" searching
+vnoremap // y/<C-R>"<CR>
+nnoremap <leader>f :FZF<cr>
+nnoremap <leader>sh :History:<cr>
+nnoremap <leader>gs "+yiw:Ag <C-r>"<cr>
+nnoremap <leader>q :noh<cr>
+
+" copy and pasting
+vnoremap <C-c> "+y
+
+" paste without indent
+nnoremap <C-p> :set paste <bar> :put <bar> :set nopaste<CR>
+" nnoremap <C-v> :set paste <bar> :put + <bar> :set nopaste<CR>
+
+" easy-align
+" start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+
+function PasteWithoutIndent()
+    :set paste
+    :put
+    :set nopaste
+endfunction
+
+""
+"" Commands
+""
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" strips white spaces on save
+autocmd BufWritePre * :%s/\s\+$//e
+
+" automatically resize splits when resizing MacVim window
+autocmd VimResized * wincmd =
