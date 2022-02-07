@@ -208,10 +208,7 @@ nnoremap <leader>q :noh<cr>
 
 " copy and pasting
 vnoremap <C-c> "+y
-
-" paste without indent
 nnoremap <C-p> :set paste <bar> :put <bar> :set nopaste<CR>
-" nnoremap <C-v> :set paste <bar> :put + <bar> :set nopaste<CR>
 
 function PasteWithoutIndent()
     :set paste
