@@ -78,6 +78,7 @@ let g:fzf_action = {
 let g:go_auto_type_info = 1
 let g:go_def_mode='gopls'
 let g:go_info_mode='gopls'
+let g:go_highlight_diagnostic_errors = 1
 
 " bullets.vim
 let g:bullets_enabled_file_types = [
