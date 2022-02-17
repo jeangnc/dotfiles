@@ -29,6 +29,7 @@ Plug 'junegunn/fzf.vim' " fuzzyfinder plugin for vim
 
 " git
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 Plug 'airblade/vim-gitgutter'
 
 " colorschemes
