@@ -58,6 +58,7 @@ let NERDTreeDirArrowExpandable = '+'
 let NERDTreeDirArrowCollapsible = '~'
 let NERDTreeMapOpenInTab = '<C-t>'
 let NERDTreeMapOpenVSplit = '<C-v>'
+let NERDTreeMapOpenSplit = '<C-h>'
 
 " airline
 let g:airline_powerline_fonts = 0
