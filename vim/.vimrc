@@ -187,8 +187,6 @@ nnoremap <S-l> :tabn<cr>
 " buffers
 nnoremap <leader>c :bd<cr>
 nnoremap <leader>C :bufdo bd!<cr>
-nnoremap <F8> :bnext<cr>
-nnoremap <S-F8> :bprevious<cr>
 
 " nerdtree
 nnoremap <C-f> :NERDTreeToggle<cr>
