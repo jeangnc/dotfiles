@@ -3,7 +3,6 @@
 ""
 call plug#begin('~/.vim/plugins')
 
-Plug 'junegunn/vim-easy-align'
 Plug 'scrooloose/nerdtree' " filesystem explorer
 Plug 'vim-airline/vim-airline' " very useful fixed bar
 Plug 'jeetsukumaran/vim-indentwise' " indent based motions
