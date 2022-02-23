@@ -200,12 +200,12 @@ nnoremap <leader>gs "+yiw:Ag <C-r>"<cr>
 nnoremap <leader>q :noh<cr>
 
 " copy and pasting
-vnoremap <C-c> "+y
-nnoremap <C-p> :set paste <bar> :put <bar> :set nopaste<CR>
+vnoremap <C-y> "+y
+nnoremap <C-p> :call PasteWithoutIndent()<CR>
 
 function PasteWithoutIndent()
     :set paste
-    :put
+    :put +
     :set nopaste
 endfunction
 
