@@ -108,12 +108,6 @@ set term=screen-256color
 set number relativenumber
 set directory=$HOME/.vim/swapfiles/
 
-augroup numbertoggle
-    autocmd!
-    autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-    autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
-augroup END
-
 " autocomple
 set completeopt=longest,menuone
 
