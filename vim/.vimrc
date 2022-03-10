@@ -209,19 +209,24 @@ function PasteWithoutIndent()
     :set nopaste
 endfunction
 
+""
+"" Commands
+""
+
 " go
 autocmd FileType go nmap <leader>r <Plug>(go-run)
 autocmd FileType go nmap <leader>b <Plug>(go-build)
 autocmd FileType go nmap <leader>t <Plug>(go-test)
 autocmd FileType go nmap <leader>a <Plug>(go-alternate-vertical)
 
-""
-"" Commands
-""
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " strips white spaces on save
 autocmd BufWritePre * :%s/\s\+$//e
+
+" toggle to absolute line numbers on insert mode
+autocmd InsertEnter * :set norelativenumber
+autocmd InsertLeave * :set relativenumber
 
 " automatically resize splits when resizing MacVim window
 autocmd VimResized * wincmd =
