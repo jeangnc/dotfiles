@@ -1,5 +1,6 @@
 export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
 export VIM_VERSION=$( [ -x "$(command -v vimx)" ] && echo "vimx" || echo "vim" )
+export EDITOR="vim"
 
 # kubernetes
 export KUBE_EDITOR=$VIM_VERSION
