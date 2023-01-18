@@ -102,7 +102,11 @@ set encoding=utf-8
 set langmenu=en_US.UTF-8
 set term=screen-256color
 set number relativenumber
+set regexpengine=0
 set directory=$HOME/.vim/swapfiles/
+
+" prefer vertical orientation when using :diffsplit
+set diffopt+=vertical
 
 " autocomple
 set completeopt=longest,menuone
@@ -174,7 +178,7 @@ nnoremap <leader>ea :vsplit $HOME/.config/alacritty/alacritty.yml<cr>
 nnoremap <leader>et :vsplit $HOME/.tmux.conf<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 
-" tabs
+" tabs and splits
 nnoremap <leader>th :tabm -1<cr>
 nnoremap <leader>tl :tabm +1<cr>
 nnoremap <S-h> :tabp<cr>
