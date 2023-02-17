@@ -43,18 +43,22 @@ call plug#end()
 let mapleader = "-"
 
 " nerdtree
-let NERDTreeQuitOnOpen = 1
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
-let NERDTreeShowHidden = 1
-let NERDTreeChDirMode = 1
-let NERDTreeWinSize = 40
 let NERDTreeAutoDeleteBuffer = 1
+let NERDTreeChDirMode = 1
+let NERDTreeDirArrowCollapsible = '-'
 let NERDTreeDirArrowExpandable = '+'
-let NERDTreeDirArrowCollapsible = '~'
+let NERDTreeDirArrows = 1
 let NERDTreeMapOpenInTab = '<C-t>'
-let NERDTreeMapOpenVSplit = '<C-v>'
 let NERDTreeMapOpenSplit = '<C-h>'
+let NERDTreeMapOpenVSplit = '<C-v>'
+let NERDTreeMinimalMenu = 1
+let NERDTreeMinimalUI = 1
+let NERDTreeQuitOnOpen = 1
+let NERDTreeShowHidden = 1
+let NERDTreeWinSize = 40
+let NERDTreeCascadeSingleChildDir = 1
+let NERDTreeCascadeOpenSingleChildDir = 1
+let NERDTreeStatusline = 0
 
 " airline
 let g:airline_powerline_fonts = 0
