@@ -43,8 +43,9 @@ alias c='chatgpt'
 alias gc="git commit -v --no-verify"
 alias gp='git push origin "$(git_current_branch)"'
 alias gl='git pull origin "$(git_current_branch)"'
-unalias ggpush
-unalias ggpull
+
+unalias ggpush 2>/dev/null
+unalias ggpull 2>/dev/null
 
 alias gcl="git checkout master && git pull origin master && git branch --merged | grep -v '*' | grep -v 'master' | xargs git branch -d && git remote prune origin"
 alias gclm="git checkout main && git pull origin main && git branch --merged | grep -v '*' | grep -v 'main' | xargs git branch -d && git remote prune origin"
