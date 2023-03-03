@@ -23,6 +23,21 @@ alias kn='k8s_namespace'
 alias kp='k8s_pod'
 alias kps='k8s_pods'
 
+# chat gpt
+function chatgpt {
+    curl -s https://api.openai.com/v1/chat/completions \
+        -H "Authorization: Bearer $OPENAI_API_KEY" \
+        -H "Content-Type: application/json" \
+        -d "{
+            \"model\": \"gpt-3.5-turbo\",
+            \"messages\": [
+                {\"role\": \"system\", \"content\": \"You are a helpful assistant that runs inside my terminal. Answer as concisely as possible.\"},
+                {\"role\": \"user\", \"content\": \"$*\"}
+            ]
+        }" | jq -r '.choices[0].message.content'
+}
+
+alias c='chatgpt'
 
 # git
 alias gc="git commit -v --no-verify"
