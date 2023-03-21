@@ -35,7 +35,7 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 vim +PlugInstall
 
 # git
-rm -rf $HOME/.gitignore_global && ln -s $DOTFILES/git/.gitignore_global $HOME/.gitignore_global
+rm -rf $HOME/.gitignore && ln -s $DOTFILES/git/.gitignore $HOME/.gitignore
 
 # fonts
 mkdir -p $HOME/.fonts/{truetype,opentype}/
