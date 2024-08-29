@@ -27,6 +27,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 # macOS defaults
 defaults write -g ApplePressAndHoldEnabled -bool false
+defaults write com.apple.dock no-bouncing -bool TRUE;
 ulimit -n 4096
 
 # aliases and local configs
