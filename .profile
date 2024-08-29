@@ -1,7 +1,7 @@
-export EDITOR="vim"
 export GIT_DISCOVERY_ACROSS_FILESYSTEM=1
-export VIM_VERSION=$( [ -x "$(command -v vimx)" ] && echo "vimx" || echo "vim" )
+export VIM_VERSION=$( [ -x "$(command -v nvim)" ] && echo "nvim" || echo "vim" )
 export KUBE_EDITOR=$VIM_VERSION
+export EDITOR=$VIM_VERSION
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
 # go
