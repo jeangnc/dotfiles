@@ -68,7 +68,8 @@ let g:airline#extensions#fugitiveline#enabled = 0
 let g:airline#extensions#branch#enabled = 0
 let g:airline_section_x = airline#section#create([])
 let g:airline_section_y = airline#section#create([])
-let g:airline_section_z = airline#section#create([])
+let g:airline_section_z = airline#section#create(['%5(%c%V%)'.g:airline_symbols.space, 'linenr', 'maxlinenr'])
+
 
 " fzf
 let $FZF_DEFAULT_COMMAND = 'ag --ignore-dir=vendor -g ""'
