@@ -47,8 +47,9 @@ alias gl='git pull origin "$(git_current_branch)"'
 unalias ggpush 2>/dev/null
 unalias ggpull 2>/dev/null
 
-alias gcl="git checkout master && git pull origin master && git branch --merged | grep -v '*' | grep -v 'master' | xargs git branch -d && git remote prune origin"
-alias gclm="git checkout main && git pull origin main && git branch --merged | grep -v '*' | grep -v 'main' | xargs git branch -d && git remote prune origin"
+# git cleanup
+alias gcu='git checkout -q main && git pull origin main && git for-each-ref refs/heads/ "--format=%(refname:short)" | while read branch; do mergeBase=$(git merge-base main $branch) && [[ $(git cherry main $(git commit-tree $(git rev-parse "$branch^{tree}") -p $mergeBase -m _)) == "-"* ]] && git branch -D $branch; done'
+
 
 # vim
 alias vi=$VIM_VERSION
