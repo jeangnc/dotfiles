@@ -13,7 +13,7 @@ Plug 'andrewradev/splitjoin.vim' " split and join lines
 Plug 'junegunn/vim-easy-align'
 
 "" go
-Plug 'fatih/vim-go'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 "" clojure
 Plug 'tpope/vim-fireplace'
