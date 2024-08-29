@@ -182,11 +182,11 @@ font:
 draw_bold_text_with_bright_colors: true
 
 # Colors (Tomorrow Night)
-colors:
+#colors:
   # Default colors
-  primary:
-    background: '#002635'
-    foreground: '#e6e6dc'
+  #primary:
+  #  background: '#1d1f21'
+  #  foreground: '#c5c8c6'
 
     # Bright and dim foreground colors
     #
@@ -203,9 +203,9 @@ colors:
   #
   # Allowed values are CellForeground/CellBackground, which reference the
   # affected cell, or hexadecimal colors like #ff00ff.
-  cursor:
-    text: '#002635'
-    cursor: '#ffcc1b'
+  #cursor:
+  #  text: CellBackground
+  #  cursor: CellForeground
 
   # Vi mode cursor colors
   #
@@ -273,26 +273,26 @@ colors:
   #  background: CellForeground
 
   # Normal colors
-  normal:
-    black:   '#00384d'
-    red:     '#c43061'
-    green:   '#7fc06e'
-    yellow:  '#f08e48'
-    blue:    '#1c8db2'
-    magenta: '#c694ff'
-    cyan:    '#00cccc'
-    white:   '#77929e'
+  #normal:
+  #  black:   '#1d1f21'
+  #  red:     '#cc6666'
+  #  green:   '#b5bd68'
+  #  yellow:  '#f0c674'
+  #  blue:    '#81a2be'
+  #  magenta: '#b294bb'
+  #  cyan:    '#8abeb7'
+  #  white:   '#c5c8c6'
 
   # Bright colors
-  bright:
-    black:   '#517f8d'
-    red:     '#ff5a67'
-    green:   '#9cf087'
-    yellow:  '#ffcc1b'
-    blue:    '#7eb2dd'
-    magenta: '#fb94ff'
-    cyan:    '#00ffff'
-    white:   '#b7cff9'
+  #bright:
+  #  black:   '#666666'
+  #  red:     '#d54e53'
+  #  green:   '#b9ca4a'
+  #  yellow:  '#e7c547'
+  #  blue:    '#7aa6da'
+  #  magenta: '#c397d8'
+  #  cyan:    '#70c0b1'
+  #  white:   '#eaeaea'
 
   # Dim colors
   #
