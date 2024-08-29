@@ -187,9 +187,9 @@ endif
 ""
 "" Keymapping
 ""
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>ev :e $MYVIMRC<cr>
 nnoremap <leader>ea :vsplit $HOME/.config/alacritty/alacritty.yml<cr>
-nnoremap <leader>et :vsplit $HOME/.tmux.conf<cr>
+nnoremap <leader>et :e $HOME/.tmux.conf<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 
 " tabs and splits
