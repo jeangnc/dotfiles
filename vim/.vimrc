@@ -110,11 +110,14 @@ set ignorecase
 set switchbuf=usetab
 set encoding=utf-8
 set langmenu=en_US.UTF-8
-set term=screen-256color
 set number relativenumber
 set regexpengine=0
 set directory=$HOME/.vim/swapfiles/
 set colorcolumn=100
+
+if !has('nvim')
+    set term=screen-256color
+endif
 
 " prefer vertical orientation when using :diffsplit
 set diffopt+=vertical
