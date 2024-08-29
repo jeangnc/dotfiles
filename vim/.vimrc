@@ -150,8 +150,8 @@ filetype plugin on    " enable filetype-specific plugins
 "" Appearance
 ""
 color smyck
-highlight ColorColumn guibg=#303030 ctermbg=0
-highlight CursorLine cterm=NONE ctermbg=darkblue ctermfg=white guibg=darkred guifg=white
+" highlight ColorColumn guibg=#303030 ctermbg=0
+" highlight CursorLine cterm=NONE ctermbg=darkblue ctermfg=white guibg=darkred guifg=white
 
 
 ""
