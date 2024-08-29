@@ -95,6 +95,11 @@ let g:bullets_enabled_file_types = [
             \ 'gitcommit',
             \ 'scratch'
             \]
+" copilot
+let g:copilot_filetypes = {
+            \ '*': v:true,
+            \ 'go': v:false,
+            \ }
 
 ""
 "" Basic configuration
