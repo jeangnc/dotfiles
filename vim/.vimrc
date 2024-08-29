@@ -36,6 +36,9 @@ Plug 'airblade/vim-gitgutter'
 " colorschemes
 Plug 'brendonrapp/smyck-vim'
 
+" lsp
+Plug 'neovim/nvim-lspconfig'
+
 call plug#end()
 
 
@@ -236,3 +239,14 @@ autocmd InsertLeave * :set relativenumber
 
 " automatically resize splits when resizing MacVim window
 autocmd VimResized * wincmd =
+
+
+lua << EOF
+local lspconfig = require('lspconfig')
+lspconfig.ruby_lsp.setup({
+  init_options = {
+    formatter = 'standard',
+    linters = { 'standard' },
+  },
+})
+EOF
