@@ -15,8 +15,15 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # rbenv
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
+export PATH="$HOME/.rbenv/shims:$PATH"
+eval "$(rbenv init - zsh)"
+
+# psql
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+
+# rust
+export PATH="$HOME/.cargo/bin:$PATH"
+
 
 # macOS defaults
 defaults write -g ApplePressAndHoldEnabled -bool false
