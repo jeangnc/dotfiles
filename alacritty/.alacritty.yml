@@ -871,4 +871,4 @@ shell:
   #print_events: false
 
 import:
-  - ~/.config/alacritty/themes/github_dark_tritanopia.yml
+  - ~/.config/alacritty/themes/smyck.yml
