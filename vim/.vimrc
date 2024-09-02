@@ -7,7 +7,6 @@ Plug 'scrooloose/nerdtree' " filesystem explorer
 Plug 'vim-airline/vim-airline' " very useful fixed bar
 Plug 'jeetsukumaran/vim-indentwise' " indent based motions
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'dkarter/bullets.vim'
 Plug 'github/copilot.vim'
 Plug 'andrewradev/splitjoin.vim' " split and join lines
 Plug 'junegunn/vim-easy-align'
