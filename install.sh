@@ -15,6 +15,7 @@ touch $HOME/.profile.local
 ALACRITTY_CONFIG_FOLDER=$HOME/.config/alacritty/
 ALACRITTY_CONFIG_FILE=$ALACRITTY_CONFIG_FOLDER/alacritty.yml
 mkdir -p $ALACRITTY_CONFIG_FOLDER
+ln -s $DOTFILES/alacritty/themes $ALACRITTY_CONFIG_FOLDER
 
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     ln -sf $DOTFILES/alacritty/.alacritty.linux.yml $ALACRITTY_CONFIG_FILE
