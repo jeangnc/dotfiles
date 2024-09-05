@@ -141,7 +141,7 @@ endif
 set diffopt+=vertical
 
 " autocomple
-set completeopt=longest,menuone
+"set completeopt=longest,menuone
 
 " whitespace
 set nowrap " break line after it reachs the limit
