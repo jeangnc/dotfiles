@@ -149,6 +149,7 @@ set expandtab " use spaces, not tabs
 set backspace=indent,eol,start " backspace through everything in insert mode
 set tabstop=4
 set shiftwidth=4
+set nostartofline
 
 " search
 set hlsearch
