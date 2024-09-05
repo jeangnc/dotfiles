@@ -3,6 +3,7 @@
 ""
 call plug#begin('~/.vim/plugins')
 
+" mist
 Plug 'scrooloose/nerdtree' " filesystem explorer
 Plug 'vim-airline/vim-airline' " very useful fixed bar
 Plug 'jeetsukumaran/vim-indentwise' " indent based motions
@@ -10,6 +11,8 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'github/copilot.vim'
 Plug 'andrewradev/splitjoin.vim' " split and join lines
 Plug 'junegunn/vim-easy-align'
+Plug 'dense-analysis/ale'
+Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 
 "" go
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
@@ -99,6 +102,17 @@ let g:copilot_filetypes = {
             \ '*': v:true,
             \ 'go': v:false,
             \ }
+
+" ale
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 0
+let g:ale_lint_on_enter = 0
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 0
+let g:ale_open_list = 2
+let g:ale_list_window_size = 5
+let g:ale_linters = {'ruby': ['rubocop', 'reek'], 'markdown': ['languagetool'], 'javascript': ['prettier'] }
+let g:ale_fixers = {'ruby': ['rubocop', 'reek'], 'javascript': ['eslint']}
 
 ""
 "" Basic configuration
