@@ -268,6 +268,14 @@ autocmd InsertLeave * :set relativenumber
 " automatically resize splits when resizing MacVim window
 autocmd VimResized * wincmd =
 
+" automatically creates the directory of the file being saved
+augroup BWCCreatlDir
+    autocmd!
+    autocmd BufWritePre * call mkdir(expand("<afile>:p:h"), "p")
+augroup END
+
+" strips white spaces on save
+autocmd BufWritePre * :%s/\s\+$//e
 
 lua << EOF
 local lspconfig = require('lspconfig')
