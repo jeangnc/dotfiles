@@ -108,13 +108,24 @@ let g:ale_fixers = {'ruby': ['rubocop', 'reek'], 'javascript': ['eslint']}
 ""
 "" Basic configuration
 ""
+if !has('nvim')
+    set term=screen-256color
+endif
+
+set nocompatible
+set autoread
+set scrolloff=1
+set sidescroll=1
+set sidescrolloff=2
+set formatoptions+=j
+set complete-=i
+
 set hidden
 set number
 set cursorline
 set ruler
 set splitbelow " open new splits below
 set splitright " open new splits at the right
-set nocompatible " we're running Vim, not Vi!
 set ignorecase
 set switchbuf=usetab
 set encoding=utf-8
@@ -123,10 +134,6 @@ set number relativenumber
 set regexpengine=0
 set directory=$HOME/.vim/swapfiles/
 set colorcolumn=100
-
-if !has('nvim')
-    set term=screen-256color
-endif
 
 " prefer vertical orientation when using :diffsplit
 set diffopt+=vertical
@@ -141,6 +148,7 @@ set backspace=indent,eol,start " backspace through everything in insert mode
 set tabstop=4
 set shiftwidth=4
 set nostartofline
+set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 
 " search
 set hlsearch
