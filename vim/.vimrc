@@ -275,7 +275,7 @@ augroup BWCCreatlDir
 augroup END
 
 " strips white spaces on save
-autocmd BufWritePre * :%s/\s\+$//e
+autocmd BufWritePre * :%s/\_s*\%$//e
 
 lua << EOF
 local lspconfig = require('lspconfig')
