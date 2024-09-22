@@ -253,8 +253,7 @@ nmap ga <Plug>(EasyAlign)
 "" Commands
 ""
 
-" strips white spaces on save
-autocmd BufWritePre * :%s/\s\+$//e
+command AC :execute "vsp " . eval('rails#buffer().alternate()')
 
 " go
 autocmd FileType go nmap <leader>r <Plug>(go-run)
