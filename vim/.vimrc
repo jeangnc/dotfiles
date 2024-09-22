@@ -103,14 +103,6 @@ let g:copilot_filetypes = {
             \ }
 
 " ale
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_insert_leave = 0
-let g:ale_lint_on_enter = 0
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 0
-let g:ale_open_list = 2
-let g:ale_list_window_size = 5
-let g:ale_linters = {'ruby': ['rubocop', 'reek'], 'markdown': ['languagetool'], 'javascript': ['prettier'] }
 let g:ale_fixers = {'ruby': ['rubocop', 'reek'], 'javascript': ['eslint']}
 
 ""
