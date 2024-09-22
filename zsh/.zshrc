@@ -51,7 +51,7 @@ ZSH_THEME="frontcube"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git last-working-dir)
+plugins=(bundler docker-compose git last-working-dir)
 
 source $ZSH/oh-my-zsh.sh
 
