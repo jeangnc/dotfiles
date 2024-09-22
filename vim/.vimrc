@@ -238,6 +238,9 @@ function PasteWithoutIndent()
     :set nopaste
 endfunction
 
+" git
+nnoremap <leader>gg :Git<cr>
+
 " easy align
 
 " Start interactive EasyAlign in visual mode (e.g. vipga)
