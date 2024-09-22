@@ -138,9 +138,6 @@ set colorcolumn=100
 " prefer vertical orientation when using :diffsplit
 set diffopt+=vertical
 
-" autocomple
-"set completeopt=longest,menuone
-
 " whitespace
 set nowrap " break line after it reachs the limit
 set expandtab " use spaces, not tabs
