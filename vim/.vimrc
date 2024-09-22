@@ -25,7 +25,6 @@ Plug 'guns/vim-clojure-highlight'
 " other languages
 Plug 'tpope/vim-rails'
 Plug 'sheerun/vim-polyglot'
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
 " fzf
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
