@@ -275,7 +275,13 @@ augroup CreatlDir
 augroup END
 
 " strips white spaces on save
-autocmd BufWritePre * :%s/\_s*\%$//e
+autocmd BufWritePre * :call TrimWhitespace()
+
+fun! TrimWhitespace()
+    let l:save = winsaveview()
+    keeppatterns %s/\_s*\%$//e
+    call winrestview(l:save)
+endfun
 
 lua << EOF
 local lspconfig = require('lspconfig')
