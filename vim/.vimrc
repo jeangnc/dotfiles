@@ -269,7 +269,7 @@ autocmd InsertLeave * :set relativenumber
 autocmd VimResized * wincmd =
 
 " automatically creates the directory of the file being saved
-augroup BWCCreatlDir
+augroup CreatlDir
     autocmd!
     autocmd BufWritePre * call mkdir(expand("<afile>:p:h"), "p")
 augroup END
