@@ -49,6 +49,7 @@ call plug#end()
 "" Variables
 ""
 let mapleader = "-"
+let g:vimsyn_embed = 'lr'
 
 " nerdtree
 let NERDTreeAutoDeleteBuffer = 1
