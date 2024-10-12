@@ -38,6 +38,8 @@ Plug 'airblade/vim-gitgutter'
 Plug 'brendonrapp/smyck-vim'
 
 " lsp
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'neovim/nvim-lspconfig'
 
 call plug#end()
@@ -284,11 +286,16 @@ fun! TrimWhitespace()
 endfun
 
 lua << EOF
-local lspconfig = require('lspconfig')
-lspconfig.ruby_lsp.setup({
+require("mason").setup()
+require("mason-lspconfig").setup({
+    ensure_installed = {"ruby_lsp", "solargraph", "lua_ls"},
+})
+require('lspconfig').ruby_lsp.setup({
   init_options = {
-    formatter = 'rubocop',
-    linters = {'reek', 'rubocop'},
+    "formatter = 'rubocop',
+    "linters = {'reek', 'rubocop'},
   },
+})
+require('lspconfig').solargraph.setup({
 })
 EOF
