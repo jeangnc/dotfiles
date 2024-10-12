@@ -293,15 +293,18 @@ endfun
 
 lua << EOF
 require("mason").setup()
+
 require("mason-lspconfig").setup({
     ensure_installed = {"ruby_lsp", "solargraph", "lua_ls"},
 })
+
 require('lspconfig').ruby_lsp.setup({
   init_options = {
     formatter = 'rubocop',
     linters = {'reek', 'rubocop'},
   },
 })
+
 require('lspconfig').solargraph.setup({
 })
 EOF
