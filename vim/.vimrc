@@ -293,8 +293,8 @@ require("mason-lspconfig").setup({
 })
 require('lspconfig').ruby_lsp.setup({
   init_options = {
-    "formatter = 'rubocop',
-    "linters = {'reek', 'rubocop'},
+    formatter = 'rubocop',
+    linters = {'reek', 'rubocop'},
   },
 })
 require('lspconfig').solargraph.setup({
