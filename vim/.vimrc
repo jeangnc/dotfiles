@@ -13,6 +13,7 @@ Plug 'andrewradev/splitjoin.vim' " split and join lines
 Plug 'junegunn/vim-easy-align'
 Plug 'dense-analysis/ale'
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+Plug 'tpope/vim-endwise'
 
 "" go
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
