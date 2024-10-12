@@ -3,35 +3,36 @@
 ""
 call plug#begin('~/.vim/plugins')
 
-" mist
-Plug 'scrooloose/nerdtree' " filesystem explorer
-Plug 'vim-airline/vim-airline' " very useful fixed bar
-Plug 'jeetsukumaran/vim-indentwise' " indent based motions
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'github/copilot.vim'
+" misc
+Plug 'airblade/vim-gitgutter'
 Plug 'andrewradev/splitjoin.vim' " split and join lines
-Plug 'junegunn/vim-easy-align'
+Plug 'brendonrapp/smyck-vim' " my favorite colorscheme
+Plug 'christoomey/vim-tmux-navigator'
 Plug 'dense-analysis/ale'
+Plug 'github/copilot.vim'
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+Plug 'jeetsukumaran/vim-indentwise' " indent based motions
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim' " fuzzyfinder plugin for vim
+Plug 'junegunn/vim-easy-align'
+Plug 'scrooloose/nerdtree' " filesystem explorer
 Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
+Plug 'vim-airline/vim-airline' " very useful fixed bar
 
-"" languages
+" languages
 Plug 'tpope/vim-rails'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'guns/vim-clojure-static'
 Plug 'guns/vim-clojure-highlight'
 
-" fzf
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim' " fuzzyfinder plugin for vim
-
-" git
-Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
-
-" colorschemes
-Plug 'brendonrapp/smyck-vim'
+" autocompletion
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'  " Integration with LSP
+Plug 'hrsh7th/cmp-buffer'    " Suggestions from the current buffer
+Plug 'hrsh7th/cmp-path'      " Suggestions for file paths
+Plug 'hrsh7th/cmp-cmdline'   " Suggestions for the command line
 
 " lsp
 Plug 'williamboman/mason.nvim'
@@ -102,7 +103,12 @@ let g:copilot_filetypes = {
             \ }
 
 " ale
-let g:ale_fixers = {'ruby': ['rubocop', 'reek'], 'javascript': ['eslint']}
+let g:ale_fix_on_save = 1
+let g:ale_fixers = {
+            \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+            "\ 'ruby': ['rubocop', 'reek'],
+            "\ 'javascript': ['eslint'],
+            \ }
 
 ""
 "" Basic configuration
@@ -164,8 +170,6 @@ filetype plugin on    " enable filetype-specific plugins
 "" Appearance
 ""
 color smyck
-" highlight ColorColumn guibg=#303030 ctermbg=0
-" highlight CursorLine cterm=NONE ctermbg=darkblue ctermfg=white guibg=darkred guifg=white
 
 
 ""
@@ -222,7 +226,7 @@ nnoremap <C-e> :NERDTreeFind<cr>
 
 " searching
 vnoremap // y/<C-R>"<CR>
-nnoremap <leader>f :FZF<cr>
+nnoremap ff :FZF<cr>
 nnoremap <leader>sh :History:<cr>
 nnoremap <leader>q :noh<cr>
 
@@ -239,6 +243,11 @@ endfunction
 " lsp
 nnoremap gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap gr <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <leader>f <cmd>lua vim.lsp.buf.format()<CR>
+nnoremap <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
+nnoremap <leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
+
+
 nnoremap gs "+yiw:Ag <C-r>"<cr>
 
 " git
@@ -277,29 +286,53 @@ augroup CreatlDir
     autocmd BufWritePre * call mkdir(expand("<afile>:p:h"), "p")
 augroup END
 
-" strips white spaces on save
-autocmd BufWritePre * :call TrimWhitespace()
-
-fun! TrimWhitespace()
-    let l:save = winsaveview()
-    keeppatterns %s/\_s*\%$//e
-    call winrestview(l:save)
-endfun
-
 lua << EOF
 require("mason").setup()
 
 require("mason-lspconfig").setup({
-    ensure_installed = {"ruby_lsp", "solargraph", "lua_ls"},
+    ensure_installed = {"ruby_lsp", "solargraph", "vimls"},
 })
 
-require('lspconfig').ruby_lsp.setup({
+-- Setup for nvim-cmp without snippets, with automatic completion
+-- Set up nvim-cmp.
+  local cmp = require'cmp'
+
+  cmp.setup({
+    window = {
+      -- completion = cmp.config.window.bordered(),
+      -- documentation = cmp.config.window.bordered(),
+    },
+    completion = {
+        autocomplete = { cmp.TriggerEvent.TextChanged },
+    },
+    mapping = cmp.mapping.preset.insert({
+        -- Navigate up and down in the autocomplete menu
+        ['<C-j>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+        ['<C-k>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+
+      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    }),
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'buffer' },
+    })
+  })
+
+  -- Set up lspconfig.
+  local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+require('lspconfig').ruby_lsp.setup {
+  capabilities = capabilities,
   init_options = {
     formatter = 'rubocop',
     linters = {'reek', 'rubocop'},
   },
-})
+}
+require('lspconfig').solargraph.setup {
+  capabilities = capabilities
+}
 
-require('lspconfig').solargraph.setup({
-})
+require('lspconfig').vimls.setup {
+    capabilities = capabilities
+}
 EOF
