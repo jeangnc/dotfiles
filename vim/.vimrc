@@ -229,7 +229,6 @@ nnoremap <C-e> :NERDTreeFind<cr>
 vnoremap // y/<C-R>"<CR>
 nnoremap <leader>f :FZF<cr>
 nnoremap <leader>sh :History:<cr>
-nnoremap <leader>gs "+yiw:Ag <C-r>"<cr>
 nnoremap <leader>q :noh<cr>
 
 " copy and pasting
@@ -241,6 +240,11 @@ function PasteWithoutIndent()
     :put +
     :set nopaste
 endfunction
+
+" lsp
+nnoremap gd <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap gr <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap gs "+yiw:Ag <C-r>"<cr>
 
 " git
 nnoremap <leader>gg :Git<cr>
