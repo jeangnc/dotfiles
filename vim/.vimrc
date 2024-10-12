@@ -16,17 +16,11 @@ Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-surround'
 
-"" go
+"" languages
+Plug 'tpope/vim-rails'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-
-"" clojure
-Plug 'tpope/vim-fireplace'
 Plug 'guns/vim-clojure-static'
 Plug 'guns/vim-clojure-highlight'
-
-" other languages
-Plug 'tpope/vim-rails'
-Plug 'sheerun/vim-polyglot'
 
 " fzf
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
