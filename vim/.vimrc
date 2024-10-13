@@ -219,6 +219,8 @@ nnoremap <leader>ea :vsplit $HOME/.config/alacritty/alacritty.yml<cr>
 nnoremap <leader>et :tabe $HOME/.tmux.conf<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader><leader> :Telescope cmdline<CR>
+nnoremap gq :TSJSplit<CR>
+nnoremap <S-j> :TSJJoin<CR>
 
 " lsp
 nnoremap gd <cmd>lua vim.lsp.buf.definition()<CR>
