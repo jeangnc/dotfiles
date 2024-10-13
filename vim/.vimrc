@@ -5,26 +5,28 @@ call plug#begin('~/.vim/plugins')
 
 " misc
 Plug 'airblade/vim-gitgutter'
-Plug 'andrewradev/splitjoin.vim' " split and join lines
 Plug 'brendonrapp/smyck-vim' " my favorite colorscheme
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'dense-analysis/ale'
 Plug 'github/copilot.vim'
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 Plug 'jeetsukumaran/vim-indentwise' " indent based motions
-Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/vim-easy-align' " align text
 Plug 'scrooloose/nerdtree' " filesystem explorer
-Plug 'tpope/vim-endwise'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-surround'
+Plug 'tpope/vim-endwise' " adds end to ruby blocks
+Plug 'tpope/vim-fugitive' " git integration
+Plug 'tpope/vim-surround' " surround text objects
 Plug 'vim-airline/vim-airline' " very useful fixed bar
 
-" file navigation
+" file & code navigation
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim' " fuzzyfinder plugin for vim
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' } " improves sorting speed
+Plug 'jonarrien/telescope-cmdline.nvim'
+Plug 'windwp/nvim-autopairs'
+
 
 " languages
 Plug 'tpope/vim-rails'
@@ -44,6 +46,7 @@ Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'wansmer/treesj'
 
 call plug#end()
 
@@ -215,6 +218,15 @@ nnoremap <leader>ev :tabe $MYVIMRC<cr>
 nnoremap <leader>ea :vsplit $HOME/.config/alacritty/alacritty.yml<cr>
 nnoremap <leader>et :tabe $HOME/.tmux.conf<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
+nnoremap <leader><leader> :Telescope cmdline<CR>
+
+" lsp
+nnoremap gd <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap gr <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <leader>gq <cmd>lua vim.lsp.buf.format()<CR>
+nnoremap <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
+nnoremap <leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
+
 
 " tabs and splits
 nnoremap <leader>th :tabm -1<cr>
@@ -236,6 +248,7 @@ nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 nnoremap <leader>q :noh<cr>
+nnoremap <leader>gs "+yiw:Ag <C-r>"<cr>
 vnoremap // y/<C-R>"<CR>
 
 " copy and pasting
@@ -248,20 +261,10 @@ function PasteWithoutIndent()
     :set nopaste
 endfunction
 
-" lsp
-nnoremap gd <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap gr <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <leader>gq <cmd>lua vim.lsp.buf.format()<CR>
-nnoremap <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
-nnoremap <leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
-
-
-nnoremap gs "+yiw:Ag <C-r>"<cr>
-
 " git
 nnoremap <leader>gg :Git<cr>
 
-" easy align
+"" easy align
 
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
@@ -272,7 +275,6 @@ nmap ga <Plug>(EasyAlign)
 ""
 "" Commands
 ""
-
 command AC :execute "vsp " . eval('rails#buffer().alternate()')
 
 " go
@@ -333,11 +335,9 @@ cmp.setup({
         autocomplete = { cmp.TriggerEvent.TextChanged },
     },
     mapping = cmp.mapping.preset.insert({
-        -- Navigate up and down in the autocomplete menu
         ['<C-j>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
         ['<C-k>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-
-      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        ['<CR>'] = cmp.mapping.confirm({ select = true }),
     }),
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
@@ -355,8 +355,26 @@ require('telescope').setup {
       override_generic_sorter = true,  -- override the generic sorter
       override_file_sorter = true,     -- override the file sorter
       case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
-                                       -- the default case_mode is "smart_case"
-    }
+    },
+    cmdline = {
+      -- Adjust telescope picker size and layout
+      picker = {
+        layout_config = {
+          width  = 120,
+          height = 25,
+        }
+      },
+      -- Adjust your mappings
+      mappings    = {
+        complete      = '<Tab>',
+        run_selection = '<C-CR>',
+        run_input     = '<CR>',
+      },
+      -- Triggers any shell command using overseer.nvim (`:!`)
+      overseer    = {
+        enabled = true,
+      },
+    },
   }
 }
 -- To get fzf loaded and working with telescope, you need to call
@@ -389,4 +407,12 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 
+require("nvim-autopairs").setup {
+  disable_filetype = { "TelescopePrompt" , "vim" },
+}
+
+require('treesj').setup {
+  enable = true,
+  ignore = { "TelescopePrompt" },
+}
 EOF
