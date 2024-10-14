@@ -219,7 +219,7 @@ nnoremap <leader>ea :vsplit $HOME/.config/alacritty/alacritty.yml<cr>
 nnoremap <leader>et :tabe $HOME/.tmux.conf<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader><leader> :Telescope cmdline<CR>
-nnoremap gq :TSJSplit<CR>
+nnoremap g<S-S> :TSJSplit<CR>
 nnoremap <S-j> :TSJJoin<CR>
 
 " lsp
@@ -245,10 +245,10 @@ nnoremap <C-f> :NERDTreeToggle<cr>
 nnoremap <C-e> :NERDTreeFind<cr>
 
 " searching
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+nnoremap <leader>f <cmd>Telescope find_files<cr>
+nnoremap <leader>g <cmd>Telescope live_grep<cr>
+nnoremap <leader>b <cmd>Telescope buffers<cr>
+nnoremap <leader>h <cmd>Telescope help_tags<cr>
 nnoremap <leader>q :noh<cr>
 nnoremap <leader>gs "+yiw:Ag <C-r>"<cr>
 vnoremap // y/<C-R>"<CR>
