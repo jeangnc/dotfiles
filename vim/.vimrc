@@ -7,7 +7,6 @@ call plug#begin('~/.vim/plugins')
 Plug 'airblade/vim-gitgutter'
 Plug 'brendonrapp/smyck-vim' " my favorite colorscheme
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'dense-analysis/ale'
 Plug 'github/copilot.vim'
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 Plug 'jeetsukumaran/vim-indentwise' " indent based motions
@@ -109,14 +108,6 @@ let g:bullets_enabled_file_types = [
 let g:copilot_filetypes = {
             \ '*': v:true,
             \ 'go': v:false,
-            \ }
-
-" ale
-let g:ale_fix_on_save = 1
-let g:ale_fixers = {
-            \ '*': ['remove_trailing_lines', 'trim_whitespace'],
-            "\ 'ruby': ['rubocop', 'reek'],
-            "\ 'javascript': ['eslint'],
             \ }
 
 ""
