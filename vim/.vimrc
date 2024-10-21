@@ -375,6 +375,10 @@ require('telescope').setup {
         complete      = '<Tab>',
         run_selection = '<C-CR>',
         run_input     = '<CR>',
+        i             = {
+            ["<j>"] = require('telescope.actions').move_selection_next,
+            ["<k>"] = require('telescope.actions').move_selection_previous,
+        },
       },
       -- Triggers any shell command using overseer.nvim (`:!`)
       overseer    = {
