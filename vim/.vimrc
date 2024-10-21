@@ -235,6 +235,7 @@ nnoremap <leader>b <cmd>Telescope buffers<cr>
 nnoremap <leader>h <cmd>Telescope help_tags<cr>
 nnoremap <leader>q :noh<cr>
 nnoremap giw :lua require('telescope.builtin').live_grep({ default_text = vim.fn.expand('<cword>') })<CR>
+nnoremap gi<S-W> :lua require('telescope.builtin').live_grep({ default_text = vim.fn.expand('<cWORD>') })<CR>
 vnoremap // y/<C-R>"<CR>
 
 " copy and pasting
