@@ -417,7 +417,7 @@ require('treesj').setup {
 EOF
 
 lua << EOF
--- Configurações globais de diagnósticos para o lsp
+-- Set up diagnostic configuration
 vim.diagnostic.config({
   virtual_text = false,   
   signs = true,           
@@ -426,19 +426,27 @@ vim.diagnostic.config({
   severity_sort = true,
   float = {
     focusable = false,
-    source = "always",  -- Mostra de onde o diagnóstico vem
-    header = "",        -- Remove o cabeçalho padrão (opcional)
-    prefix = "",        -- Remove o prefixo padrão (opcional)
+    source = "always",  -- always open the float
+    header = "",        -- no header
+    prefix = "- ",        -- no prefix
   },
 })
 
--- Mostrar janela flutuante com diagnósticos quando passar o mouse sobre uma linha com problemas
+-- Set up autocommands to open the diagnostics float window
 vim.api.nvim_create_autocmd("CursorHold", {
   callback = function()
     vim.diagnostic.open_float(nil, {
       focusable = false,
-      source = "always",   -- Mostra a fonte do diagnóstico
+      source = "always",  -- always open the float
     })
   end,
 })
+
+-- Set up signs
+local signs = { Error = "✘", Warn = "⚠", Hint = "➤", Info = "ℹ" }
+
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
 EOF
