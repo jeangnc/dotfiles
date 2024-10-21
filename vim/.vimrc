@@ -213,10 +213,10 @@ endif
 ""
 "" Keymapping
 ""
-nnoremap <leader>ev :tabe $MYVIMRC<cr>
-nnoremap <leader>ea :vsplit $HOME/.config/alacritty/alacritty.yml<cr>
-nnoremap <leader>et :tabe $HOME/.tmux.conf<cr>
-nnoremap <leader>sv :source $MYVIMRC<cr>
+nnoremap <leader>ev :tabe $MYVIMRC<CR>
+nnoremap <leader>ea :vsplit $HOME/.config/alacritty/alacritty.yml<CR>
+nnoremap <leader>et :tabe $HOME/.tmux.conf<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>:noh<CR>
 nnoremap <leader><leader> :Telescope cmdline<CR>
 nnoremap g<S-S> :TSJSplit<CR>
 nnoremap g<S-J> :TSJJoin<CR>
@@ -229,25 +229,25 @@ nnoremap <leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
 
 
 " tabs and splits
-nnoremap <leader>th :tabm -1<cr>
-nnoremap <leader>tl :tabm +1<cr>
-nnoremap <S-h> :tabp<cr>
-nnoremap <S-l> :tabn<cr>
+nnoremap <leader>th :tabm -1<CR>
+nnoremap <leader>tl :tabm +1<CR>
+nnoremap <S-h> :tabp<CR>
+nnoremap <S-l> :tabn<CR>
 
 " buffers
-nnoremap <leader>c :bd<cr>
-nnoremap <leader>C :bufdo bd!<cr>
+nnoremap <leader>c :bd<CR>
+nnoremap <leader>C :bufdo bd!<CR>
 
 " nerdtree
-nnoremap <C-f> :NERDTreeToggle<cr>
-nnoremap <C-e> :NERDTreeFind<cr>
+nnoremap <C-f> :NERDTreeToggle<CR>
+nnoremap <C-e> :NERDTreeFind<CR>
 
 " searching
-nnoremap <leader>f <cmd>Telescope find_files<cr>
-nnoremap <leader>g <cmd>Telescope live_grep<cr>
-nnoremap <leader>b <cmd>Telescope buffers<cr>
-nnoremap <leader>h <cmd>Telescope help_tags<cr>
-nnoremap <leader>q :noh<cr>
+nnoremap <leader>f <cmd>Telescope find_files<CR>
+nnoremap <leader>g <cmd>Telescope live_grep<CR>
+nnoremap <leader>b <cmd>Telescope buffers<CR>
+nnoremap <leader>h <cmd>Telescope help_tags<CR>
+nnoremap <leader>q :noh<CR>
 nnoremap giw :lua require('telescope.builtin').live_grep({ default_text = vim.fn.expand('<cword>') })<CR>
 nnoremap gi<S-W> :lua require('telescope.builtin').live_grep({ default_text = vim.fn.expand('<cWORD>') })<CR>
 vnoremap // y/<C-R>"<CR>
