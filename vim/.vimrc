@@ -210,7 +210,6 @@ nnoremap g<S-J> :TSJJoin<CR>
 " lsp
 nnoremap gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap gr <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <leader>gq <cmd>lua vim.lsp.buf.format()<CR>
 nnoremap <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
 nnoremap <leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
 
