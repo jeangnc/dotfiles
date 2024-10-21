@@ -22,8 +22,7 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' } " improves sorting speed
 Plug 'jonarrien/telescope-cmdline.nvim'
-Plug 'windwp/nvim-autopairs'
-
+Plug 'windwp/nvim-autopairs' " auto pairs for brackets, quotes, etc
 
 " languages
 Plug 'tpope/vim-rails'
