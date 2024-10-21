@@ -131,7 +131,7 @@ set colorcolumn=100
 " highlight
 highlight NormalFloat guibg=#1f2335
 highlight FloatBorder guifg=white guibg=#1f2335
-set updatetime=300
+set updatetime=0
 
 " prefer vertical orientation when using :diffsplit
 set diffopt+=vertical
