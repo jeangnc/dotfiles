@@ -43,6 +43,7 @@ Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'wansmer/treesj'
+Plug 'dense-analysis/ale'
 
 call plug#end()
 
@@ -97,6 +98,20 @@ let g:copilot_filetypes = {
             \ '*': v:true,
             \ 'go': v:false,
             \ }
+
+" ale
+let g:ale_lint_on_enter = 1     " Executa o lint ao abrir o arquivo
+let g:ale_lint_on_save = 1      " Executa o lint ao salvar o arquivo
+let g:ale_echo_cursor = 1
+let g:ale_virtualtext = 0
+let g:ale_lint_on_text_changed = 'always'  " Linta ao modificar o texto
+" let g:ale_sign_error = '✘'
+" let g:ale_sign_warning = '⚠'
+let g:ale_fix_on_save = 1
+let g:ale_linters = {'ruby': ['rubocop', 'reek'], 'markdown': ['languagetool'], 'javascript': ['prettier'] }
+let g:ale_fixers = {'ruby': ['rubocop'], 'javascript': ['eslint'], '*': ['remove_trailing_lines', 'trim_whitespace']}
+
+
 
 ""
 "" Basic configuration
@@ -296,20 +311,11 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 require('lspconfig').ruby_lsp.setup {
   capabilities = capabilities,
   init_options = {
-      formatter = 'rubocop',
-      linters = {'reek', 'rubocop'},
+      linters = {},
   },
 }
 require('lspconfig').solargraph.setup {
   capabilities = capabilities,
-
-  settings = {
-    solargraph = {
-      enabled = true,
-      diagnostics = true,  
-      formatting = true,  
-    },
-  },
 }
 
 require('lspconfig').vimls.setup {
@@ -418,9 +424,9 @@ EOF
 lua << EOF
 -- Set up diagnostic configuration
 vim.diagnostic.config({
-  virtual_text = false,   
-  signs = true,           
-  underline = true,       
+  virtual_text = false,
+  signs = true,
+  underline = true,
   update_in_insert = false,
   severity_sort = true,
   float = {
