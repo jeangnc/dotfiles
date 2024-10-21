@@ -216,7 +216,7 @@ nnoremap <leader>et :tabe $HOME/.tmux.conf<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader><leader> :Telescope cmdline<CR>
 nnoremap g<S-S> :TSJSplit<CR>
-nnoremap <S-j> :TSJJoin<CR>
+nnoremap g<S-J> :TSJJoin<CR>
 
 " lsp
 nnoremap gd <cmd>lua vim.lsp.buf.definition()<CR>
