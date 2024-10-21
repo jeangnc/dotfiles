@@ -18,8 +18,6 @@ Plug 'tpope/vim-surround' " surround text objects
 Plug 'vim-airline/vim-airline' " very useful fixed bar
 
 " file & code navigation
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim' " fuzzyfinder plugin for vim
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' } " improves sorting speed
@@ -81,15 +79,6 @@ let g:airline#extensions#branch#enabled = 0
 let g:airline_section_x = airline#section#create([])
 let g:airline_section_y = airline#section#create([])
 let g:airline_section_z = airline#section#create(['%5(%c%V%)'.g:airline_symbols.space, 'linenr', 'maxlinenr'])
-
-
-" fzf
-let $FZF_DEFAULT_COMMAND = 'ag --ignore-dir=vendor -g ""'
-
-let g:fzf_action = {
-            \ 'ctrl-t': 'tab split',
-            \ 'ctrl-s': 'split',
-            \ 'ctrl-v': 'vsplit' }
 
 " go
 let g:go_auto_type_info = 1
