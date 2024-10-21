@@ -349,6 +349,16 @@ cmp.setup({
 -- You dont need to set any of these options. These are the default ones. Only
 -- the loading is important
 require('telescope').setup {
+  defaults = {
+    layout_strategy = 'vertical',
+    layout_config = {
+      width = 0.9,
+      height = 0.9,
+      preview_height = 0.5,
+      preview_cutoff = 0,
+    },
+    path_display = {"truncate"},
+  },
   extensions = {
     fzf = {
       fuzzy = true,                    -- false will only do exact matching
