@@ -16,6 +16,7 @@ Plug 'tpope/vim-endwise' " adds end to ruby blocks
 Plug 'tpope/vim-fugitive' " git integration
 Plug 'tpope/vim-surround' " surround text objects
 Plug 'vim-airline/vim-airline' " very useful fixed bar
+Plug 'lukas-reineke/indent-blankline.nvim' " show identation lines
 
 " file & code navigation
 Plug 'nvim-lua/plenary.nvim'
@@ -100,17 +101,15 @@ let g:copilot_filetypes = {
             \ }
 
 " ale
-let g:ale_lint_on_enter = 1     " Executa o lint ao abrir o arquivo
-let g:ale_lint_on_save = 1      " Executa o lint ao salvar o arquivo
+let g:ale_lint_on_enter = 1
+let g:ale_lint_on_save = 1
 let g:ale_echo_cursor = 1
 let g:ale_virtualtext = 0
-let g:ale_lint_on_text_changed = 'always'  " Linta ao modificar o texto
-" let g:ale_sign_error = '✘'
-" let g:ale_sign_warning = '⚠'
+let g:ale_lint_on_text_changed = 'always'
+let g:ale_lint_delay = 0
 let g:ale_fix_on_save = 1
 let g:ale_linters = {'ruby': ['rubocop', 'reek'], 'markdown': ['languagetool'], 'javascript': ['prettier'] }
 let g:ale_fixers = {'ruby': ['rubocop'], 'javascript': ['eslint'], '*': ['remove_trailing_lines', 'trim_whitespace']}
-
 
 
 ""
@@ -298,6 +297,7 @@ augroup CreatlDir
 augroup END
 
 lua << EOF
+require("ibl").setup()
 require("mason").setup()
 
 require("mason-lspconfig").setup({
