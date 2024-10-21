@@ -140,6 +140,11 @@ set regexpengine=0
 set directory=$HOME/.vim/swapfiles/
 set colorcolumn=100
 
+" highlight
+highlight NormalFloat guibg=#1f2335
+highlight FloatBorder guifg=white guibg=#1f2335
+set updatetime=300
+
 " prefer vertical orientation when using :diffsplit
 set diffopt+=vertical
 
@@ -308,7 +313,15 @@ require('lspconfig').ruby_lsp.setup {
   },
 }
 require('lspconfig').solargraph.setup {
-  capabilities = capabilities
+  capabilities = capabilities,
+
+  settings = {
+    solargraph = {
+      enabled = true,
+      diagnostics = true,  
+      formatting = true,  
+    },
+  },
 }
 
 require('lspconfig').vimls.setup {
@@ -408,4 +421,31 @@ require('treesj').setup {
   enable = true,
   ignore = { "TelescopePrompt" },
 }
+EOF
+
+lua << EOF
+-- Configurações globais de diagnósticos para o lsp
+vim.diagnostic.config({
+  virtual_text = false,   
+  signs = true,           
+  underline = true,       
+  update_in_insert = false,
+  severity_sort = true,
+  float = {
+    focusable = false,
+    source = "always",  -- Mostra de onde o diagnóstico vem
+    header = "",        -- Remove o cabeçalho padrão (opcional)
+    prefix = "",        -- Remove o prefixo padrão (opcional)
+  },
+})
+
+-- Mostrar janela flutuante com diagnósticos quando passar o mouse sobre uma linha com problemas
+vim.api.nvim_create_autocmd("CursorHold", {
+  callback = function()
+    vim.diagnostic.open_float(nil, {
+      focusable = false,
+      source = "always",   -- Mostra a fonte do diagnóstico
+    })
+  end,
+})
 EOF
