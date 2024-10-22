@@ -44,7 +44,7 @@ Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'wansmer/treesj'
-Plug 'dense-analysis/ale'
+Plug 'rachartier/tiny-inline-diagnostic.nvim'
 
 call plug#end()
 
@@ -99,17 +99,6 @@ let g:copilot_filetypes = {
             \ '*': v:true,
             \ 'go': v:false,
             \ }
-
-" ale
-let g:ale_lint_on_enter = 1
-let g:ale_lint_on_save = 1
-let g:ale_echo_cursor = 1
-let g:ale_virtualtext = 0
-let g:ale_lint_on_text_changed = 'always'
-let g:ale_lint_delay = 0
-let g:ale_fix_on_save = 1
-let g:ale_linters = {'ruby': ['rubocop', 'reek'], 'markdown': ['languagetool'], 'javascript': ['prettier'] }
-let g:ale_fixers = {'ruby': ['rubocop'], 'javascript': ['eslint'], '*': ['remove_trailing_lines', 'trim_whitespace']}
 
 
 ""
@@ -308,14 +297,20 @@ require("mason-lspconfig").setup({
 -- Set up lspconfig.
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
+require('lspconfig').solargraph.setup {
+  capabilities = capabilities,
+  settings = {
+    solargraph = {
+    },
+  },
+}
+
 require('lspconfig').ruby_lsp.setup {
   capabilities = capabilities,
   init_options = {
-      linters = {},
+    formatter = 'rubocop',
+    linters = { 'rubocop', 'reek', 'rails_best_practices' },
   },
-}
-require('lspconfig').solargraph.setup {
-  capabilities = capabilities,
 }
 
 require('lspconfig').vimls.setup {
@@ -435,33 +430,88 @@ require('treesj').setup {
   enable = true,
   ignore = { "TelescopePrompt" },
 }
-EOF
 
-lua << EOF
+require("tiny-inline-diagnostic").setup({
+	signs = {
+		left = "",
+		right = "",
+		diag = "●",
+		arrow = "➜",
+		up_arrow = "⬆",
+		vertical = " │",
+		vertical_end = " └",
+	},
+	hi = {
+		error = "DiagnosticError",
+		warn = "DiagnosticWarn",
+		info = "DiagnosticInfo",
+		hint = "DiagnosticHint",
+		arrow = "NonText",
+		background = "CursorLine", -- Can be a highlight or a hexadecimal color (#RRGGBB)
+		mixing_color = "None", -- Can be None or a hexadecimal color (#RRGGBB). Used to blend the background color with the diagnostic background color with another color.
+	},
+	blend = {
+		factor = 0.27,
+	},
+	options = {
+		-- Show the source of the diagnostic.
+		show_source = true,
+
+		-- Throttle the update of the diagnostic when moving cursor, in milliseconds.
+		-- You can increase it if you have performance issues.
+		-- Or set it to 0 to have better visuals.
+		throttle = 20,
+
+		-- The minimum length of the message, otherwise it will be on a new line.
+		softwrap = 15,
+
+		-- If multiple diagnostics are under the cursor, display all of them.
+		multiple_diag_under_cursor = true,
+
+		-- Enable diagnostic message on all lines.
+		multilines = false,
+
+		-- Show all diagnostics on the cursor line.
+		show_all_diags_on_cursorline = false,
+
+		overflow = {
+			-- Manage the overflow of the message.
+			--    - wrap: when the message is too long, it is then displayed on multiple lines.
+			--    - none: the message will not be truncated.
+			--    - oneline: message will be displayed entirely on one line.
+			mode = "wrap",
+		},
+
+		-- Format the diagnostic message.
+		-- Example:
+		-- format = function(diagnostic)
+		--     return diagnostic.message .. " [" .. diagnostic.source .. "]"
+		-- end,
+		format = nil,
+
+		--- Enable it if you want to always have message with `after` characters length.
+		break_line = {
+			enabled = false,
+			after = 30,
+		},
+
+		virt_texts = {
+			priority = 2048,
+		},
+
+		-- Filter by severity.
+		severity = {
+			vim.diagnostic.severity.ERROR,
+			vim.diagnostic.severity.WARN,
+			vim.diagnostic.severity.INFO,
+			vim.diagnostic.severity.HINT,
+		},
+	},
+})
+
 -- Set up diagnostic configuration
-vim.diagnostic.config({
-  virtual_text = false,
-  signs = true,
-  underline = true,
-  update_in_insert = false,
-  severity_sort = true,
-  float = {
-    focusable = false,
-    source = "always",  -- always open the float
-    header = "",        -- no header
-    prefix = "- ",        -- no prefix
-  },
-})
-
--- Set up autocommands to open the diagnostics float window
-vim.api.nvim_create_autocmd("CursorHold", {
-  callback = function()
-    vim.diagnostic.open_float(nil, {
-      focusable = false,
-      source = "always",  -- always open the float
-    })
-  end,
-})
+vim.diagnostic.config({ virtual_text = false })
+vim.diagnostic.setloclist({ open = false })
 
 -- Set up signs
 local signs = { Error = "✘", Warn = "⚠", Hint = "➤", Info = "ℹ" }
