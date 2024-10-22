@@ -213,7 +213,6 @@ nnoremap g<S-J> :TSJJoin<CR>
 nnoremap gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap gr <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
-nnoremap <leader>ca <cmd>lua vim.lsp.buf.code_action()<CR>
 
 
 " tabs and splits
