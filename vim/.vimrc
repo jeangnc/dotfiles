@@ -285,7 +285,11 @@ augroup CreatlDir
 augroup END
 
 lua << EOF
-require("ibl").setup()
+require("ibl").setup {
+    indent = { char = "|" },
+    whitespace = { remove_blankline_trail = false },
+    scope = { enabled = false },
+}
 require("mason").setup()
 
 require("mason-lspconfig").setup({
@@ -345,11 +349,11 @@ cmp.setup({
 require('telescope').setup {
   defaults = {
     path_display = {"truncate"},
-    layout_strategy = 'vertical',
+    -- layout_strategy = 'vertical',
     layout_config = {
       width = 0.9,
       height = 0.9,
-      preview_height = 0.5,
+      preview_width = 0.5,
       preview_cutoff = 0,
     },
     mappings = {
