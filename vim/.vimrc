@@ -343,7 +343,6 @@ cmp.setup({
 require('telescope').setup {
   defaults = {
     path_display = {"truncate"},
-    -- layout_strategy = 'vertical',
     layout_config = {
       width = 0.9,
       height = 0.9,
