@@ -230,7 +230,7 @@ nnoremap <C-f> :NERDTreeToggle<CR>
 nnoremap <C-e> :NERDTreeFind<CR>
 
 " searching
-nnoremap <leader>f <cmd>Telescope find_files<CR>
+nnoremap <leader>f <cmd>Telescope find_files hidden=true no_ignore=false<CR>
 nnoremap <leader>g <cmd>Telescope live_grep<CR>
 nnoremap <leader>b <cmd>Telescope buffers<CR>
 nnoremap <leader>h <cmd>Telescope help_tags<CR>
@@ -360,6 +360,9 @@ require('telescope').setup {
         ["<C-k>"] = require('telescope.actions').move_selection_previous,  -- Move para o item anterior no modo normal
       },
     },
+    file_ignore_patterns = {
+      ".git", "node_modules"
+   },
   },
   extensions = {
     fzf = {
