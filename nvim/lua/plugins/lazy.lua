@@ -4,6 +4,14 @@ return {
     "LazyVim/LazyVim",
     opts = {
       colorscheme = "catppuccin-mocha",
+      icons = {
+        diagnostics = {
+          Error = "",
+          Warn = "",
+          Hint = "",
+          Info = "",
+        },
+      },
     },
   },
 }
