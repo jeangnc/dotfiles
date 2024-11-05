@@ -1,14 +1,3 @@
-vim.diagnostic.config({
-  virtual_text = false,
-  float = {
-    source = "always",
-    border = "rounded",
-    focusable = false,
-    style = "minimal",
-    anchor = "SW",
-  },
-})
-
 vim.api.nvim_create_autocmd("CursorHold", {
   callback = function()
     local opts = {
@@ -29,6 +18,13 @@ return {
     opts = {
       diagnostics = {
         virtual_text = false,
+        float = {
+          source = "always",
+          border = "rounded",
+          focusable = false,
+          style = "minimal",
+          anchor = "SW",
+        },
       },
     },
   },
