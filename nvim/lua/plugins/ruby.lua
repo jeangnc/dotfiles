@@ -5,12 +5,14 @@ return {
       ensure_installed = { "ruby" },
     },
   },
+  -- mason for erb formatting
   {
     "williamboman/mason.nvim",
     opts = {
       ensure_installed = { "erb-formatter", "erb-lint" },
     },
   },
+  -- sets up LSP
   {
     "neovim/nvim-lspconfig",
     opts = {
