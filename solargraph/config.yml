@@ -20,5 +20,7 @@ formatter:
     only: []
     extra_args: []
 require_paths: []
-plugins: []
-max_files: 5000
+plugins:
+- solargraph-rails
+- solargraph-rspec
+max_files: 0
