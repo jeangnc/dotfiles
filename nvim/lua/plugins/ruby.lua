@@ -1,13 +1,23 @@
-vim.g.lazyvim_ruby_lsp = "solargraph"
-vim.g.lazyvim_ruby_formatter = "rubocop"
-
 return {
-  { import = "lazyvim.plugins.extras.lang.ruby" },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = { "ruby" },
+    },
+  },
+  {
+    "williamboman/mason.nvim",
+    opts = {
+      ensure_installed = { "erb-formatter", "erb-lint" },
+    },
+  },
   {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
+        -- solargraph to enable go to definition
         solargraph = {
+          enabled = true,
           filetypes = { "ruby", "rakefile" },
           settings = {
             solargraph = {
