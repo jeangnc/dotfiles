@@ -31,6 +31,9 @@ return {
             },
           },
         },
+        sorbet = {
+          cmd = { "srb", "tc", "--lsp", "--typed=true", "--no-config", "." },
+        },
       },
     },
   },
