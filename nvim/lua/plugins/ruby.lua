@@ -17,24 +17,21 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        -- solargraph to enable go to definition
+        -- sorbet for better typechecking
+        sorbet = {
+          filetypes = { "ruby", "rakefile" },
+          cmd = { "srb", "tc", "--lsp", "--typed=true", "--no-config", "." },
+        },
+        -- solargraph for linting
         solargraph = {
           enabled = true,
           filetypes = { "ruby", "rakefile" },
           settings = {
             solargraph = {
-              autoformat = true,
-              completion = true,
-              diagnostic = true,
-              folding = true,
-              references = true,
-              rename = true,
-              symbols = true,
+              diagnostics = true,
+              definitions = false,
             },
           },
-        },
-        sorbet = {
-          cmd = { "srb", "tc", "--lsp", "--typed=true", "--no-config", "." },
         },
       },
     },
