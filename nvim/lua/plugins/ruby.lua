@@ -9,9 +9,6 @@ return {
       servers = {
         solargraph = {
           filetypes = { "ruby", "rakefile" },
-          root_dir = function(fname)
-            return require("lspconfig").util.root_pattern("Gemfile", ".git", ".")(fname)
-          end,
           settings = {
             solargraph = {
               autoformat = true,
