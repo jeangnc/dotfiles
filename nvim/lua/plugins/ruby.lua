@@ -5,7 +5,6 @@ return {
       ensure_installed = { "ruby" },
     },
   },
-  -- mason for erb formatting
   {
     "williamboman/mason.nvim",
     opts = {
