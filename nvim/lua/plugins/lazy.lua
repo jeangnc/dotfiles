@@ -6,10 +6,10 @@ return {
       colorscheme = "catppuccin-mocha",
       icons = {
         diagnostics = {
-          Error = "",
-          Warn = "",
-          Hint = "",
-          Info = "",
+          -- Error = "",
+          -- Warn = "",
+          -- Hint = "",
+          -- Info = "",
         },
       },
     },
