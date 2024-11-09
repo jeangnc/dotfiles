@@ -35,4 +35,6 @@ return {
       },
     },
   },
+
+  { "tpope/vim-rails" },
 }
