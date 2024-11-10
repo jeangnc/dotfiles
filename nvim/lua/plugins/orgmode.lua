@@ -1,22 +1,49 @@
+-- required to compile the norg treesitter parser
+require("nvim-treesitter.install").compilers = { "gcc-14" }
+
 return {
-  -- Setup orgmode
+  -- Add Neorg plugin
   {
-    "nvim-orgmode/orgmode",
-    event = "VeryLazy",
-    ft = { "org" },
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = { "norg" },
+    },
+  },
+  {
+    "nvim-neorg/neorg",
     config = function()
-      require("orgmode").setup({
-        org_agenda_files = "~/orgfiles/**/*",
-        org_default_notes_file = "~/orgfiles/refile.org",
+      require("neorg").setup({
+        load = {
+          ["core.defaults"] = {},
+          ["core.concealer"] = {},
+          ["core.completion"] = {
+            config = {
+              engine = "nvim-cmp",
+            },
+          },
+          ["core.dirman"] = {
+            config = {
+              workspaces = {
+                main = "~/.orgfiles",
+              },
+              default_workspace = "main",
+            },
+          },
+          ["core.keybinds"] = {
+            config = {
+              default_keybinds = true,
+              hook = function(keybinds) end,
+            },
+          },
+        },
       })
     end,
   },
-  -- Setup orgmode completion
   {
     "nvim-cmp",
     opts = function(_, opts)
-      table.insert(opts.sources, {
-        name = "orgmode",
+      opts.sources = vim.list_extend(opts.sources or {}, {
+        name = "neorg",
       })
     end,
   },
