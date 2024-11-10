@@ -11,6 +11,9 @@ return {
   },
   {
     "nvim-neorg/neorg",
+    keys = {
+      { "<leader>oi", "<cmd>Neorg index<cr>", desc = "Open index norg file" },
+    },
     config = function()
       require("neorg").setup({
         load = {
