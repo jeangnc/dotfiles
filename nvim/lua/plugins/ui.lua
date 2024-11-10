@@ -1,13 +1,5 @@
 return {
   {
-    "folke/noice.nvim",
-    opts = {
-      messages = {
-        timeout = 10000, -- Set the display time to 5000 milliseconds (5 seconds)
-      },
-    },
-  },
-  {
     "akinsho/bufferline.nvim",
     opts = {
       options = {

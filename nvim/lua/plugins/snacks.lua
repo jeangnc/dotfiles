@@ -7,8 +7,10 @@ return {
     opts = {
       bigfile = { enabled = true },
       notifier = {
-        enabled = false,
-        timeout = 3000,
+        enabled = true,
+        style = "minimal",
+        top_down = false,
+        -- timeout = 5000,
       },
       quickfile = { enabled = true },
       statuscolumn = { enabled = true },
