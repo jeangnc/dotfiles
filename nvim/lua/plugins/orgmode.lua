@@ -37,12 +37,19 @@ return {
           ["core.keybinds"] = {
             config = {
               default_keybinds = true,
-              hook = function(keybinds) end,
+              hook = function(keybinds)
+                -- put any keybinds here
+              end,
             },
           },
+          ["core.integrations.telescope"] = {},
         },
       })
     end,
+    dependencies = {
+      { "nvim-lua/plenary.nvim" },
+      { "nvim-neorg/neorg-telescope" },
+    },
   },
   {
     "nvim-cmp",
@@ -51,5 +58,18 @@ return {
         name = "neorg",
       })
     end,
+  },
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    opts_extend = { "spec" },
+    opts = {
+      defaults = {},
+      spec = {
+        {
+          { "<leader>o", group = "orgmode" },
+        },
+      },
+    },
   },
 }
