@@ -8,3 +8,12 @@ vim.keymap.set(
   "<cmd>Neotree ~/.config/nvim<cr>",
   { desc = "Opens nvim configs for editing", silent = true, noremap = true }
 )
+
+vim.keymap.set("n", "<leader>bs", function()
+  vim.ui.input({ prompt = "Search query: " }, function(query)
+    if query then
+      local url = "https://www.google.com/search?q=" .. vim.fn.escape(query, " ")
+      vim.fn.jobstart({ "open", url }, { detach = true })
+    end
+  end)
+end, { desc = "Browser Search" })
