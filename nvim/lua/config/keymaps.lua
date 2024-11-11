@@ -8,6 +8,6 @@ vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "Copy the whole line to clipb
 vim.keymap.set(
   "n",
   "<leader><tab>v",
-  "<cmd>tabnew ~/.config/nvim<cr>",
+  "<cmd>Neotree ~/.config/nvim<cr>",
   { desc = "Opens nvim configs for editing", silent = true, noremap = true }
 )
