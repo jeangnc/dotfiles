@@ -37,9 +37,6 @@ return {
           ["core.keybinds"] = {
             config = {
               default_keybinds = true,
-              hook = function(keybinds)
-                -- put any keybinds here
-              end,
             },
           },
           ["core.integrations.telescope"] = {},
