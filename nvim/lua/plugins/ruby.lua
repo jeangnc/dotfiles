@@ -19,7 +19,11 @@ return {
         -- sorbet for better typechecking
         sorbet = {
           filetypes = { "ruby", "rakefile" },
-          cmd = { "srb", "tc", "--lsp", "--typed=true", "--no-config", "." },
+          cmd = { "srb", "tc", "--lsp", "--typed=true", "--no-config" },
+          settings = {},
+          init_options = {
+            formatting = false,
+          },
         },
         -- solargraph for linting
         solargraph = {
