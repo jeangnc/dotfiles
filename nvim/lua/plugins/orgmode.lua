@@ -12,7 +12,8 @@ return {
   {
     "nvim-neorg/neorg",
     keys = {
-      { "<leader>oi", "<cmd>Neorg index<cr>", desc = "Open index norg file" },
+      { "<leader>oi", "<cmd>Neorg index<CR>", desc = "Open index norg file" },
+      { "<leader>on", "<Plug>(neorg.dirman.new-note)", desc = "Creates a new norg file" },
     },
     config = function()
       require("neorg").setup({
