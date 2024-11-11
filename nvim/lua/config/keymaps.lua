@@ -2,6 +2,7 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
+-- opens nvim configs in neotree
 vim.keymap.set(
   "n",
   "<leader><tab>v",
@@ -9,6 +10,7 @@ vim.keymap.set(
   { desc = "Opens nvim configs for editing", silent = true, noremap = true }
 )
 
+-- to speed up browser searches
 vim.keymap.set("n", "<leader>bs", function()
   vim.ui.input({ prompt = "Search query: " }, function(query)
     if query then
