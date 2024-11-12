@@ -2,13 +2,16 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
+function open_context(directory)
+  -- vim.cmd("tabe")
+  -- vim.cmd("tcd " .. directory)
+  vim.cmd("Neotree action=focus dir=" .. directory)
+end
+
 -- opens nvim configs in neotree
-vim.keymap.set(
-  "n",
-  "<leader>ve",
-  "<cmd>:Neotree toggle ~/.dotfiles/nvim reveal_force_cwd<cr>",
-  { desc = "Opens nvim configs for editing", silent = true, noremap = true }
-)
+vim.keymap.set("n", "<leader>ve", function()
+  open_context("~/.dotfiles/nvim")
+end, { desc = "Opens nvim configs for editing", silent = true, noremap = true })
 
 -- to speed up browser searches
 vim.keymap.set("n", "<leader>sb", function()

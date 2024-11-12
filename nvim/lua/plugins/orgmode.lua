@@ -1,6 +1,24 @@
 -- required to compile the norg treesitter parser
 require("nvim-treesitter.install").compilers = { "gcc-14" }
 
+vim.keymap.set("n", "<leader>of", function()
+  open_context("~/.orgfiles")
+end, { desc = "Opens orgfiles directory", silent = true, noremap = true })
+
+vim.keymap.set(
+  "n",
+  "<leader>oi",
+  "<cmd>Neorg index<cr>",
+  { desc = "Opens neorg index file", silent = true, noremap = true }
+)
+
+vim.keymap.set(
+  "n",
+  "<leader>on",
+  "<Plug>(neorg.dirman.new-note)",
+  { desc = "Creates a new norg file", silent = true, noremap = true }
+)
+
 return {
   -- Add Neorg plugin
   {
@@ -38,26 +56,23 @@ return {
         },
       })
 
-      vim.keymap.set(
-        "n",
-        "<leader>of",
-        "<cmd>Neotree toggle ~/.orgfiles reveal_force_cwd<cr>",
-        { desc = "Opens orgfiles directory", silent = true, noremap = true }
-      )
-
-      vim.keymap.set(
-        "n",
-        "<leader>oi",
-        "<cmd>Neorg index<cr>",
-        { desc = "Opens neorg index file", silent = true, noremap = true }
-      )
-
-      vim.keymap.set(
-        "n",
-        "<leader>on",
-        "<Plug>(neorg.dirman.new-note)",
-        { desc = "Creates a new norg file", silent = true, noremap = true }
-      )
+      vim.api.nvim_create_autocmd("Filetype", {
+        pattern = "norg",
+        callback = function()
+          vim.keymap.set(
+            { "n", "v", "o" },
+            "]h",
+            "<Plug>(neorg.treesitter.next.heading)",
+            { desc = "Go to next heading", buffer = true }
+          )
+          vim.keymap.set(
+            { "n", "v", "o" },
+            "[h",
+            "<Plug>(neorg.treesitter.previous.heading)",
+            { desc = "Go to next heading", buffer = true }
+          )
+        end,
+      })
     end,
     dependencies = {
       { "nvim-lua/plenary.nvim" },
