@@ -11,11 +11,6 @@ return {
   },
   {
     "nvim-neorg/neorg",
-    keys = {
-      { "<leader>of", "<cmd>Neotree ~/.orgfiles<CR>", desc = "Open orgfiles directory" },
-      { "<leader>oi", "<cmd>Neorg index<CR>", desc = "Open index norg file" },
-      { "<leader>on", "<Plug>(neorg.dirman.new-note)", desc = "Creates a new norg file" },
-    },
     config = function()
       require("neorg").setup({
         load = {
@@ -42,6 +37,27 @@ return {
           ["core.integrations.telescope"] = {},
         },
       })
+
+      vim.keymap.set(
+        "n",
+        "<leader>of",
+        "<cmd>Neotree ~/.orgfiles<cr>",
+        { desc = "Opens orgfiles directory", silent = true, noremap = true }
+      )
+
+      vim.keymap.set(
+        "n",
+        "<leader>oi",
+        "<cmd>Neorg index<cr>",
+        { desc = "Opens neorg index file", silent = true, noremap = true }
+      )
+
+      vim.keymap.set(
+        "n",
+        "<leader>on",
+        "<Plug>(neorg.dirman.new-note)",
+        { desc = "Creates a new norg file", silent = true, noremap = true }
+      )
     end,
     dependencies = {
       { "nvim-lua/plenary.nvim" },
