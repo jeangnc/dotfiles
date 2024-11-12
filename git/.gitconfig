@@ -7,4 +7,5 @@
   signingkey = ${GIT_SIGNING_KEY}
 [gpg]
   format = ssh
-
+[commit]
+  gpgsign = true
