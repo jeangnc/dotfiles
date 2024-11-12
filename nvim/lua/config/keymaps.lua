@@ -11,7 +11,7 @@ vim.keymap.set(
 )
 
 -- to speed up browser searches
-vim.keymap.set("n", "<leader>bs", function()
+vim.keymap.set("n", "<leader>sb", function()
   vim.ui.input({ prompt = "Search query: " }, function(query)
     if query then
       local url = "https://www.google.com/search?q=" .. vim.fn.escape(query, " ")
