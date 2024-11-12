@@ -6,7 +6,7 @@ return {
 
     opts.mapping = vim.tbl_extend("force", opts.mapping, {
       -- changes accept to ctrl + y and navigation to tab & shift tab
-      ["<C-y>"] = cmp.mapping.confirm({ select = true }),
+      ["<C-Space>"] = cmp.mapping.confirm({ select = true }),
       ["<CR>"] = cmp.config.disable,
       ["<Tab>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
       ["<S-Tab>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
