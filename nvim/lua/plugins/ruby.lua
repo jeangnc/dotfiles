@@ -11,25 +11,25 @@ return {
     opts = {
       servers = {
         -- sorbet for better typechecking
-        -- sorbet = {
-        --   filetypes = { "ruby", "rakefile" },
-        --   cmd = { "srb", "tc", "--lsp", "--typed=true", "--no-config" },
-        --   settings = {},
-        --   init_options = {
-        --     formatting = false,
-        --   },
-        -- },
+        sorbet = {
+          filetypes = { "ruby", "rakefile" },
+          cmd = { "srb", "tc", "--lsp", "--no-config" },
+          settings = {},
+          init_options = {
+            formatting = false,
+          },
+        },
         -- solargraph for linting
-        -- solargraph = {
-        --   enabled = true,
-        --   filetypes = { "ruby", "rakefile" },
-        --   settings = {
-        --     solargraph = {
-        --       diagnostics = true,
-        --       definitions = false,
-        --     },
-        --   },
-        -- },
+        solargraph = {
+          enabled = true,
+          filetypes = { "ruby", "rakefile" },
+          settings = {
+            solargraph = {
+              diagnostics = true,
+              definitions = false,
+            },
+          },
+        },
       },
     },
   },
