@@ -3,7 +3,7 @@ return {
   lazy = false,
   opts = {
     filesystem = {
-      bind_to_cwd = true,
+      bind_to_cwd = false,
       hijack_netrw_behavior = "open_current",
     },
     event_handlers = {

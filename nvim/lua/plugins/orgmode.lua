@@ -41,7 +41,7 @@ return {
       vim.keymap.set(
         "n",
         "<leader>of",
-        "<cmd>Neotree ~/.orgfiles<cr>",
+        "<cmd>Neotree toggle ~/.orgfiles reveal_force_cwd<cr>",
         { desc = "Opens orgfiles directory", silent = true, noremap = true }
       )
 

@@ -6,7 +6,7 @@
 vim.keymap.set(
   "n",
   "<leader><tab>v",
-  "<cmd>Neotree ~/.config/nvim<cr>",
+  "<cmd>:Neotree toggle ~/.dotfiles/nvim reveal_force_cwd<cr>",
   { desc = "Opens nvim configs for editing", silent = true, noremap = true }
 )
 
