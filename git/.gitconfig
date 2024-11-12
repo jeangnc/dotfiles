@@ -4,7 +4,7 @@
 [user]
   name = Jean Gonçalves
   email = jean.gnc@gmail.com
-  signingkey = ${GIT_SIGNING_KEY}
+  signingkey = ~/.ssh/id_ed25519.pub
 [gpg]
   format = ssh
 [commit]
