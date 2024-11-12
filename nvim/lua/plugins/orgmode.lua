@@ -53,6 +53,7 @@ return {
             },
           },
           ["core.integrations.telescope"] = {},
+          ["core.summary"] = {},
         },
       })
 
@@ -70,6 +71,12 @@ return {
             "[h",
             "<Plug>(neorg.treesitter.previous.heading)",
             { desc = "Go to next heading", buffer = true }
+          )
+          vim.keymap.set(
+            { "n" },
+            "<localleader>am",
+            "<cmd>Neorg inject-metadata<cr>",
+            { desc = "Inject metadata", buffer = true }
           )
         end,
       })
@@ -96,6 +103,7 @@ return {
       spec = {
         {
           { "<leader>o", group = "orgmode" },
+          { "<localleader>a", group = "Append" },
         },
       },
     },
