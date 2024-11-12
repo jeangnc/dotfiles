@@ -1,6 +1,6 @@
 [core]
   excludesfile = ~/.gitignore_global
-  editor = vim
+  editor = nvim
 [user]
   name = Jean Gonçalves
   email = jean.gnc@gmail.com
