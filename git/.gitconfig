@@ -1,3 +1,10 @@
 [core]
-    excludesfile = /home/jean/.gitignore_global
-    editor = vimx
+  excludesfile = ~/.gitignore_global
+  editor = vim
+[user]
+  name = Jean Gonçalves
+  email = jean.gnc@gmail.com
+  signingkey = ${GIT_SIGNING_KEY}
+[gpg]
+  format = ssh
+
