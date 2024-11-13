@@ -33,3 +33,6 @@ vim.keymap.set(
   "<cmd>Telescope live_grep<cr>",
   { desc = "Search in project", silent = true, noremap = true }
 )
+
+-- yanks deleted text to register x
+vim.keymap.set({ "n", "v", "o" }, "d", '"xd', { silent = true, noremap = true })
