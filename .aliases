@@ -1,22 +1,19 @@
 # git
-alias gc="git commit -v --no-verify"
 alias gp='git push origin "$(git_current_branch)"'
 alias gl='git pull origin "$(git_current_branch)"'
-
+alias gcu='git checkout -q main && git pull origin main && git for-each-ref refs/heads/ "--format=%(refname:short)" | while read branch; do mergeBase=$(git merge-base main $branch) && [[ $(git cherry main $(git commit-tree $(git rev-parse "$branch^{tree}") -p $mergeBase -m _)) == "-"* ]] && git branch -D $branch; done'
 unalias ggpush 2>/dev/null
 unalias ggpull 2>/dev/null
 
-# git cleanup
-alias gcu='git checkout -q main && git pull origin main && git for-each-ref refs/heads/ "--format=%(refname:short)" | while read branch; do mergeBase=$(git merge-base main $branch) && [[ $(git cherry main $(git commit-tree $(git rev-parse "$branch^{tree}") -p $mergeBase -m _)) == "-"* ]] && git branch -D $branch; done'
-
-# vim
-alias vi=$VIM_VERSION
-alias vim=$VIM_VERSION
+# editor
+alias vi="nvim"
+alias vim="nvim"
 
 # json
 function json_format () { jq -C . | less -R; }
 alias jf="json_format"
 alias je="jq -c '.[]'"
+alias dotf="~/.dotfiles"
 
 # source local aliases
-[ -f "$HOME/.aliases.local" ] && source "$HOME/.aliases.local"
+[ -f "~/.aliases.local" ] && source "~/.aliases.local"
