@@ -16,4 +16,4 @@ alias je="jq -c '.[]'"
 alias dotf="~/.dotfiles"
 
 # source local aliases
-[ -f "~/.aliases.local" ] && source "~/.aliases.local"
+[ -f "$HOME/.aliases.local" ] && source "$HOME/.aliases.local"
