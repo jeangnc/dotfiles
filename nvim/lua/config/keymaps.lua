@@ -24,7 +24,12 @@ vim.keymap.set("n", "<leader>sb", function()
 end, { desc = "Browser Search" })
 
 -- buffers
-vim.keymap.set("n", "<leader>bD", "<cmd>:bufdo bd<cr>", { desc = "Delete all buffers", silent = true, noremap = true })
+vim.keymap.set(
+  "n",
+  "<leader>bw",
+  "<cmd>:bufdo bd<cr>",
+  { desc = "Wipe out all buffers", silent = true, noremap = true }
+)
 
 -- misc
 vim.keymap.set(
