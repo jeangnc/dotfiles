@@ -78,6 +78,13 @@ return {
               default_workspace = "main",
             },
           },
+          ["core.journal"] = {
+            config = {
+              journal_folder = "~/.journalfiles",
+              strategy = "flat",
+              default_workspace = "main",
+            },
+          },
           ["core.keybinds"] = {
             config = {
               default_keybinds = true,
