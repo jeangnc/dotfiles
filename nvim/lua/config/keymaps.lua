@@ -40,4 +40,4 @@ vim.keymap.set(
 )
 
 -- yanks deleted text to register x
-vim.keymap.set({ "n", "v", "o" }, "d", '"xd', { silent = true, noremap = true })
+-- vim.keymap.set({ "n", "v", "o" }, "d", '"xd', { silent = true, noremap = true })
