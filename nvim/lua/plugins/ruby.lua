@@ -1,39 +1,60 @@
-vim.g.lazyvim_ruby_lsp = "solargraph"
-vim.g.lazyvim_ruby_formatter = "rubocop"
-
 return {
-  -- this will setup some helpful configs
-  { import = "lazyvim.plugins.extras.lang.ruby" },
-
-  -- sets up LSP
+  { "tpope/vim-rails" },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = { "ruby" },
+    },
+  },
+  {
+    "williamboman/mason.nvim",
+    opts = {
+      ensure_installed = {
+        "ruby-lsp",
+        "erb-formatter",
+        "erb-lint",
+      },
+    },
+  },
   {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        -- sorbet for better typechecking
-        sorbet = {
-          filetypes = { "ruby", "rakefile" },
-          cmd = { "srb", "tc", "--lsp", "--no-config" },
-          settings = {},
-          init_options = {
-            formatting = false,
-          },
-        },
-        -- solargraph for linting
-        solargraph = {
+        ruby_lsp = {
           enabled = true,
-          filetypes = { "ruby", "rakefile" },
-          settings = {
-            solargraph = {
-              diagnostics = true,
-              definitions = false,
-            },
-          },
         },
       },
     },
   },
-
-  -- other plugins
-  { "tpope/vim-rails" },
+  {
+    "stevearc/conform.nvim",
+    optional = true,
+    opts = {
+      formatters_by_ft = {
+        ruby = { "rubocop" },
+        eruby = { "erb_format" },
+      },
+    },
+  },
+  {
+    "nvim-neotest/neotest",
+    optional = true,
+    dependencies = {
+      "olimorris/neotest-rspec",
+    },
+    opts = {
+      adapters = {
+        ["neotest-rspec"] = {
+          -- NOTE: By default neotest-rspec uses the system wide rspec gem instead of the one through bundler
+          rspec_cmd = function()
+            return vim.tbl_flatten({
+              "bundle",
+              "exec",
+              "rspec",
+            })
+          end,
+        },
+      },
+    },
+  },
 }
