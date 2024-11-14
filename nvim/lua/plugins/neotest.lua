@@ -22,6 +22,7 @@ return {
             local prefix = require("neotest-rspec").root(path)
             return string.sub(path, string.len(prefix) + 2, -1)
           end,
+          results_path = "tmp/rspec.output",
         },
       },
     },
