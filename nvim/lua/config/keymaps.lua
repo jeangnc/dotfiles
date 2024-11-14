@@ -3,9 +3,7 @@
 -- Add any additional keymaps here
 
 function open_context(directory)
-  -- vim.cmd("tabe")
-  -- vim.cmd("tcd " .. directory)
-  vim.cmd("Neotree action=focus dir=" .. directory)
+  vim.cmd("Telescope find_files cwd=" .. directory)
 end
 
 -- opens nvim configs in neotree
