@@ -2,6 +2,7 @@
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # setup rbenv
+export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init - --no-rehash zsh)"
 
 # exports
