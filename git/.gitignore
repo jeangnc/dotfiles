@@ -8,4 +8,4 @@ cover.out
 .DS_Store
 *.irb_history
 
-/.idea
+.env
