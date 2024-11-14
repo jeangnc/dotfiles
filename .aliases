@@ -13,7 +13,7 @@ alias vim="nvim"
 function json_format () { jq -C . | less -R; }
 alias jf="json_format"
 alias je="jq -c '.[]'"
-alias dotf="~/.dotfiles"
+alias dof="~/.dotfiles"
 
 # source local aliases
 [ -f "$HOME/.aliases.local" ] && source "$HOME/.aliases.local"
