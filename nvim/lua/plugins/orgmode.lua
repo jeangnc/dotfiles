@@ -33,7 +33,7 @@ vim.keymap.set(
   "n",
   "<leader>oi",
   "<cmd>Neorg index<cr>",
-  { desc = "Opens neorg index file", silent = true, noremap = true }
+  { desc = "Opens workspace's index file", silent = true, noremap = true }
 )
 
 vim.keymap.set(
