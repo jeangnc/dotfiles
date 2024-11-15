@@ -6,11 +6,6 @@ function open_context(directory)
   vim.cmd("Telescope find_files cwd=" .. directory)
 end
 
--- opens nvim configs in neotree
-vim.keymap.set("n", "<leader>ve", function()
-  open_context("~/.dotfiles/nvim")
-end, { desc = "Opens nvim configs for editing", silent = true, noremap = true })
-
 -- to speed up browser searches
 vim.keymap.set("n", "<leader>sb", function()
   vim.ui.input({ prompt = "Search query: " }, function(query)
