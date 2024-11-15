@@ -23,6 +23,12 @@ return {
         ruby_lsp = {
           enabled = true,
         },
+
+        rubocop = {
+          mason = false,
+          enabled = false,
+          cmd = { "bundle", "exec", "rubocop", "--lsp", "--force-exclusion" },
+        },
       },
     },
   },
