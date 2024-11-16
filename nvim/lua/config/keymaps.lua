@@ -17,19 +17,14 @@ vim.keymap.set("n", "<leader>sb", function()
 end, { desc = "Browser Search" })
 
 -- buffers
-vim.keymap.set(
-  "n",
-  "<leader>bw",
-  "<cmd>:bufdo bd<cr>",
-  { desc = "Wipe out all buffers", silent = true, noremap = true }
-)
+vim.keymap.set("n", "<leader>ba", "<cmd>:bufdo bd<cr>", { desc = "Delete All Buffers", silent = true, noremap = true })
 
 -- misc
 vim.keymap.set(
   "n",
   "<leader>0",
   "<cmd>Telescope live_grep<cr>",
-  { desc = "Search in project", silent = true, noremap = true }
+  { desc = "Grep (Root Dir)", silent = true, noremap = true }
 )
 
 -- yanks deleted text to register x
