@@ -128,9 +128,9 @@ return {
       defaults = {},
       spec = {
         {
-          { "<leader>o", group = "Orgmode" },
-          { "<leader>ow", group = "Workspaces" },
-          { "<leader>oj", group = "Journal" },
+          { "<leader>o", group = "orgmode", icon = " " },
+          { "<leader>ow", group = "workspaces", icon = " " },
+          { "<leader>oj", group = "journal", icon = " " },
           { "<leader>ojd", group = "Day" },
           { "<leader>ojw", group = "Week" },
           { "<localleader>a", group = "Append" },
