@@ -4,3 +4,6 @@
 vim.g.mapleader = "-"
 vim.g.maplocalleader = "\\"
 vim.opt.signcolumn = "yes:2"
+
+-- disables integration with global clipboard
+vim.opt.clipboard = ""
