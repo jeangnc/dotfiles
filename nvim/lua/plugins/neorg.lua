@@ -1,65 +1,40 @@
 -- required to compile the norg treesitter parser
 require("nvim-treesitter.install").compilers = { "gcc-14" }
 
-vim.keymap.set(
-  "n",
-  "<leader>oe",
-  "<cmd>Telescope neorg find_norg_files<cr>",
-  { desc = "Explore orgfiles", silent = true, noremap = true }
-)
-
-vim.keymap.set(
-  "n",
-  "<leader>ojy",
-  "<cmd>Neorg journal yesterday<cr>",
-  { desc = "Open yesterday's journal", silent = true, noremap = true }
-)
-
-vim.keymap.set(
-  "n",
-  "<leader>ojt",
-  "<cmd>Neorg journal today<cr>",
-  { desc = "Open today's journal", silent = true, noremap = true }
-)
-
-vim.keymap.set(
-  "n",
-  "<leader>ojn",
-  "<cmd>Neorg journal tomorrow<cr>",
-  { desc = "Open tomorrow's journal", silent = true, noremap = true }
-)
-
-vim.keymap.set(
-  "n",
-  "<leader>oi",
-  "<cmd>Neorg index<cr>",
-  { desc = "Opens workspace's index file", silent = true, noremap = true }
-)
-
-vim.keymap.set(
-  "n",
-  "<leader>owe",
-  "<cmd>Neorg workspace<cr>",
-  { desc = "Explore workspaces", silent = true, noremap = true }
-)
-
-vim.keymap.set(
-  "n",
-  "<leader>on",
-  "<Plug>(neorg.dirman.new-note)",
-  { desc = "Creates a new norg file", silent = true, noremap = true }
-)
+local function first_day_of_week(date)
+  local currentDayOfWeek = os.date("*t", date).wday
+  local daysToSubtract = currentDayOfWeek - 1
+  local firstDayOfWeek = os.date("*t", date - (daysToSubtract * 86400))
+  return string.format("%04d-%02d-%02d", firstDayOfWeek.year, firstDayOfWeek.month, firstDayOfWeek.day)
+end
 
 return {
-  -- Add Neorg plugin
-  {
-    "nvim-treesitter/nvim-treesitter",
-    opts = {
-      ensure_installed = { "norg" },
-    },
-  },
   {
     "nvim-neorg/neorg",
+    cmd = "Neorg",
+    keys = {
+      { "<leader>owe", "<cmd>Neorg workspace<cr>", desc = "Explore workspaces" },
+      { "<leader>oe", "<cmd>Telescope neorg find_norg_files<cr>", desc = "Explore Neorg files" },
+      { "<leader>oi", "<cmd>Neorg index<cr>", desc = "Opens workspace's index file" },
+      { "<leader>on", "<Plug>(neorg.dirman.new-note)", desc = "Creates a new norg file" },
+      { "<leader>ojy", "<cmd>Neorg journal yesterday<cr>", desc = "Open yesterday's journal" },
+      { "<leader>ojt", "<cmd>Neorg journal today<cr>", desc = "Open today's journal" },
+      { "<leader>ojn", "<cmd>Neorg journal tomorrow<cr>", desc = "Open tomorrow's journal" },
+      {
+        "<leader>ojw",
+        function()
+          vim.cmd("Neorg journal custom " .. first_day_of_week(os.time()))
+        end,
+        desc = "Open this week's journal",
+      },
+      {
+        "<leader>ojlw",
+        function()
+          vim.cmd("Neorg journal custom " .. first_day_of_week(os.time() - 7 * 86400))
+        end,
+        desc = "Open last week's journal",
+      },
+    },
     config = function()
       require("neorg").setup({
         load = {
@@ -122,6 +97,12 @@ return {
     dependencies = {
       { "nvim-lua/plenary.nvim" },
       { "nvim-neorg/neorg-telescope" },
+    },
+  },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = { "norg" },
     },
   },
   {
