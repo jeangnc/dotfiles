@@ -17,22 +17,29 @@ return {
       { "<leader>oe", "<cmd>Telescope neorg find_norg_files<cr>", desc = "Explore Neorg files" },
       { "<leader>oi", "<cmd>Neorg index<cr>", desc = "Opens workspace's index file" },
       { "<leader>on", "<Plug>(neorg.dirman.new-note)", desc = "Creates a new norg file" },
-      { "<leader>ojy", "<cmd>Neorg journal yesterday<cr>", desc = "Open yesterday's journal" },
-      { "<leader>ojt", "<cmd>Neorg journal today<cr>", desc = "Open today's journal" },
-      { "<leader>ojn", "<cmd>Neorg journal tomorrow<cr>", desc = "Open tomorrow's journal" },
+      { "<leader>ojdp", "<cmd>Neorg journal yesterday<cr>", desc = "Open previous day's journal" },
+      { "<leader>ojdc", "<cmd>Neorg journal today<cr>", desc = "Open current today's journal" },
+      { "<leader>ojdn", "<cmd>Neorg journal tomorrow<cr>", desc = "Open next day's journal" },
       {
-        "<leader>ojw",
+        "<leader>ojwc",
         function()
           vim.cmd("Neorg journal custom " .. first_day_of_week(os.time()))
         end,
-        desc = "Open this week's journal",
+        desc = "Open current week's journal",
       },
       {
-        "<leader>ojlw",
+        "<leader>ojwp",
         function()
           vim.cmd("Neorg journal custom " .. first_day_of_week(os.time() - 7 * 86400))
         end,
-        desc = "Open last week's journal",
+        desc = "Open previous week's journal",
+      },
+      {
+        "<leader>ojwn",
+        function()
+          vim.cmd("Neorg journal custom " .. first_day_of_week(os.time() - 7 * 86400))
+        end,
+        desc = "Open next week's journal",
       },
     },
     config = function()
@@ -121,9 +128,11 @@ return {
       defaults = {},
       spec = {
         {
-          { "<leader>o", group = "orgmode" },
-          { "<leader>ow", group = "workspaces" },
-          { "<leader>oj", group = "journal" },
+          { "<leader>o", group = "Orgmode" },
+          { "<leader>ow", group = "Workspaces" },
+          { "<leader>oj", group = "Journal" },
+          { "<leader>ojd", group = "Day" },
+          { "<leader>ojw", group = "Week" },
           { "<localleader>a", group = "Append" },
         },
       },
