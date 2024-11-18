@@ -16,6 +16,7 @@ return {
       { "<leader>owe", "<cmd>Neorg workspace<cr>", desc = "Explore workspaces" },
       { "<leader>oe", "<cmd>Telescope neorg find_norg_files<cr>", desc = "Explore Neorg files" },
       { "<leader>oi", "<cmd>Neorg index<cr>", desc = "Opens workspace's index file" },
+      { "<leader>or", "<cmd>Neorg return<cr>", desc = "Closes all Neorg-related buffers" },
       { "<leader>on", "<Plug>(neorg.dirman.new-note)", desc = "Creates a new norg file" },
       { "<leader>ojdp", "<cmd>Neorg journal yesterday<cr>", desc = "Open previous day's journal" },
       { "<leader>ojdc", "<cmd>Neorg journal today<cr>", desc = "Open current today's journal" },
