@@ -18,30 +18,6 @@ return {
       { "<leader>oi", "<cmd>Neorg index<cr>", desc = "Opens workspace's index file" },
       { "<leader>or", "<cmd>Neorg return<cr>", desc = "Closes all Neorg-related buffers" },
       { "<leader>on", "<Plug>(neorg.dirman.new-note)", desc = "Creates a new norg file" },
-      { "<leader>ojdp", "<cmd>Neorg journal yesterday<cr>", desc = "Open previous day's journal" },
-      { "<leader>ojdc", "<cmd>Neorg journal today<cr>", desc = "Open current today's journal" },
-      { "<leader>ojdn", "<cmd>Neorg journal tomorrow<cr>", desc = "Open next day's journal" },
-      {
-        "<leader>ojwc",
-        function()
-          vim.cmd("Neorg journal custom " .. first_day_of_week(os.time()))
-        end,
-        desc = "Open current week's journal",
-      },
-      {
-        "<leader>ojwp",
-        function()
-          vim.cmd("Neorg journal custom " .. first_day_of_week(os.time() - 7 * 86400))
-        end,
-        desc = "Open previous week's journal",
-      },
-      {
-        "<leader>ojwn",
-        function()
-          vim.cmd("Neorg journal custom " .. first_day_of_week(os.time() - 7 * 86400))
-        end,
-        desc = "Open next week's journal",
-      },
       { "<leader>ojp", "<cmd>Neorg journal yesterday<cr>", desc = "Open previous day's journal" },
       { "<leader>ojc", "<cmd>Neorg journal today<cr>", desc = "Open current today's journal" },
       { "<leader>ojn", "<cmd>Neorg journal tomorrow<cr>", desc = "Open next day's journal" },
@@ -160,8 +136,6 @@ return {
           { "<leader>o", group = "orgmode", icon = " " },
           { "<leader>ow", group = "workspaces", icon = " " },
           { "<leader>oj", group = "journal", icon = " " },
-          { "<leader>ojd", group = "Day" },
-          { "<leader>ojw", group = "Week" },
           -- { "<leader>ojd", group = "Day" },
           -- { "<leader>ojw", group = "Week" },
           { "<localleader>a", group = "Append" },
