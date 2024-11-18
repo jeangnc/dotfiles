@@ -41,6 +41,30 @@ return {
         end,
         desc = "Open next week's journal",
       },
+      { "<leader>ojp", "<cmd>Neorg journal yesterday<cr>", desc = "Open previous day's journal" },
+      { "<leader>ojc", "<cmd>Neorg journal today<cr>", desc = "Open current today's journal" },
+      { "<leader>ojn", "<cmd>Neorg journal tomorrow<cr>", desc = "Open next day's journal" },
+      -- {
+      --   "<leader>ojwc",
+      --   function()
+      --     vim.cmd("Neorg journal custom " .. first_day_of_week(os.time()))
+      --   end,
+      --   desc = "Open current week's journal",
+      -- },
+      -- {
+      --   "<leader>ojwp",
+      --   function()
+      --     vim.cmd("Neorg journal custom " .. first_day_of_week(os.time() - 7 * 86400))
+      --   end,
+      --   desc = "Open previous week's journal",
+      -- },
+      -- {
+      --   "<leader>ojwn",
+      --   function()
+      --     vim.cmd("Neorg journal custom " .. first_day_of_week(os.time() - 7 * 86400))
+      --   end,
+      --   desc = "Open next week's journal",
+      -- },
     },
     config = function()
       require("neorg").setup({
@@ -98,6 +122,10 @@ return {
             "<cmd>Neorg inject-metadata<cr>",
             { desc = "Inject metadata", buffer = true }
           )
+          vim.keymap.set({ "n" }, "<Enter>", function()
+            vim.cmd("startinsert")
+            vim.cmd('lua require("neorg.modules.core.itero.module").public.next_iteration_cr()')
+          end, { desc = "", buffer = true })
         end,
       })
     end,
@@ -133,6 +161,8 @@ return {
           { "<leader>oj", group = "journal", icon = " " },
           { "<leader>ojd", group = "Day" },
           { "<leader>ojw", group = "Week" },
+          -- { "<leader>ojd", group = "Day" },
+          -- { "<leader>ojw", group = "Week" },
           { "<localleader>a", group = "Append" },
         },
       },
