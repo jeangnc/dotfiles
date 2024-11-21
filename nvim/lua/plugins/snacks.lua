@@ -4,6 +4,7 @@ return {
     priority = 1000,
     lazy = false,
     opts = {
+      dashboard = { enabled = false },
       bigfile = { enabled = true },
       notifier = {
         enabled = true,
