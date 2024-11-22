@@ -36,3 +36,4 @@ vim.keymap.set(
 
 -- yanks to global clipboard
 vim.keymap.set({ "n", "v", "o" }, "<leader>y", '"+y', { desc = "Yank to Clipboard", silent = true, noremap = true })
+vim.keymap.set("n", "<leader>Y", ":%y+<cr>", { desc = "Yank File to Clipboard", silent = true, noremap = true })
