@@ -1,1 +1,3 @@
-return {}
+return {
+  { "folke/tokyonight.nvim", enabled = false },
+}
