@@ -9,3 +9,5 @@
   format = ssh
 [commit]
   gpgsign = true
+[push]
+	autoSetupRemote = true
