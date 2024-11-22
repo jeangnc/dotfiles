@@ -17,7 +17,14 @@ vim.keymap.set("n", "<leader>sb", function()
 end, { desc = "Browser Search" })
 
 -- buffers
-vim.keymap.set("n", "<leader>ba", "<cmd>:bufdo bd<cr>", { desc = "Delete All Buffers", silent = true, noremap = true })
+vim.keymap.set(
+  "n",
+  "<leader>ba",
+  "<cmd>BufferLineGroupClose ungrouped<cr>",
+  { desc = "Creates a new Buffer", silent = true, noremap = true }
+)
+
+vim.keymap.set("n", "<leader>bc", "<cmd>enew<cr>", { desc = "Delete All Buffers", silent = true, noremap = true })
 
 -- misc
 vim.keymap.set(
