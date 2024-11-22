@@ -21,10 +21,10 @@ vim.keymap.set(
   "n",
   "<leader>ba",
   "<cmd>BufferLineGroupClose ungrouped<cr>",
-  { desc = "Creates a new Buffer", silent = true, noremap = true }
+  { desc = "Delete All Buffers", silent = true, noremap = true }
 )
 
-vim.keymap.set("n", "<leader>bc", "<cmd>enew<cr>", { desc = "Delete All Buffers", silent = true, noremap = true })
+vim.keymap.set("n", "<leader>bc", "<cmd>enew<cr>", { desc = "Creates New Buffer", silent = true, noremap = true })
 
 -- misc
 vim.keymap.set(
