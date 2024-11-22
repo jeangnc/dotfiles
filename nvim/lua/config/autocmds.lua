@@ -5,9 +5,6 @@
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 
--- disables highlight yanked text
-augroup("highlight_yank", { clear = true })
-
 local view_group = augroup("auto_view", { clear = true })
 autocmd({ "BufWinLeave", "BufWritePost", "WinLeave" }, {
   desc = "Save view with mkview for real files",
