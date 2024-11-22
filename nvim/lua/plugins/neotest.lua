@@ -1,5 +1,4 @@
 return {
-  { import = "lazyvim.plugins.extras.test" },
   {
     "nvim-neotest/neotest",
     dependencies = {
