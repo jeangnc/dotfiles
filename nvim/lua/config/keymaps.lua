@@ -24,7 +24,7 @@ vim.keymap.set(
   { desc = "Delete All Buffers", silent = true, noremap = true }
 )
 
-vim.keymap.set("n", "<leader>bc", "<cmd>enew<cr>", { desc = "Creates New Buffer", silent = true, noremap = true })
+vim.keymap.set("n", "<leader>bn", "<cmd>enew<cr>", { desc = "New Buffer", silent = true, noremap = true })
 
 -- misc
 vim.keymap.set(
