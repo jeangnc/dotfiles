@@ -2,9 +2,6 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
-function open_context(directory)
-  vim.cmd("Telescope find_files cwd=" .. directory)
-end
 
 -- to speed up browser searches
 vim.keymap.set("n", "<leader>sB", function()
