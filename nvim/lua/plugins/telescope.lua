@@ -4,6 +4,13 @@ return {
     local actions = require("telescope.actions")
 
     opts.defaults = {
+      file_ignore_patterns = {
+        ".git",
+        "node_modules",
+        "build",
+        "dist",
+        "yarn.lock",
+      },
       mappings = {
         i = {
           ["<C-j>"] = require("telescope.actions").move_selection_next,
