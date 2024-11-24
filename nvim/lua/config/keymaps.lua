@@ -27,7 +27,7 @@ vim.keymap.set(
 
 vim.keymap.set("n", "<leader>bn", "<cmd>enew<cr>", { desc = "New Buffer", silent = true, noremap = true })
 
--- misc
+-- shortcut to live grep
 vim.keymap.set(
   "n",
   "<leader>0",
