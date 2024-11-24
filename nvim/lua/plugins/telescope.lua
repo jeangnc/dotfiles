@@ -8,8 +8,12 @@ return {
         i = {
           ["<C-j>"] = require("telescope.actions").move_selection_next,
           ["<C-k>"] = require("telescope.actions").move_selection_previous,
-          ["<c-t>"] = actions.select_tab,
-          ["<esc>"] = actions.close,
+          ["<Esc>"] = actions.close,
+          -- fixes fold issue on neorg
+          ["<CR>"] = function()
+            vim.cmd([[:stopinsert]])
+            vim.cmd([[call feedkeys("\<CR>")]])
+          end,
         },
       },
     }
