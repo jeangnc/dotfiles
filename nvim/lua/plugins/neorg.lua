@@ -55,6 +55,12 @@ return {
         callback = function()
           vim.keymap.set(
             { "n", "v", "o" },
+            "<F12>",
+            "<cmd>Neorg toggle-concealer<cr>",
+            { desc = "Toggle concealer", buffer = true }
+          )
+          vim.keymap.set(
+            { "n", "v", "o" },
             "]h",
             "<Plug>(neorg.treesitter.next.heading)",
             { desc = "Go to next heading", buffer = true }
