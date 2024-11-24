@@ -26,20 +26,27 @@ return {
 
         rubocop = {
           mason = false,
-          enabled = false,
+          enabled = true,
           cmd = { "bundle", "exec", "rubocop", "--lsp", "--force-exclusion" },
+          init_options = {
+            lint = {
+              rubocop = {
+                enabled = false,
+              },
+            },
+          },
         },
       },
     },
   },
-  {
-    "stevearc/conform.nvim",
-    optional = true,
-    opts = {
-      formatters_by_ft = {
-        ruby = { "rubocop" },
-        eruby = { "erb_format" },
-      },
-    },
-  },
+  -- {
+  --   "stevearc/conform.nvim",
+  --   optional = true,
+  --   opts = {
+  --     formatters_by_ft = {
+  --       ruby = { "rubocop" },
+  --       eruby = { "erb_format" },
+  --     },
+  --   },
+  -- },
 }
