@@ -6,7 +6,8 @@ return {
     "nvim-neorg/neorg",
     cmd = "Neorg",
     keys = {
-      { "<leader>owe", "<cmd>Neorg workspace<cr>", desc = "Explore workspaces" },
+      { "<leader>owp", "<cmd>Neorg workspace personal<cr>", desc = "Personal" },
+      { "<leader>oww", "<cmd>Neorg workspace work<cr>", desc = "Work" },
       { "<leader>oe", "<cmd>Telescope neorg find_norg_files<cr>", desc = "Explore Neorg files" },
       { "<leader>oi", "<cmd>Neorg index<cr>", desc = "Opens workspace's index file" },
       { "<leader>or", "<cmd>Neorg return<cr>", desc = "Closes all Neorg-related buffers" },
@@ -28,9 +29,11 @@ return {
           ["core.dirman"] = {
             config = {
               workspaces = {
-                main = "~/.orgfiles",
+                main = "~/.orgfiles/main",
+                work = "~/.orgfiles/work",
+                personal = "~/.orgfiles/personal",
               },
-              default_workspace = "main",
+              default_workspace = "work",
             },
           },
           ["core.journal"] = {
