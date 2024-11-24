@@ -19,6 +19,11 @@ return {
           wo = { wrap = true },
         },
       },
+      terminal = {
+        win = {
+          position = "float",
+        },
+      },
     },
   },
 }
