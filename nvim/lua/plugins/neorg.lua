@@ -4,6 +4,7 @@ require("nvim-treesitter.install").compilers = { "gcc-14" }
 return {
   {
     "nvim-neorg/neorg",
+    lazy = true,
     cmd = "Neorg",
     keys = {
       { "<leader>owp", "<cmd>Neorg workspace personal<cr>", desc = "Personal" },
