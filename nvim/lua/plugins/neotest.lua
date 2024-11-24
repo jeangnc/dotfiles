@@ -8,7 +8,7 @@ return {
     opts = {
       adapters = {
         ["neotest-minitest"] = {
-          minitest_cmd = function()
+          test_cmd = function()
             return vim.tbl_flatten({
               "docker-compose",
               "exec",
@@ -19,11 +19,6 @@ return {
               "test",
             })
           end,
-          transform_spec_path = function(path)
-            local prefix = require("neotest-minitest").root(path)
-            return string.sub(path, string.len(prefix) + 2, -1)
-          end,
-          results_path = "tmp/minitest.output",
         },
         ["neotest-rspec"] = {
           rspec_cmd = function()
