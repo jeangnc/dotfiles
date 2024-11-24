@@ -7,7 +7,7 @@ function open_context(directory)
 end
 
 -- to speed up browser searches
-vim.keymap.set("n", "<leader>sb", function()
+vim.keymap.set("n", "<leader>sB", function()
   vim.ui.input({ prompt = "Search query: " }, function(query)
     if query then
       local url = "https://www.google.com/search?q=" .. vim.fn.escape(query, " ")
