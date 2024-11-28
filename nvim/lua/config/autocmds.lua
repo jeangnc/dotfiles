@@ -10,8 +10,11 @@ autocmd({ "BufWinLeave", "BufWritePost", "WinLeave" }, {
   desc = "Save view with mkview for real files",
   group = view_group,
   callback = function(args)
+    -- save view async
     if vim.b[args.buf].view_activated then
-      vim.cmd.mkview({ mods = { emsg_silent = true } })
+      vim.defer_fn(function()
+        vim.cmd.mkview({ mods = { emsg_silent = true } })
+      end, 0)
     end
   end,
 })
