@@ -18,14 +18,7 @@ vim.keymap.set("n", "<leader>sB", function()
 end, { desc = "Browser Search" })
 
 -- buffers
-vim.keymap.set(
-  "n",
-  "<leader>ba",
-  "<cmd>BufferLineGroupClose ungrouped<cr>",
-  { desc = "Delete All Buffers", silent = true, noremap = true }
-)
-
-vim.keymap.set("n", "<leader>bn", "<cmd>enew<cr>", { desc = "New Buffer", silent = true, noremap = true })
+vim.keymap.set("n", "<leader>ba", "<cmd>bufdo bd<cr>", { desc = "Delete All Buffers", silent = true, noremap = true })
 
 -- shortcut to live grep
 vim.keymap.set(
