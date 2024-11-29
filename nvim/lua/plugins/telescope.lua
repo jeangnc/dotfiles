@@ -1,5 +1,8 @@
 return {
   "nvim-telescope/telescope.nvim",
+  dependencies = {
+    "angkeith/telescope-terraform-doc.nvim",
+  },
   opts = function(_, opts)
     local actions = require("telescope.actions")
 
