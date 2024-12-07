@@ -14,5 +14,4 @@ defaults write com.apple.dock appswitcher-all-displays -bool true # show app swi
 ulimit -n 4096
 
 # aliases and local configs
-[ -f "$HOME/.aliases" ] && source "$HOME/.aliases"
 [ -f "$HOME/.zprofile.local" ] && source "$HOME/.zprofile.local"
