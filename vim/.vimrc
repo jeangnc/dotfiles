@@ -3,48 +3,36 @@
 ""
 call plug#begin('~/.vim/plugins')
 
-" misc
-Plug 'airblade/vim-gitgutter'
-Plug 'brendonrapp/smyck-vim' " my favorite colorscheme
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'github/copilot.vim'
-Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
-Plug 'jeetsukumaran/vim-indentwise' " indent based motions
-Plug 'junegunn/vim-easy-align' " align text
 Plug 'scrooloose/nerdtree' " filesystem explorer
-Plug 'tpope/vim-endwise' " adds end to ruby blocks
-Plug 'tpope/vim-fugitive' " git integration
-Plug 'tpope/vim-surround' " surround text objects
 Plug 'vim-airline/vim-airline' " very useful fixed bar
-Plug 'lukas-reineke/indent-blankline.nvim' " show identation lines
+Plug 'jeetsukumaran/vim-indentwise' " indent based motions
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'dkarter/bullets.vim'
+Plug 'github/copilot.vim'
 
-" file & code navigation
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' } " improves sorting speed
-Plug 'jonarrien/telescope-cmdline.nvim'
-Plug 'windwp/nvim-autopairs' " auto pairs for brackets, quotes, etc
+"" go
+Plug 'fatih/vim-go'
 
-" languages
-Plug 'tpope/vim-rails'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+"" clojure
+Plug 'tpope/vim-fireplace'
 Plug 'guns/vim-clojure-static'
 Plug 'guns/vim-clojure-highlight'
 
-" autocompletion
-Plug 'hrsh7th/nvim-cmp'
-Plug 'hrsh7th/cmp-nvim-lsp'  " Integration with LSP
-Plug 'hrsh7th/cmp-buffer'    " Suggestions from the current buffer
-Plug 'hrsh7th/cmp-path'      " Suggestions for file paths
-Plug 'hrsh7th/cmp-cmdline'   " Suggestions for the command line
+" other languages
+Plug 'tpope/vim-rails'
+Plug 'sheerun/vim-polyglot'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
-" lsp & parsers
-Plug 'williamboman/mason.nvim'
-Plug 'williamboman/mason-lspconfig.nvim'
-Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'wansmer/treesj'
-Plug 'rachartier/tiny-inline-diagnostic.nvim'
+" fzf
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim' " fuzzyfinder plugin for vim
+
+" git
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+
+" colorschemes
+Plug 'brendonrapp/smyck-vim'
 
 call plug#end()
 
@@ -53,7 +41,6 @@ call plug#end()
 "" Variables
 ""
 let mapleader = "-"
-let g:vimsyn_embed = 'lr'
 
 " nerdtree
 let NERDTreeAutoDeleteBuffer = 1
@@ -62,7 +49,7 @@ let NERDTreeDirArrowCollapsible = '-'
 let NERDTreeDirArrowExpandable = '+'
 let NERDTreeDirArrows = 1
 let NERDTreeMapOpenInTab = '<C-t>'
-let NERDTreeMapOpenSplit = '<C-s>'
+let NERDTreeMapOpenSplit = '<C-h>'
 let NERDTreeMapOpenVSplit = '<C-v>'
 let NERDTreeMinimalMenu = 1
 let NERDTreeMinimalUI = 1
@@ -79,7 +66,15 @@ let g:airline#extensions#fugitiveline#enabled = 0
 let g:airline#extensions#branch#enabled = 0
 let g:airline_section_x = airline#section#create([])
 let g:airline_section_y = airline#section#create([])
-let g:airline_section_z = airline#section#create(['%5(%c%V%)'.g:airline_symbols.space, 'linenr', 'maxlinenr'])
+let g:airline_section_z = airline#section#create([])
+
+" fzf
+let $FZF_DEFAULT_COMMAND = 'ag --ignore-dir=vendor -g ""'
+
+let g:fzf_action = {
+            \ 'ctrl-t': 'tab split',
+            \ 'ctrl-s': 'split',
+            \ 'ctrl-v': 'vsplit' }
 
 " go
 let g:go_auto_type_info = 1
@@ -94,50 +89,32 @@ let g:bullets_enabled_file_types = [
             \ 'gitcommit',
             \ 'scratch'
             \]
-" copilot
-let g:copilot_filetypes = {
-            \ '*': v:true,
-            \ 'go': v:false,
-            \ }
-
 
 ""
 "" Basic configuration
 ""
-if !has('nvim')
-    set term=screen-256color
-endif
-
-set nocompatible
-set autoread
-set scrolloff=1
-set sidescroll=1
-set sidescrolloff=2
-set formatoptions+=j
-set complete-=i
-
 set hidden
 set number
 set cursorline
 set ruler
 set splitbelow " open new splits below
 set splitright " open new splits at the right
+set nocompatible " we're running Vim, not Vi!
 set ignorecase
 set switchbuf=usetab
+set colorcolumn=100
 set encoding=utf-8
 set langmenu=en_US.UTF-8
+set term=screen-256color
 set number relativenumber
 set regexpengine=0
 set directory=$HOME/.vim/swapfiles/
-set colorcolumn=100
-
-" highlight
-highlight NormalFloat guibg=#1f2335
-highlight FloatBorder guifg=white guibg=#1f2335
-set updatetime=0
 
 " prefer vertical orientation when using :diffsplit
 set diffopt+=vertical
+
+" autocomple
+set completeopt=longest,menuone
 
 " whitespace
 set nowrap " break line after it reachs the limit
@@ -145,8 +122,6 @@ set expandtab " use spaces, not tabs
 set backspace=indent,eol,start " backspace through everything in insert mode
 set tabstop=4
 set shiftwidth=4
-set nostartofline
-set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 
 " search
 set hlsearch
@@ -166,6 +141,8 @@ filetype plugin on    " enable filetype-specific plugins
 "" Appearance
 ""
 color smyck
+highlight ColorColumn guibg=#303030 ctermbg=0
+highlight CursorLine cterm=NONE ctermbg=darkblue ctermfg=white guibg=darkred guifg=white
 
 
 ""
@@ -201,43 +178,31 @@ endif
 ""
 "" Keymapping
 ""
-nnoremap <leader>ev :tabe $MYVIMRC<CR>
-nnoremap <leader>ea :vsplit $HOME/.config/alacritty/alacritty.yml<CR>
-nnoremap <leader>et :tabe $HOME/.tmux.conf<CR>
-nnoremap <leader>sv :source $MYVIMRC<CR>:noh<CR>
-nnoremap <leader><leader> :Telescope cmdline<CR>
-nnoremap g<S-S> :TSJSplit<CR>
-nnoremap g<S-J> :TSJJoin<CR>
-
-" lsp
-nnoremap gd <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap gr <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
-
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>ea :vsplit $HOME/.config/alacritty/alacritty.yml<cr>
+nnoremap <leader>et :vsplit $HOME/.tmux.conf<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
 
 " tabs and splits
-nnoremap <leader>th :tabm -1<CR>
-nnoremap <leader>tl :tabm +1<CR>
-nnoremap <S-h> :tabp<CR>
-nnoremap <S-l> :tabn<CR>
+nnoremap <leader>th :tabm -1<cr>
+nnoremap <leader>tl :tabm +1<cr>
+nnoremap <S-h> :tabp<cr>
+nnoremap <S-l> :tabn<cr>
 
 " buffers
-nnoremap <leader>c :bd<CR>
-nnoremap <leader>C :bufdo bd!<CR>
+nnoremap <leader>c :bd<cr>
+nnoremap <leader>C :bufdo bd!<cr>
 
 " nerdtree
-nnoremap <C-f> :NERDTreeToggle<CR>
-nnoremap <C-e> :NERDTreeFind<CR>
+nnoremap <C-f> :NERDTreeToggle<cr>
+nnoremap <C-e> :NERDTreeFind<cr>
 
 " searching
-nnoremap <leader>f <cmd>Telescope find_files hidden=true no_ignore=false<CR>
-nnoremap <leader>g <cmd>Telescope live_grep<CR>
-nnoremap <leader>b <cmd>Telescope buffers<CR>
-nnoremap <leader>h <cmd>Telescope help_tags<CR>
-nnoremap <leader>q :noh<CR>
-nnoremap giw :lua require('telescope.builtin').live_grep({ default_text = vim.fn.expand('<cword>') })<CR>
-nnoremap gi<S-W> :lua require('telescope.builtin').live_grep({ default_text = vim.fn.expand('<cWORD>') })<CR>
 vnoremap // y/<C-R>"<CR>
+nnoremap <leader>f :FZF<cr>
+nnoremap <leader>sh :History:<cr>
+nnoremap <leader>gs "+yiw:Ag <C-r>"<cr>
+nnoremap <leader>q :noh<cr>
 
 " copy and pasting
 vnoremap <C-y> "+y
@@ -249,21 +214,12 @@ function PasteWithoutIndent()
     :set nopaste
 endfunction
 
-" git
-" nnoremap <leader>gg :Git<CR>
-
-"" easy align
-
-" Start interactive EasyAlign in visual mode (e.g. vipga)
-xmap ga <Plug>(EasyAlign)
-
-" Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
-
 ""
 "" Commands
 ""
-command AC :execute "vsp " . eval('rails#buffer().alternate()')
+
+" strips white spaces on save
+autocmd BufWritePre * :%s/\s\+$//e
 
 " go
 autocmd FileType go nmap <leader>r <Plug>(go-run)
@@ -277,223 +233,3 @@ autocmd InsertLeave * :set relativenumber
 
 " automatically resize splits when resizing MacVim window
 autocmd VimResized * wincmd =
-
-" automatically creates the directory of the file being saved
-augroup CreatlDir
-    autocmd!
-    autocmd BufWritePre * call mkdir(expand("<afile>:p:h"), "p")
-augroup END
-
-lua << EOF
-require("ibl").setup {
-    indent = { char = "|" },
-    whitespace = { remove_blankline_trail = false },
-    scope = { enabled = false },
-}
-require("mason").setup()
-
-require("mason-lspconfig").setup({
-    ensure_installed = {"ruby_lsp", "solargraph", "vimls"},
-})
-
-
--- Set up lspconfig.
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
-require('lspconfig').solargraph.setup {
-  capabilities = capabilities,
-  settings = {
-    solargraph = {
-    },
-  },
-}
-
-require('lspconfig').ruby_lsp.setup {
-  capabilities = capabilities,
-  init_options = {
-    formatter = 'rubocop',
-    linters = { 'rubocop', 'reek', 'rails_best_practices' },
-  },
-}
-
-require('lspconfig').vimls.setup {
-  capabilities = capabilities
-}
-
--- Setup for nvim-cmp without snippets, with automatic completion
-local cmp = require'cmp'
-
-cmp.setup({
-    completion = {
-        autocomplete = { cmp.TriggerEvent.TextChanged },
-    },
-    mapping = cmp.mapping.preset.insert({
-        ['<C-j>'] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-        ['<C-k>'] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-    }),
-    sources = cmp.config.sources({
-      { name = 'nvim_lsp' },
-      { name = 'buffer' },
-    })
-})
-
-
--- You dont need to set any of these options. These are the default ones. Only
--- the loading is important
-require('telescope').setup {
-  defaults = {
-    path_display = {"truncate"},
-    layout_config = {
-      width = 0.9,
-      height = 0.9,
-      preview_width = 0.5,
-      preview_cutoff = 0,
-    },
-    mappings = {
-      i = {
-        ["<C-j>"] = require('telescope.actions').move_selection_next,  -- Move para o próximo item
-        ["<C-k>"] = require('telescope.actions').move_selection_previous,  -- Move para o item anterior
-      },
-      n = {
-        ["<C-j>"] = require('telescope.actions').move_selection_next,  -- Move para o próximo item no modo normal
-        ["<C-k>"] = require('telescope.actions').move_selection_previous,  -- Move para o item anterior no modo normal
-      },
-    },
-    file_ignore_patterns = {
-      ".git", "node_modules"
-   },
-  },
-  extensions = {
-    fzf = {
-      fuzzy = true,                    -- false will only do exact matching
-      override_generic_sorter = true,  -- override the generic sorter
-      override_file_sorter = true,     -- override the file sorter
-      case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
-    },
-    cmdline = {
-      -- Adjust telescope picker size and layout
-      picker = {
-        layout_config = {
-          width  = 120,
-          height = 25,
-        }
-      },
-      -- Adjust your mappings
-      mappings    = {
-        complete      = '<Tab>',
-        run_selection = '<C-CR>',
-        run_input     = '<CR>',
-        i = {
-            ["<C-j>"] = require('telescope.actions').move_selection_next,
-            ["<C-k>"] = require('telescope.actions').move_selection_previous,
-        },
-        n = {
-            ["<j>"] = require('telescope.actions').move_selection_next,
-            ["<k>"] = require('telescope.actions').move_selection_previous,
-            ["<C-j>"] = require('telescope.actions').move_selection_next,
-            ["<C-k>"] = require('telescope.actions').move_selection_previous,
-        },
-      },
-      -- Triggers any shell command using overseer.nvim (`:!`)
-      overseer    = {
-        enabled = true,
-      },
-    },
-  }
-}
-require('telescope').load_extension('fzf')
-
--- Set up tree
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "ruby", "javascript", "typescript", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
-  sync_install = false,
-  auto_install = true,
-}
-
-require("nvim-autopairs").setup {
-  disable_filetype = { "TelescopePrompt" , "vim" },
-}
-
-require('treesj').setup {
-  enable = true,
-  ignore = { "TelescopePrompt" },
-}
-
-require("tiny-inline-diagnostic").setup({
-	signs = {
-		left = "",
-		right = "",
-		diag = "●",
-		arrow = "➜",
-		up_arrow = "⬆",
-		vertical = " │",
-		vertical_end = " └",
-	},
-	hi = {
-		error = "DiagnosticError",
-		warn = "DiagnosticWarn",
-		info = "DiagnosticInfo",
-		hint = "DiagnosticHint",
-		arrow = "NonText",
-		background = "CursorLine", -- Can be a highlight or a hexadecimal color (#RRGGBB)
-		mixing_color = "None", -- Can be None or a hexadecimal color (#RRGGBB). Used to blend the background color with the diagnostic background color with another color.
-	},
-	blend = {
-		factor = 0.27,
-	},
-	options = {
-		-- Show the source of the diagnostic.
-		show_source = true,
-
-		-- Throttle the update of the diagnostic when moving cursor, in milliseconds.
-		-- You can increase it if you have performance issues.
-		-- Or set it to 0 to have better visuals.
-		throttle = 20,
-
-		-- The minimum length of the message, otherwise it will be on a new line.
-		softwrap = 15,
-
-		-- If multiple diagnostics are under the cursor, display all of them.
-		multiple_diag_under_cursor = true,
-
-		-- Enable diagnostic message on all lines.
-		multilines = false,
-
-		-- Show all diagnostics on the cursor line.
-		show_all_diags_on_cursorline = false,
-
-		overflow = {
-			-- Manage the overflow of the message.
-			--    - wrap: when the message is too long, it is then displayed on multiple lines.
-			--    - none: the message will not be truncated.
-			--    - oneline: message will be displayed entirely on one line.
-			mode = "wrap",
-		},
-
-		-- Format the diagnostic message.
-		-- Example:
-		-- format = function(diagnostic)
-		--     return diagnostic.message .. " [" .. diagnostic.source .. "]"
-		-- end,
-		format = nil,
-
-		--- Enable it if you want to always have message with `after` characters length.
-		break_line = {
-			enabled = false,
-			after = 30,
-		},
-
-		virt_texts = {
-			priority = 2048,
-		},
-
-		-- Filter by severity.
-		severity = {
-			vim.diagnostic.severity.ERROR,
-			vim.diagnostic.severity.WARN,
-			vim.diagnostic.severity.INFO,
-			vim.diagnostic.severity.HINT,
-		},
-	},
-})
-EOF
