@@ -51,6 +51,32 @@ return {
           },
           ["core.integrations.telescope"] = {},
           ["core.summary"] = {},
+
+          -- external plugins
+          ["external.conceal-wrap"] = {},
+          ["external.hop-extras"] = {},
+          ["external.templates"] = {
+            templates_dir = vim.fn.stdpath("config") .. "/templates/norg",
+            default_subcommand = "load",
+          },
+          ["external.capture"] = {
+            templates = {
+              {
+                description = "Example", -- What will be shown when invoked
+                name = "example", -- Name of the neorg-templates template.
+                file = "example", -- Name of the target file for the caputure. With or without `.norg` suffix
+                -- Can be a function. If a full filepath is given, thats where it will be save.
+                -- If just a filename, it will be saved into your workspace.
+
+                enabled = true,
+                datetree = true, -- Save the capture into a datetree. Default is false
+
+                headline = "Example", -- If set, will save the caputure under this headline
+                path = { "Save", "Here" }, -- List of headlines to traverse, then save the capture under
+                query = "(headline1) @neorg-capture-target", -- A query for where to place the capture. Must be named neorg-capture-target
+              },
+            },
+          },
         },
       })
 
@@ -101,6 +127,10 @@ return {
     dependencies = {
       { "nvim-lua/plenary.nvim" },
       { "nvim-neorg/neorg-telescope" },
+      { "pysan3/neorg-templates", dependencies = { "l3mon4d3/luasnip" } },
+      { "pritchett/neorg-capture" },
+      { "phenax/neorg-hop-extras" },
+      { "benlubas/neorg-conceal-wrap" },
     },
   },
   {
