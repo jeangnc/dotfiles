@@ -12,6 +12,3 @@ defaults write -g ApplePressAndHoldEnabled -bool false
 defaults write com.apple.dock no-bouncing -bool TRUE
 defaults write com.apple.dock appswitcher-all-displays -bool true # show app switcher on all displays
 ulimit -n 4096
-
-# aliases and local configs
-[ -f "$HOME/.zprofile.local" ] && source "$HOME/.zprofile.local"
