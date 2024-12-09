@@ -23,6 +23,7 @@ return {
             return string.sub(path, string.len(prefix) + 2, -1)
           end,
           results_path = "tmp/rspec.output",
+          formatter = "json",
         },
         ["neotest-minitest"] = {
           test_cmd = function()
