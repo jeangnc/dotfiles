@@ -5,6 +5,7 @@ return {
   {
     "nvim-neorg/neorg",
     lazy = true,
+    ft = "norg",
     cmd = "Neorg",
     keys = {
       { "<leader>owp", "<cmd>Neorg workspace personal<cr>", desc = "Personal" },
@@ -16,6 +17,14 @@ return {
       { "<leader>ojp", "<cmd>Neorg journal yesterday<cr>", desc = "Open previous day's journal" },
       { "<leader>ojc", "<cmd>Neorg journal today<cr>", desc = "Open current today's journal" },
       { "<leader>ojn", "<cmd>Neorg journal tomorrow<cr>", desc = "Open next day's journal" },
+    },
+    dependencies = {
+      { "nvim-lua/plenary.nvim" },
+      { "nvim-neorg/neorg-telescope" },
+      { "pysan3/neorg-templates", dependencies = { "l3mon4d3/luasnip" } },
+      { "pritchett/neorg-capture" },
+      { "phenax/neorg-hop-extras" },
+      { "benlubas/neorg-conceal-wrap" },
     },
     config = function()
       require("neorg").setup({
@@ -62,14 +71,13 @@ return {
           ["external.capture"] = {
             templates = {
               {
-                description = "Example", -- What will be shown when invoked
-                name = "example", -- Name of the neorg-templates template.
-                file = "example", -- Name of the target file for the caputure. With or without `.norg` suffix
+                enabled = nil,
+
+                description = "New incident", -- What will be shown when invoked
+                name = "incident", -- Name of the neorg-templates template.
+                file = "incident/new-incident", -- Name of the target file for the caputure. With or without `.norg` suffix
                 -- Can be a function. If a full filepath is given, thats where it will be save.
                 -- If just a filename, it will be saved into your workspace.
-
-                enabled = true,
-                datetree = true, -- Save the capture into a datetree. Default is false
 
                 headline = "Example", -- If set, will save the caputure under this headline
                 path = { "Save", "Here" }, -- List of headlines to traverse, then save the capture under
@@ -124,14 +132,6 @@ return {
         end,
       })
     end,
-    dependencies = {
-      { "nvim-lua/plenary.nvim" },
-      { "nvim-neorg/neorg-telescope" },
-      { "pysan3/neorg-templates", dependencies = { "l3mon4d3/luasnip" } },
-      { "pritchett/neorg-capture" },
-      { "phenax/neorg-hop-extras" },
-      { "benlubas/neorg-conceal-wrap" },
-    },
   },
   {
     "nvim-treesitter/nvim-treesitter",
