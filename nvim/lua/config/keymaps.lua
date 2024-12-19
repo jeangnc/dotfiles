@@ -19,8 +19,28 @@ vim.keymap.set("n", "<leader>sB", function()
   end)
 end, { desc = "Browser Search" })
 
+--
 -- buffers
-vim.keymap.set("n", "<leader>ba", "<cmd>bufdo bd<cr>", { desc = "Delete All Buffers", silent = true, noremap = true })
+--
+map("n", "<leader>bdd", function()
+  Snacks.bufdelete()
+end, { desc = "Delete Buffer" })
+
+map("n", "<leader>bdo", function()
+  Snacks.bufdelete.other()
+end, { desc = "Delete Other Buffers" })
+
+map("n", "<leader>bdD", "<cmd>:bd<cr>", { desc = "Delete Buffer and Window" })
+
+-- removes unused buffer keymaps
+unmap("n", "<leader><tab>d")
+unmap("n", "<leader>bd")
+unmap("n", "<leader>bl")
+unmap("n", "<leader>br")
+unmap("n", "<leader>bD")
+unmap("n", "<leader>bo")
+unmap("n", "<leader>bp")
+unmap("n", "<leader>bP")
 
 -- shortcut to live grep
 vim.keymap.set(
