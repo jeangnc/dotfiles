@@ -2,7 +2,6 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
--- opens noice notifications in a vertical split
 vim.keymap.set("n", "<leader>m", function()
   require("noice").cmd("pick")
 end, { desc = "Shows messages", silent = true, noremap = true })
@@ -41,6 +40,21 @@ unmap("n", "<leader>bD")
 unmap("n", "<leader>bo")
 unmap("n", "<leader>bp")
 unmap("n", "<leader>bP")
+
+--
+-- windows
+--
+map("n", "<leader>wc", "<cmd>close<cr>", { desc = "Close Window" })
+
+--
+-- tabs
+--
+
+map("n", "<leader><tab>c", "<cmd>tabclose<cr>", { desc = "Close tab" })
+
+--
+-- misc
+--
 
 -- shortcut to live grep
 vim.keymap.set(
