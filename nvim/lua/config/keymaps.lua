@@ -6,7 +6,7 @@ local map = vim.keymap.set
 local unmap = vim.api.nvim_del_keymap
 
 -- to speed up browser searches
-vim.keymap.set("n", "<leader>sB", function()
+map("n", "<leader>sB", function()
   vim.ui.input({ prompt = "Search query: " }, function(query)
     if query then
       local url = "https://www.google.com/search?q=" .. vim.fn.escape(query, " ")
