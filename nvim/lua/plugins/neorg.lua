@@ -23,8 +23,9 @@ return {
       { "nvim-neorg/neorg-telescope" },
       { "pysan3/neorg-templates", dependencies = { "l3mon4d3/luasnip" } },
       { "pritchett/neorg-capture" },
-      { "phenax/neorg-hop-extras" },
+      -- this adds a keymap "<enter>" that fails when not in a neorg file
       { "benlubas/neorg-conceal-wrap" },
+      { "benlubas/neorg-interim-ls" },
     },
     config = function()
       require("neorg").setup({
@@ -33,7 +34,9 @@ return {
           ["core.concealer"] = {},
           ["core.completion"] = {
             config = {
-              engine = "nvim-cmp",
+              engine = {
+                module_name = "external.lsp-completion",
+              },
             },
           },
           ["core.dirman"] = {
@@ -63,29 +66,46 @@ return {
 
           -- external plugins
           ["external.conceal-wrap"] = {},
-          ["external.hop-extras"] = {},
           ["external.templates"] = {
             templates_dir = vim.fn.stdpath("config") .. "/templates/norg",
             default_subcommand = "load",
           },
-          ["external.capture"] = {
-            templates = {
-              {
-                enabled = nil,
+          ["external.interim-ls"] = {
+            config = {
+              -- default config shown
+              completion_provider = {
+                -- Enable or disable the completion provider
+                enable = true,
 
-                description = "New incident", -- What will be shown when invoked
-                name = "incident", -- Name of the neorg-templates template.
-                file = "incident/new-incident", -- Name of the target file for the caputure. With or without `.norg` suffix
-                -- Can be a function. If a full filepath is given, thats where it will be save.
-                -- If just a filename, it will be saved into your workspace.
+                -- Show file contents as documentation when you complete a file name
+                documentation = true,
 
-                headline = "Example", -- If set, will save the caputure under this headline
-                path = { "Save", "Here" }, -- List of headlines to traverse, then save the capture under
-                query = "(headline1) @neorg-capture-target", -- A query for where to place the capture. Must be named neorg-capture-target
+                -- Try to complete categories provided by Neorg Query. Requires `benlubas/neorg-query`
+                categories = false,
               },
             },
           },
         },
+      })
+
+      vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(args)
+          local bufnr = args.buf
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
+          if not client then
+            return
+          end
+
+          if client.server_capabilities.completionProvider then
+            vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
+          end
+
+          local opts = { noremap = true, silent = true, buffer = bufnr }
+          vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+          vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+
+          -- ... your other lsp mappings
+        end,
       })
 
       vim.api.nvim_create_autocmd("Filetype", {
@@ -138,14 +158,6 @@ return {
     opts = {
       ensure_installed = { "norg" },
     },
-  },
-  {
-    "nvim-cmp",
-    opts = function(_, opts)
-      opts.sources = vim.list_extend(opts.sources or {}, {
-        name = "neorg",
-      })
-    end,
   },
   {
     "folke/which-key.nvim",
