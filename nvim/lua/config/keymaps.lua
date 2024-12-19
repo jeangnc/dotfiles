@@ -54,12 +54,7 @@ map("n", "<leader><tab>c", "<cmd>tabclose<cr>", { desc = "Close tab" })
 --
 
 -- shortcut to live grep
-vim.keymap.set(
-  "n",
-  "<leader>0",
-  "<cmd>Telescope live_grep<cr>",
-  { desc = "Grep (Root Dir)", silent = true, noremap = true }
-)
+map("n", "<leader>0", LazyVim.pick("live_grep"), { desc = "Grep (Root Dir)" })
 
 -- yanks to global clipboard
 vim.keymap.set({ "n", "v", "o" }, "<leader>y", '"+y', { desc = "Yank to Clipboard", silent = true, noremap = true })
