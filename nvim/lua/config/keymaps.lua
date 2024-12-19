@@ -57,5 +57,5 @@ map("n", "<leader><tab>c", "<cmd>tabclose<cr>", { desc = "Close tab" })
 map("n", "<leader>0", LazyVim.pick("live_grep"), { desc = "Grep (Root Dir)" })
 
 -- yanks to global clipboard
-vim.keymap.set({ "n", "v", "o" }, "<leader>y", '"+y', { desc = "Yank to Clipboard", silent = true, noremap = true })
-vim.keymap.set("n", "<leader>Y", ":%y+<cr>", { desc = "Yank File to Clipboard", silent = true, noremap = true })
+map({ "n", "v", "o" }, "<leader>y", '"+y', { desc = "Yank to Clipboard", silent = true, noremap = true })
+map("n", "<leader>Y", ":%y+<cr>", { desc = "Yank File to Clipboard", silent = true, noremap = true })
