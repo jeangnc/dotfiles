@@ -5,6 +5,15 @@ export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 export MANPAGER='nvim +Man!'
 export MANWIDTH=999
 
-# path
+##
+## path
+##
+
+# rbenv
 export PATH="$HOME/.rbenv/bin:$PATH"
+
+# node
 export PATH="/opt/homebrew/opt/node@22/bin:$PATH"
+
+#pipx
+export PATH="$HOME/.local/bin:$PATH" 
