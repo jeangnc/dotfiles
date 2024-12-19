@@ -1,3 +1,4 @@
+-- changes the diagnostics style
 vim.api.nvim_create_autocmd("CursorHold", {
   callback = function()
     local opts = {
@@ -13,18 +14,19 @@ vim.api.nvim_create_autocmd("CursorHold", {
 })
 
 return {
-  {
-    "nvim-lspconfig",
-    opts = {
-      diagnostics = {
-        virtual_text = false,
-        float = {
-          source = "always",
-          border = "rounded",
-          focusable = false,
-          style = "minimal",
-          anchor = "SW",
-        },
+  "nvim-lspconfig",
+  dependencies = {
+    "saghen/blink.cmp",
+  },
+  opts = {
+    diagnostics = {
+      virtual_text = false,
+      float = {
+        source = "always",
+        border = "rounded",
+        focusable = false,
+        style = "minimal",
+        anchor = "SW",
       },
     },
   },
