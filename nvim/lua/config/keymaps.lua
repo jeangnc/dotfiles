@@ -6,6 +6,8 @@
 vim.keymap.set("n", "<leader>m", function()
   require("noice").cmd("pick")
 end, { desc = "Shows messages", silent = true, noremap = true })
+local map = vim.keymap.set
+local unmap = vim.api.nvim_del_keymap
 
 -- to speed up browser searches
 vim.keymap.set("n", "<leader>sB", function()
