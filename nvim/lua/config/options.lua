@@ -7,3 +7,6 @@ vim.opt.signcolumn = "yes:2"
 
 -- disables integration with global clipboard
 vim.opt.clipboard = ""
+
+--
+vim.g.snacks_animate = false
