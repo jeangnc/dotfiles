@@ -9,4 +9,5 @@ vim.opt.signcolumn = "yes:2"
 vim.opt.clipboard = ""
 
 --
+vim.g.lazyvim_blink_main = true
 vim.g.snacks_animate = false
