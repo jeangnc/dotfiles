@@ -4,6 +4,7 @@ return {
   dependencies = {
     "rafamadriz/friendly-snippets",
   },
+  version = "v0.*",
   opts = {
     keymap = {
       ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
