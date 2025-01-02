@@ -51,7 +51,7 @@ return {
           },
           ["core.journal"] = {
             config = {
-              journal_folder = ".journalfiles",
+              journal_folder = "journalfiles",
               strategy = "flat",
               default_workspace = "main",
             },
