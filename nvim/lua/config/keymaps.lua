@@ -27,7 +27,6 @@ map("n", "<leader>bdo", function()
 end, { desc = "Delete Other Buffers" })
 
 map("n", "<leader>bdD", "<cmd>:bd<cr>", { desc = "Delete Buffer and Window" })
-
 map("n", "<leader>1", "<cmd>FzfLua buffers sort_mru=true sort_lastused=true<cr>", { desc = "Shows all open buffers" })
 
 -- removes unused buffer keymaps
