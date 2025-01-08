@@ -20,10 +20,5 @@ return {
       ["<Tab>"] = { "snippet_forward", "fallback" },
       ["<S-Tab>"] = { "snippet_backward", "fallback" },
     },
-    completion = {
-      list = {
-        selection = "manual",
-      },
-    },
   },
 }
