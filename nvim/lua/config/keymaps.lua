@@ -18,6 +18,8 @@ end, { desc = "Browser Search" })
 --
 -- buffers
 --
+map("n", "<leader>bda", "<cmd>:bufdo bwipeout<cr>", { desc = "Delete All Buffers" })
+
 map("n", "<leader>bdd", function()
   Snacks.bufdelete()
 end, { desc = "Delete Buffer" })
