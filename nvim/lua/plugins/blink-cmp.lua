@@ -4,9 +4,13 @@ return {
   dependencies = {
     "rafamadriz/friendly-snippets",
   },
-  version = "v0.*",
+  version = "*",
+
+  ---@module 'blink.cmp'
+  ---@type blink.cmp.Config
   opts = {
     keymap = {
+      ["<Cr>"] = {},
       ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
       ["<C-e>"] = { "hide" },
       ["<C-l>"] = { "select_and_accept" },
@@ -20,5 +24,17 @@ return {
       ["<Tab>"] = { "snippet_forward", "fallback" },
       ["<S-Tab>"] = { "snippet_backward", "fallback" },
     },
+    completion = {
+      ghost_text = {
+        enabled = true,
+      },
+      list = {
+        selection = {
+          preselect = true,
+          auto_insert = false,
+        },
+      },
+    },
   },
+  opts_extend = { "sources.default" },
 }
