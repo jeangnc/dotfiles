@@ -118,18 +118,6 @@ return {
             { desc = "Toggle concealer", buffer = true }
           )
           vim.keymap.set(
-            { "n", "v", "o" },
-            "]h",
-            "<Plug>(neorg.treesitter.next.heading)",
-            { desc = "Go to next heading", buffer = true }
-          )
-          vim.keymap.set(
-            { "n", "v", "o" },
-            "[h",
-            "<Plug>(neorg.treesitter.previous.heading)",
-            { desc = "Go to next heading", buffer = true }
-          )
-          vim.keymap.set(
             { "n" },
             "<localleader>am",
             "<cmd>Neorg inject-metadata<cr>",
