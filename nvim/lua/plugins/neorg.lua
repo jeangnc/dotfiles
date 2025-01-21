@@ -57,6 +57,7 @@ return {
           },
           ["core.dirman"] = {
             config = {
+              use_popup = false,
               workspaces = {
                 main = "~/.orgfiles/main",
                 work = "~/.orgfiles/work",
@@ -77,7 +78,6 @@ return {
               default_keybinds = true,
             },
           },
-          ["core.integrations.telescope"] = {},
           ["core.summary"] = {},
 
           -- external plugins
@@ -133,12 +133,20 @@ return {
             "<cmd>Neorg toggle-concealer<cr>",
             { desc = "Toggle concealer", buffer = true }
           )
+
+          vim.keymap.set(
+            { "n", "v", "o" },
+            "<F12>",
+            "<cmd>Neorg toggle-concealer<cr>",
+            { desc = "Toggle concealer", buffer = true }
+          )
           vim.keymap.set(
             { "n" },
             "<localleader>am",
             "<cmd>Neorg inject-metadata<cr>",
             { desc = "Inject metadata", buffer = true }
           )
+
           vim.keymap.set({ "n" }, "<A-Enter>", function()
             vim.cmd("startinsert")
             vim.cmd('lua require("neorg.modules.core.itero.module").public.next_iteration_cr()')
