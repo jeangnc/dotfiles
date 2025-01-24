@@ -6,6 +6,11 @@ alias gbd='function _gbd() { git branch -d "$1" && git push origin --delete "$1"
 # "git update"
 alias gu='git checkout -q main && git pull && git for-each-ref refs/heads/ "--format=%(refname:short)" | while read branch; do mergeBase=$(git merge-base main $branch) && [[ $(git cherry main $(git commit-tree $(git rev-parse "$branch^{tree}") -p $mergeBase -m _)) == "-"* ]] && git branch -D $branch; done'
 
+# github
+alias ghpo='gh pr view --web'
+alias ghpc='gh pr checks --json name,state,link'
+alias ghpcf='gh pr checks --json state,link --jq ".[] | select(.state==\"FAILURE\") | .link"'
+
 # editor
 alias vi="nvim"
 alias vim="nvim"
@@ -16,3 +21,6 @@ alias je="jq -c '.[]'"
 
 # misc
 alias dof="~/.dotfiles"
+
+alias o="open"
+alias xo="xargs open"

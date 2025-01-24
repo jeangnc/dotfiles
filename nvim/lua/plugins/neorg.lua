@@ -52,7 +52,7 @@ return {
       {
         "<leader>oE",
         function()
-          fzf_explore(current_workspace_dir())
+          fzf_explore(current_workspace_dir(), "**/journalfiles/*")
         end,
         desc = "Explore Neorg files (workspace)",
       },
