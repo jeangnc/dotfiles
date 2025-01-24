@@ -1,22 +1,36 @@
 -- required to compile the norg treesitter parser
 require("nvim-treesitter.install").compilers = { "gcc-14" }
 
-local function fzf_explore(folder)
-  require("fzf-lua").files({ prompt = "Neorg » ", cwd = folder })
-  vim.cmd("chdir " .. folder)
-end
-
--- https://github.com/archaict/fzf-lua-extensions
-local function org_files()
+local function current_workspace_dir()
   local dirman = require("neorg").modules.get_module("core.dirman")
   local current_workspace = dirman.get_current_workspace()
 
   if current_workspace then
-    local workspace_folder = current_workspace[2]
-    fzf_explore(tostring(workspace_folder))
-  else
-    print("No workspace found")
+    return tostring(current_workspace[2])
   end
+end
+
+local function fzf_explore(folder, exclude)
+  if not folder then
+    return
+  end
+
+  local opts = { prompt = "Neorg » ", cwd = folder }
+  if exclude then
+    if type(exclude) ~= "table" then
+      exclude = { exclude }
+    end
+    opts["fd_opts"] = table.concat(
+      vim.tbl_map(function(pattern)
+        return "--type f --follow --exclude '" .. pattern .. "'"
+      end, exclude),
+      " "
+    )
+  end
+
+  print(vim.inspect(opts))
+  require("fzf-lua").files(opts)
+  vim.cmd("chdir " .. folder)
 end
 
 return {
@@ -28,10 +42,31 @@ return {
     keys = {
       { "<leader>owp", "<cmd>Neorg workspace personal<cr>", desc = "Personal" },
       { "<leader>oww", "<cmd>Neorg workspace work<cr>", desc = "Work" },
-      { "<leader>oe", org_files, desc = "Explore Neorg files" },
+      {
+        "<leader>oe",
+        function()
+          fzf_explore("~/.orgfiles", "**/journalfiles/*")
+        end,
+        desc = "Explore Neorg files (root dir)",
+      },
+      {
+        "<leader>oE",
+        function()
+          fzf_explore(current_workspace_dir())
+        end,
+        desc = "Explore Neorg files (workspace)",
+      },
       { "<leader>oi", "<cmd>Neorg index<cr>", desc = "Opens workspace's index file" },
       { "<leader>or", "<cmd>Neorg return<cr>", desc = "Closes all Neorg-related buffers" },
       { "<leader>on", "<Plug>(neorg.dirman.new-note)", desc = "Creates a new norg file" },
+      {
+        "<leader>oje",
+        function()
+          fzf_explore(current_workspace_dir() .. "/**/journalfiles")
+        end,
+        desc = "Explore journal files (workspace)",
+      },
+      { "<leader>ojp", "<cmd>Neorg journal yesterday<cr>", desc = "Open previous day's journal" },
       { "<leader>ojp", "<cmd>Neorg journal yesterday<cr>", desc = "Open previous day's journal" },
       { "<leader>ojc", "<cmd>Neorg journal today<cr>", desc = "Open current today's journal" },
       { "<leader>ojn", "<cmd>Neorg journal tomorrow<cr>", desc = "Open next day's journal" },
