@@ -28,7 +28,6 @@ local function fzf_explore(folder, exclude)
     )
   end
 
-  print(vim.inspect(opts))
   require("fzf-lua").files(opts)
   vim.cmd("chdir " .. folder)
 end
