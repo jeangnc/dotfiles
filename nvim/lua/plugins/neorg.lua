@@ -149,12 +149,6 @@ return {
           )
 
           vim.keymap.set(
-            { "n", "v", "o" },
-            "<F12>",
-            "<cmd>Neorg toggle-concealer<cr>",
-            { desc = "Toggle concealer", buffer = true }
-          )
-          vim.keymap.set(
             { "n" },
             "<localleader>am",
             "<cmd>Neorg inject-metadata<cr>",
@@ -165,16 +159,6 @@ return {
             vim.cmd("startinsert")
             vim.cmd('lua require("neorg.modules.core.itero.module").public.next_iteration_cr()')
           end, { desc = "", buffer = true })
-
-          -- indents the file after leaving insert mode
-          -- vim.api.nvim_create_autocmd("InsertLeave", {
-          --   buffer = 0, -- Limit this autocmd to the current buffer
-          --   callback = function()
-          --     local current_pos = vim.api.nvim_win_get_cursor(0) -- Get the current cursor position
-          --     vim.cmd("silent normal! gg=G") -- Indent the entire file
-          --     vim.api.nvim_win_set_cursor(0, current_pos) -- Restore the cursor position
-          --   end,
-          -- })
         end,
       })
     end,
