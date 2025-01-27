@@ -8,8 +8,10 @@ local group = vim.api.nvim_create_augroup("autoview", { clear = true })
 vim.api.nvim_create_autocmd({ "BufWinLeave", "BufWritePost" }, {
   group = group,
   pattern = "*",
-  callback = function()
-    vim.cmd.mkview({ mods = { emsg_silent = true } })
+  callback = function(event)
+    if vim.b[event.buf].view then
+      vim.cmd.mkview({ mods = { emsg_silent = true } })
+    end
   end,
 })
 
@@ -17,10 +19,11 @@ vim.api.nvim_create_autocmd({ "BufWinLeave", "BufWritePost" }, {
 vim.api.nvim_create_autocmd("BufReadPost", {
   group = group,
   pattern = "*",
-  callback = function()
+  callback = function(event)
     -- defers execution, otherwise doesn't work when the file is opened
-    vim.defer_fn(function()
-      vim.cmd.loadview({ mods = { emsg_silent = true } })
-    end, 0)
+    --vim.defer_fn(function()
+    vim.cmd.loadview({ mods = { emsg_silent = true } })
+    vim.b[event.buf].view = true
+    --end, 0)
   end,
 })
