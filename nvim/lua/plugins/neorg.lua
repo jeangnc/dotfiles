@@ -138,26 +138,6 @@ return {
         },
       })
 
-      vim.api.nvim_create_autocmd("LspAttach", {
-        callback = function(args)
-          local bufnr = args.buf
-          local client = vim.lsp.get_client_by_id(args.data.client_id)
-          if not client then
-            return
-          end
-
-          if client.server_capabilities.completionProvider then
-            vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
-          end
-
-          local opts = { noremap = true, silent = true, buffer = bufnr }
-          vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-          vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-
-          -- ... your other lsp mappings
-        end,
-      })
-
       vim.api.nvim_create_autocmd("Filetype", {
         pattern = "norg",
         callback = function()
@@ -187,14 +167,14 @@ return {
           end, { desc = "", buffer = true })
 
           -- indents the file after leaving insert mode
-          vim.api.nvim_create_autocmd("InsertLeave", {
-            buffer = 0, -- Limit this autocmd to the current buffer
-            callback = function()
-              local current_pos = vim.api.nvim_win_get_cursor(0) -- Get the current cursor position
-              vim.cmd("silent normal! gg=G") -- Indent the entire file
-              vim.api.nvim_win_set_cursor(0, current_pos) -- Restore the cursor position
-            end,
-          })
+          -- vim.api.nvim_create_autocmd("InsertLeave", {
+          --   buffer = 0, -- Limit this autocmd to the current buffer
+          --   callback = function()
+          --     local current_pos = vim.api.nvim_win_get_cursor(0) -- Get the current cursor position
+          --     vim.cmd("silent normal! gg=G") -- Indent the entire file
+          --     vim.api.nvim_win_set_cursor(0, current_pos) -- Restore the cursor position
+          --   end,
+          -- })
         end,
       })
     end,
