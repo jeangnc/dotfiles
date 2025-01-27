@@ -21,9 +21,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   pattern = "*",
   callback = function(event)
     -- defers execution, otherwise doesn't work when the file is opened
-    --vim.defer_fn(function()
     vim.cmd.loadview({ mods = { emsg_silent = true } })
     vim.b[event.buf].view = true
-    --end, 0)
   end,
 })
