@@ -13,8 +13,12 @@ return {
       ["<Cr>"] = {},
       ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
       ["<C-e>"] = { "hide" },
-      ["<C-l>"] = { "select_and_accept" },
 
+      ["<C-l>"] = { "select_and_accept", "fallback" },
+      ["<C-h>"] = { "hide", "fallback" },
+
+      ["<C-n>"] = { "select_next", "fallback" },
+      ["<C-p>"] = { "select_prev", "fallback" },
       ["<C-k>"] = { "select_prev", "fallback" },
       ["<C-j>"] = { "select_next", "fallback" },
 
