@@ -10,23 +10,16 @@ local function current_workspace_dir()
   end
 end
 
-local function fzf_explore(folder, exclude)
+local function fzf_explore(folder)
   if not folder then
     return
   end
 
-  local opts = { prompt = "Neorg » ", cwd = folder }
-  if exclude then
-    if type(exclude) ~= "table" then
-      exclude = { exclude }
-    end
-    opts["fd_opts"] = table.concat(
-      vim.tbl_map(function(pattern)
-        return "--type f --follow --exclude '" .. pattern .. "'"
-      end, exclude),
-      " "
-    )
-  end
+  local opts = {
+    prompt = "Neorg » ",
+    fd_opts = "--ignore --no-hidden --type=f",
+    cwd = folder,
+  }
 
   require("fzf-lua").files(opts)
   vim.cmd("chdir " .. folder)
@@ -44,14 +37,14 @@ return {
       {
         "<leader>oe",
         function()
-          fzf_explore("~/.orgfiles", "**/journalfiles/*")
+          fzf_explore("~/.orgfiles")
         end,
         desc = "Explore Neorg files (root dir)",
       },
       {
         "<leader>oE",
         function()
-          fzf_explore(current_workspace_dir(), "**/journalfiles/*")
+          fzf_explore(current_workspace_dir())
         end,
         desc = "Explore Neorg files (workspace)",
       },
@@ -61,7 +54,7 @@ return {
       {
         "<leader>oje",
         function()
-          fzf_explore(current_workspace_dir() .. "/**/journalfiles")
+          fzf_explore(current_workspace_dir() .. "/**/.journalfiles")
         end,
         desc = "Explore journal files (workspace)",
       },
@@ -102,7 +95,7 @@ return {
           },
           ["core.journal"] = {
             config = {
-              journal_folder = "journalfiles",
+              journal_folder = ".journalfiles",
               strategy = "flat",
               default_workspace = "main",
             },
