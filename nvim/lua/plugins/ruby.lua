@@ -24,13 +24,11 @@ return {
           enabled = true,
           mason = false,
           cmd = { vim.fn.expand("~/.rbenv/shims/ruby-lsp") },
-          -- cmd = { "bundle", "exec", "ruby-lsp" },
         },
 
         rubocop = {
           mason = false,
           enabled = true,
-          -- cmd = { vim.fn.expand("~/.rbenv/shims/rubocop", "--lsp", "--force-exclusion") },
           cmd = { "bundle", "exec", "rubocop", "--lsp", "--force-exclusion" },
           init_options = {
             lint = {
