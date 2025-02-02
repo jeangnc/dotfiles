@@ -10,7 +10,6 @@ return {
     "williamboman/mason.nvim",
     opts = {
       ensure_installed = {
-        "ruby-lsp",
         "erb-formatter",
         "erb-lint",
       },
