@@ -14,10 +14,10 @@ return {
       { "<localleader>psw", "<cmd>TimerStart 25m Work<cr>", desc = "Start 25m Work timer" },
       { "<localleader>psb", "<cmd>TimerStart 5m Short Break<cr>", desc = "Start 5m Short Break timer" },
       { "<localleader>psl", "<cmd>TimerStart 15m Long Break<cr>", desc = "Start 15m Long Break timer" },
-      { "<localleader>pr", "<cmd>TimerResume<cr>", desc = "Resume the timer" },
-      { "<localleader>pp", "<cmd>TimerPause<cr>", desc = "Pause the timer" },
-      { "<localleader>pc", "<cmd>TimerStop<cr>", desc = "Cancel session" },
-      { "<localleader>ph", "<cmd>TimerHide<cr>", desc = "Hide timer" },
+      { "<localleader>ptr", "<cmd>TimerResume<cr>", desc = "Resume the timer" },
+      { "<localleader>ptp", "<cmd>TimerPause<cr>", desc = "Pause the timer" },
+      { "<localleader>ptc", "<cmd>TimerStop<cr>", desc = "Cancel session" },
+      { "<localleader>pth", "<cmd>TimerHide<cr>", desc = "Hide timer" },
     },
     dependencies = {
       "rcarriga/nvim-notify",
@@ -111,6 +111,7 @@ return {
         {
           { "<localleader>p", group = "pomodoro", icon = "󱎫 " },
           { "<localleader>ps", group = "start", icon = "󱎫 " },
+          { "<localleader>pt", group = "timer", icon = "󱎫 " },
         },
       },
     },
