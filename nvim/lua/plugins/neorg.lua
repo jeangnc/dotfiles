@@ -22,7 +22,6 @@ local function fzf_explore(folder)
   }
 
   require("fzf-lua").files(opts)
-  vim.cmd("chdir " .. folder)
 end
 
 return {
@@ -65,7 +64,6 @@ return {
     },
     dependencies = {
       { "nvim-lua/plenary.nvim" },
-      { "pysan3/neorg-templates", dependencies = { "l3mon4d3/luasnip" } },
       { "pritchett/neorg-capture" },
       { "benlubas/neorg-conceal-wrap" },
       { "benlubas/neorg-interim-ls" },
@@ -109,25 +107,21 @@ return {
 
           -- external plugins
           ["external.conceal-wrap"] = {},
-          ["external.templates"] = {
-            templates_dir = vim.fn.stdpath("config") .. "/templates/norg",
-            default_subcommand = "load",
-          },
-          ["external.interim-ls"] = {
-            config = {
-              -- default config shown
-              completion_provider = {
-                -- Enable or disable the completion provider
-                enable = true,
-
-                -- Show file contents as documentation when you complete a file name
-                documentation = true,
-
-                -- Try to complete categories provided by Neorg Query. Requires `benlubas/neorg-query`
-                categories = false,
-              },
-            },
-          },
+          -- ["external.interim-ls"] = {
+          --   config = {
+          --     -- default config shown
+          --     completion_provider = {
+          --       -- Enable or disable the completion provider
+          --       enable = true,
+          --
+          --       -- Show file contents as documentation when you complete a file name
+          --       documentation = true,
+          --
+          --       -- Try to complete categories provided by Neorg Query. Requires `benlubas/neorg-query`
+          --       categories = false,
+          --     },
+          --   },
+          -- },
         },
       })
 
