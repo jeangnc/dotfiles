@@ -1,3 +1,5 @@
+local actions = require("fzf-lua").actions
+
 return {
   "ibhagwan/fzf-lua",
   lazy = true,
@@ -30,6 +32,13 @@ return {
       rg_glob = true, -- enable glob parsing
       glob_flag = "--iglob", -- case insensitive globs
       glob_separator = "%s|", -- query separator pattern (lua): ' |'
+    },
+
+    actions = {
+      files = {
+        true,
+        ["ctrl-t"] = actions.file_tabedit,
+      },
     },
   },
 }
