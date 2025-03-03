@@ -25,3 +25,14 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     vim.b[event.buf].view = true
   end,
 })
+
+vim.api.nvim_create_autocmd({ "InsertEnter", "InsertLeave" }, {
+  pattern = "*",
+  callback = function(event)
+    if event.event == "InsertEnter" then
+      vim.wo.relativenumber = true
+    else
+      vim.wo.relativenumber = false
+    end
+  end,
+})
