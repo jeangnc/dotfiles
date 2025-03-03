@@ -22,5 +22,6 @@ export PATH="$HOME/.local/bin:$PATH"
 export QLTY_INSTALL="$HOME/.qlty"
 export PATH="$QLTY_INSTALL/bin:$PATH"
 
-# cargo
-. "$HOME/.cargo/env"
+# ruby
+# enables YJIT
+export RUBY_YJIT_ENABLE=1
