@@ -2,11 +2,11 @@
 -- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
 -- Add any additional autocmds here
 
-local group = vim.api.nvim_create_augroup("autoview", { clear = true })
+local autoview = vim.api.nvim_create_augroup("autoview", { clear = true })
 
 -- creates a view when leading the file
 vim.api.nvim_create_autocmd({ "BufWinLeave", "BufWritePost" }, {
-  group = group,
+  group = autoview,
   pattern = "*",
   callback = function(event)
     if vim.b[event.buf].view then
@@ -17,7 +17,7 @@ vim.api.nvim_create_autocmd({ "BufWinLeave", "BufWritePost" }, {
 
 -- reads view after buffer is readed
 vim.api.nvim_create_autocmd("BufReadPost", {
-  group = group,
+  group = autoview,
   pattern = "*",
   callback = function(event)
     -- defers execution, otherwise doesn't work when the file is opened
@@ -26,13 +26,20 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "InsertEnter", "InsertLeave" }, {
+local linenumber_group = vim.api.nvim_create_augroup("toggle_line_number", { clear = true })
+
+vim.api.nvim_create_autocmd("InsertEnter", {
+  group = linenumber_group,
   pattern = "*",
-  callback = function(event)
-    if event.event == "InsertEnter" then
-      vim.wo.relativenumber = true
-    else
-      vim.wo.relativenumber = false
-    end
+  callback = function()
+    vim.wo.relativenumber = true
+  end,
+})
+
+vim.api.nvim_create_autocmd("InsertLeave", {
+  group = linenumber_group,
+  pattern = "*",
+  callback = function()
+    vim.wo.relativenumber = false
   end,
 })
