@@ -1,6 +1,6 @@
 return {
   "3rd/image.nvim",
-  build = false, -- so that it doesn't build the rock https://github.com/3rd/image.nvim/issues/91#issuecomment-2453430239
+  build = false,
   config = function()
     require("image").setup({
       backend = "kitty",
@@ -8,13 +8,24 @@ return {
       integrations = {
         neorg = {
           enabled = true,
+          clear_in_insert_mode = true,
+          download_remote_images = true,
+          only_render_image_at_cursor = true,
           filetypes = { "norg" },
         },
+        markdown = {
+          enabled = true,
+          clear_in_insert_mode = true,
+          download_remote_images = true,
+          only_render_image_at_cursor = true,
+          filetypes = { "markdown", "vimwiki" }, -- markdown extensions (ie. quarto) can go here
+        },
       },
-
-      window_overlap_clear_enabled = true,
-      editor_only_render_when_focused = true, -- auto show/hide images when the editor gains/looses focus
-      tmux_show_only_in_active_window = true,
+      max_width = nil,
+      max_height = nil,
+      max_width_window_percentage = nil,
+      max_height_window_percentage = nil,
+      kitty_method = "normal",
     })
   end,
 }
