@@ -73,6 +73,7 @@ return {
         load = {
           ["core.defaults"] = {},
           ["core.concealer"] = {},
+          ["core.export"] = {},
           ["core.completion"] = {
             config = {
               engine = {
