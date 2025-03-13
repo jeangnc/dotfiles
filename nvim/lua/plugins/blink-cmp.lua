@@ -3,12 +3,16 @@ return {
   lazy = false, -- lazy loading handled internally
   dependencies = {
     "rafamadriz/friendly-snippets",
+    "kaiser-Yang/blink-cmp-avante",
   },
   version = "*",
 
   ---@module 'blink.cmp'
   ---@type blink.cmp.Config
   opts = {
+    sources = {
+      default = { "avante", "lsp", "path", "snippets", "buffer" },
+    },
     keymap = {
       ["<Cr>"] = {},
       ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
@@ -40,5 +44,4 @@ return {
       },
     },
   },
-  opts_extend = { "sources.default" },
 }
