@@ -131,6 +131,9 @@ return {
         callback = function()
           vim.opt_local.textwidth = 100
           vim.opt_local.colorcolumn = "100"
+
+          vim.keymap.set({ "n", "v", "o" }, "<C-E>", "<cmd>Neorg toc<cr>", { desc = "Toggle ToC", buffer = true })
+
           vim.keymap.set(
             { "n", "v", "o" },
             "<F12>",
