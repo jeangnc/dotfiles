@@ -11,3 +11,7 @@ vim.opt.clipboard = ""
 --
 vim.g.lazyvim_blink_main = true
 vim.g.snacks_animate = false
+
+-- Highlight the 80th and 100th columns
+-- vim.opt.colorcolumn = "80,100"
+vim.cmd([[highlight ColorColumn ctermbg=lightgrey guibg=lightgrey]])
