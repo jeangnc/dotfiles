@@ -32,7 +32,7 @@ vim.api.nvim_create_autocmd("InsertEnter", {
   group = linenumber_group,
   pattern = "*",
   callback = function()
-    vim.wo.relativenumber = true
+    vim.wo.relativenumber = false
   end,
 })
 
@@ -40,6 +40,6 @@ vim.api.nvim_create_autocmd("InsertLeave", {
   group = linenumber_group,
   pattern = "*",
   callback = function()
-    vim.wo.relativenumber = false
+    vim.wo.relativenumber = true
   end,
 })
