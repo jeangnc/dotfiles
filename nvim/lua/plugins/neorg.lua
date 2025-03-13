@@ -129,6 +129,8 @@ return {
       vim.api.nvim_create_autocmd("Filetype", {
         pattern = "norg",
         callback = function()
+          vim.opt_local.textwidth = 100
+          vim.opt_local.colorcolumn = "100"
           vim.keymap.set(
             { "n", "v", "o" },
             "<F12>",
