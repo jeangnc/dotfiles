@@ -10,6 +10,7 @@ alias gu='git checkout -q main && git pull && git for-each-ref refs/heads/ "--fo
 alias ghpo='gh pr view --web'
 alias ghpc='gh pr checks --json name,state,link'
 alias ghpcf='gh pr checks --json state,link --jq ".[] | select(.state==\"FAILURE\") | .link"'
+alias ghps='gh pr status'
 
 # editor
 alias vi="nvim"
@@ -24,3 +25,4 @@ alias dof="~/.dotfiles"
 
 alias o="open"
 alias xo="xargs open"
+alias oi="kitten icat"
