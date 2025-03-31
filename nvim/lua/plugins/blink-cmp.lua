@@ -3,7 +3,6 @@ return {
   lazy = false, -- lazy loading handled internally
   dependencies = {
     "rafamadriz/friendly-snippets",
-    "kaiser-Yang/blink-cmp-avante",
   },
   version = "*",
 
@@ -11,7 +10,7 @@ return {
   ---@type blink.cmp.Config
   opts = {
     sources = {
-      default = { "avante", "lsp", "path", "snippets", "buffer" },
+      default = { "lsp", "path", "snippets", "buffer" },
     },
     keymap = {
       ["<Cr>"] = {},
