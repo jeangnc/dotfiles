@@ -18,12 +18,6 @@ return {
     -- optional
     "ibhagwan/fzf-lua",
     "zbirenbaum/copilot.lua",
-    -- "kaiser-Yang/blink-cmp-avante",
-    {
-      -- Make sure to set this up properly if you have lazy=true
-      "MeanderingProgrammer/render-markdown.nvim",
-      opts = { file_types = { "markdown", "Avante" } },
-      ft = { "markdown", "Avante" },
-    },
+    "meanderingprogrammer/render-markdown.nvim",
   },
 }
