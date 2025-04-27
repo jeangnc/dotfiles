@@ -41,6 +41,22 @@ return {
         width = 200,
         height = 30,
       },
+      zen = {
+        enter = true,
+        fixbuf = false,
+        minimal = true,
+        width = 120,
+        height = 0,
+        backdrop = { transparent = false, blend = 40 },
+        keys = { q = false },
+        zindex = 40,
+        wo = {
+          winhighlight = "NormalFloat:Normal",
+        },
+        w = {
+          snacks_main = true,
+        },
+      },
     },
 
     terminal = {
