@@ -26,3 +26,7 @@ alias dof="~/.dotfiles"
 alias o="open"
 alias xo="xargs open"
 alias oi="kitten icat"
+
+# python
+alias pip="python3 -m pip"
+alias venv="python3 -m venv .venv && source .venv/bin/activate"
