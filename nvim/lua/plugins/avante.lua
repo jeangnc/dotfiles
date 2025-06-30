@@ -7,6 +7,7 @@ return {
   },
   opts = {
     mode = "agentic",
+    provider = "claude",
     behaviour = {
       auto_suggestions = false, -- Experimental stage
       auto_set_highlight_group = true,
@@ -15,6 +16,8 @@ return {
       support_paste_from_clipboard = false,
       minimize_diff = true, -- Whether to remove unchanged lines when applying a code block
       enable_token_counting = true, -- Whether to enable token counting. Default to true.
+      enable_cursor_planning_mode = true,
+      enable_claude_text_editor_tool_mode = true,
     },
     mappings = {
       diff = {
