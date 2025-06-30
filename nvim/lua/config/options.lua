@@ -18,3 +18,7 @@ vim.cmd([[highlight ColorColumn ctermbg=lightgrey guibg=lightgrey]])
 
 -- recommended by avante
 vim.opt.laststatus = 3
+
+-- uses zsh and loads aliases
+vim.opt.shell = "/bin/zsh"
+vim.opt.shellcmdflag = "-ic"
