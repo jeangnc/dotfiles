@@ -9,3 +9,4 @@ cover.out
 *.irb_history
 
 .env
+.claude
