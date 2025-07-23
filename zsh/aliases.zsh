@@ -30,3 +30,5 @@ alias oi="kitten icat"
 # python
 alias pip="python3 -m pip"
 alias venv="python3 -m venv .venv && source .venv/bin/activate"
+
+alias wt="CLICOLOR_FORCE=1 watch --color"
