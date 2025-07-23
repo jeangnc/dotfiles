@@ -10,6 +10,21 @@ local function current_workspace_dir()
   end
 end
 
+local function neotree_explore(folder)
+  if not folder then
+    return
+  end
+
+  local expanded_path = vim.fn.expand(folder)
+
+  require("neo-tree.command").execute({
+    action = "focus",
+    source = "filesystem",
+    position = "left",
+    dir = expanded_path,
+  })
+end
+
 local function fzf_explore(folder)
   if not folder then
     return
@@ -24,6 +39,20 @@ local function fzf_explore(folder)
   require("fzf-lua").files(opts)
 end
 
+local function fzf_grep(folder)
+  if not folder then
+    return
+  end
+
+  local opts = {
+    prompt = "Neorg » ",
+    fd_opts = "--ignore --no-hidden --type=f",
+    cwd = folder,
+  }
+
+  require("fzf-lua").live_grep(opts)
+end
+
 return {
   {
     "nvim-neorg/neorg",
@@ -36,16 +65,23 @@ return {
       {
         "<leader>oe",
         function()
-          fzf_explore("~/.orgfiles")
+          neotree_explore(current_workspace_dir())
         end,
-        desc = "Explore Neorg files (root dir)",
+        desc = "Explore Neorg files (workspace)",
       },
       {
-        "<leader>oE",
+        "<leader>o<space>",
         function()
           fzf_explore(current_workspace_dir())
         end,
-        desc = "Explore Neorg files (workspace)",
+        desc = "Search Neorg files (workspace)",
+      },
+      {
+        "<leader>o0",
+        function()
+          fzf_grep(current_workspace_dir())
+        end,
+        desc = "Live grep Neorg files (workspace)",
       },
       { "<leader>oi", "<cmd>Neorg index<cr>", desc = "Opens workspace's index file" },
       { "<leader>or", "<cmd>Neorg return<cr>", desc = "Closes all Neorg-related buffers" },
@@ -53,7 +89,7 @@ return {
       {
         "<leader>oje",
         function()
-          fzf_explore(current_workspace_dir() .. "/**/.journalfiles")
+          neotree_explore(current_workspace_dir() .. "/**/.journalfiles")
         end,
         desc = "Explore journal files (workspace)",
       },
