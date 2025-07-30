@@ -166,6 +166,7 @@ return {
               confirm = true,
             },
           },
+          ["external.conceal-wrap"] = {},
           ["external.context"] = {},
           ["external.hop-extras"] = {},
           ["external.integrations.fzf-lua"] = {},
