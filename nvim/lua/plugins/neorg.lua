@@ -99,10 +99,15 @@ return {
       { "<leader>ojn", "<cmd>Neorg journal tomorrow<cr>", desc = "Open next day's journal" },
     },
     dependencies = {
-      { "nvim-lua/plenary.nvim" },
-      { "pritchett/neorg-capture" },
       { "benlubas/neorg-conceal-wrap" },
       { "benlubas/neorg-interim-ls" },
+      { "bottd/neorg-archive" },
+      { "kev-cao/neorg-fzflua" },
+      { "max397574/neorg-contexts" },
+      { "phenax/neorg-hop-extras" },
+
+      -- required by most plugins
+      { "nvim-lua/plenary.nvim" },
     },
     config = function()
       require("neorg").setup({
@@ -124,6 +129,7 @@ return {
                 main = "~/.orgfiles/main",
                 work = "~/.orgfiles/work",
                 personal = "~/.orgfiles/personal",
+                archive = "~/.orgfiles/archive",
               },
               default_workspace = "work",
             },
@@ -142,25 +148,72 @@ return {
           ["core.summary"] = {},
 
           -- external plugins
-          ["external.conceal-wrap"] = {},
-          -- ["external.interim-ls"] = {
-          --   config = {
-          --     -- default config shown
-          --     completion_provider = {
-          --       -- Enable or disable the completion provider
-          --       enable = true,
-          --
-          --       -- Show file contents as documentation when you complete a file name
-          --       documentation = true,
-          --
-          --       -- Try to complete categories provided by Neorg Query. Requires `benlubas/neorg-query`
-          --       categories = false,
-          --     },
-          --   },
-          -- },
+          ["external.interim-ls"] = {
+            config = {
+              -- default config shown
+              completion_provider = {
+                -- Enable or disable the completion provider
+                enable = true,
+
+                -- Show file contents as documentation when you complete a file name
+                documentation = true,
+
+                -- Try to complete categories provided by Neorg Query. Requires `benlubas/neorg-query`
+                categories = false,
+
+                -- suggest heading completions from the given file for `{@x|}` where `|` is your cursor
+                -- and `x` is an alphanumeric character. `{@name}` expands to `[name]{:$/people:# name}`
+                people = {
+                  enable = false,
+
+                  -- path to the file you're like to use with the `{@x` syntax, relative to the
+                  -- workspace root, without the `.norg` at the end.
+                  -- ie. `folder/people` results in searching `$/folder/people.norg` for headings.
+                  -- Note that this will change with your workspace, so it fails silently if the file
+                  -- doesn't exist
+                  path = "people",
+                },
+              },
+            },
+          },
+
+          ["external.archive"] = {
+            -- default config
+            config = {
+              -- (Optional) Archive workspace name, defaults to "archive"
+              workspace = "archive",
+              -- (Optional) Enable/disable confirming archive operations
+              confirm = true,
+            },
+          },
+          ["external.context"] = {},
+          ["external.hop-extras"] = {},
+          ["external.integrations.fzf-lua"] = {},
         },
       })
 
+      -- interim-ls
+      vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(args)
+          local bufnr = args.buf
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
+          if not client then
+            return
+          end
+
+          if client.server_capabilities.completionProvider then
+            vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
+          end
+
+          local opts = { noremap = true, silent = true, buffer = bufnr }
+          vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+          vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+
+          -- ... your other lsp mappings
+        end,
+      })
+
+      -- ft specific settings
       vim.api.nvim_create_autocmd("Filetype", {
         pattern = "norg",
         callback = function()
