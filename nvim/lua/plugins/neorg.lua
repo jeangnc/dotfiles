@@ -25,20 +25,6 @@ local function neotree_explore(folder)
   })
 end
 
-local function fzf_explore(folder)
-  if not folder then
-    return
-  end
-
-  local opts = {
-    prompt = "Neorg » ",
-    fd_opts = "--ignore --no-hidden --type=f",
-    cwd = folder,
-  }
-
-  require("fzf-lua").files(opts)
-end
-
 local function fzf_grep(folder)
   if not folder then
     return
@@ -69,13 +55,7 @@ return {
         end,
         desc = "Explore Neorg files (workspace)",
       },
-      {
-        "<leader>o<space>",
-        function()
-          fzf_explore(current_workspace_dir())
-        end,
-        desc = "Search Neorg files (workspace)",
-      },
+      { "<leader>o<space>", "<cmd>Neorg fzf files<cr>", desc = "Search Neorg files (workspace)" },
       {
         "<leader>o0",
         function()
