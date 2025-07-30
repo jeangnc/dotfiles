@@ -168,7 +168,11 @@ return {
           },
           ["external.conceal-wrap"] = {},
           ["external.context"] = {},
-          ["external.hop-extras"] = {},
+          ["external.hop-extras"] = {
+            config = {
+              bind_enter_key = false,
+            },
+          },
           ["external.integrations.fzf-lua"] = {},
         },
       })
@@ -201,6 +205,7 @@ return {
           vim.opt_local.textwidth = 100
           vim.opt_local.colorcolumn = "100"
 
+          vim.keymap.set("n", "gl", "<plug>(neorg.external.hop-extras.hop-link)")
           vim.keymap.set({ "n", "v", "o" }, "<C-E>", "<cmd>Neorg toc<cr>", { desc = "Toggle ToC", buffer = true })
 
           vim.keymap.set(
