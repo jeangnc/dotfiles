@@ -106,7 +106,6 @@ return {
             config = {
               use_popup = false,
               workspaces = {
-                main = "~/.orgfiles/main",
                 work = "~/.orgfiles/work",
                 personal = "~/.orgfiles/personal",
                 archive = "~/.orgfiles/archive",
@@ -117,7 +116,7 @@ return {
           ["core.journal"] = {
             config = {
               journal_folder = ".journalfiles",
-              default_workspace = "main",
+              default_workspace = "work",
             },
           },
           ["core.keybinds"] = {
