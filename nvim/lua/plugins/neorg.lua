@@ -39,6 +39,20 @@ local function fzf_grep(folder)
   require("fzf-lua").live_grep(opts)
 end
 
+local function get_default_workspace()
+  local utils = require("utils")
+  local config_path = utils.find_file_in_parents(".neorg/config.json")
+
+  if config_path then
+    local config = utils.load_json_file(config_path)
+    if config and config.default_workspace then
+      return config.default_workspace
+    end
+  end
+
+  return "work"
+end
+
 return {
   {
     "nvim-neorg/neorg",
@@ -110,13 +124,13 @@ return {
                 personal = "~/.orgfiles/personal",
                 archive = "~/.orgfiles/archive",
               },
-              default_workspace = "work",
+              default_workspace = get_default_workspace,
             },
           },
           ["core.journal"] = {
             config = {
               journal_folder = ".journalfiles",
-              default_workspace = "work",
+              default_workspace = get_default_workspace,
             },
           },
           ["core.keybinds"] = {
