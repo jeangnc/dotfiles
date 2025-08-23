@@ -119,6 +119,8 @@ return {
           ["core.dirman"] = {
             config = {
               use_popup = false,
+              open_buffers_in_workspace = false,
+              autochdir = false,
               workspaces = {
                 work = "~/.orgfiles/work",
                 personal = "~/.orgfiles/personal",
