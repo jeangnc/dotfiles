@@ -12,5 +12,5 @@ ZSH_CUSTOM="$HOME/.config/zsh"
 
 # plugins
 ZSH_DOTENV_PROMPT=false
-plugins=(git rails bundler docker-compose last-working-dir dotenv)
+plugins=(git rails bundler docker-compose dotenv)
 source $ZSH/oh-my-zsh.sh
