@@ -2,8 +2,8 @@
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
 
--- don't change cwd when find a .git
-vim.g.root_spec = { "cwd" }
+-- find project root using cwd first, then .git, then lua dirs
+vim.g.root_spec = { "cwd", ".git", "lua" }
 
 vim.g.mapleader = "-"
 vim.g.maplocalleader = "\\"

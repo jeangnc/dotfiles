@@ -4,7 +4,7 @@
 
 local autoview = vim.api.nvim_create_augroup("autoview", { clear = true })
 
--- creates a view when leading the file
+-- creates a view when leaving the file
 vim.api.nvim_create_autocmd({ "BufWinLeave", "BufWritePost" }, {
   group = autoview,
   pattern = "*",
@@ -15,13 +15,14 @@ vim.api.nvim_create_autocmd({ "BufWinLeave", "BufWritePost" }, {
   end,
 })
 
--- reads view after buffer is readed
+-- reads view after buffer is loaded but preserves current directory
 vim.api.nvim_create_autocmd("BufReadPost", {
   group = autoview,
   pattern = "*",
   callback = function(event)
-    -- defers execution, otherwise doesn't work when the file is opened
+    local current_dir = vim.fn.getcwd()
     vim.cmd.loadview({ mods = { emsg_silent = true } })
+    vim.cmd.cd(current_dir) -- restore original directory
     vim.b[event.buf].view = true
   end,
 })
