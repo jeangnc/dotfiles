@@ -1,7 +1,7 @@
 return {
   "greggh/claude-code.nvim",
   keys = {
-    { "<leader>ac", "<cmd>ClaudeCode<CR>", desc = "Toggle Claude Code" },
+    { "<leader>cc", "<cmd>ClaudeCode<CR>", desc = "Toggle Claude Code" },
   },
   dependencies = {
     "nvim-lua/plenary.nvim", -- Required for git operations
