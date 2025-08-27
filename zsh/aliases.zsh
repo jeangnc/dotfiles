@@ -21,7 +21,8 @@ alias jf="jq -C . | less -R"
 alias je="jq -c '.[]'"
 
 # misc
-alias dof="~/.dotfiles"
+alias dotf="~/.dotfiles"
+alias orgf="~/.orgfiles"
 
 alias o="open"
 alias xo="xargs open"
