@@ -116,4 +116,15 @@ return {
     "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
     "meanderingprogrammer/render-markdown.nvim",
   },
+  config = function(_, opts)
+    require("avante").setup(opts)
+    
+    -- Disable <leader>wc in avante windows
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "Avante*",
+      callback = function()
+        vim.keymap.set("n", "<leader>wc", "<nop>", { buffer = true, desc = "Disabled in Avante" })
+      end,
+    })
+  end,
 }
