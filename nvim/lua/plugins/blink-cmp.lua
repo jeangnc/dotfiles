@@ -43,4 +43,14 @@ return {
       },
     },
   },
+
+  init = function()
+    -- Custom keymap for snippets-only completion
+    vim.keymap.set({ "n", "i" }, "<C-p>", function()
+      if vim.fn.mode() == "n" then
+        vim.cmd("startinsert")
+      end
+      require("blink.cmp").show({ sources = { "snippets" } })
+    end, { desc = "Show snippets" })
+  end,
 }
