@@ -1,7 +1,14 @@
 return {
   "echasnovski/mini.nvim",
   config = function()
-    require("mini.splitjoin").setup()
+    require("mini.splitjoin").setup({
+      mappings = {
+        toggle = "gS",
+        split = "",
+        join = "",
+      },
+    })
+
     require("mini.surround").setup({
       mappings = {
         add = "gsa", -- Add surrounding in Normal and Visual modes
