@@ -11,6 +11,11 @@ return {
   opts = {
     sources = {
       default = { "lsp", "path", "snippets", "buffer" },
+      providers = {
+        buffer = {
+          score_offset = -5,
+        },
+      },
     },
     keymap = {
       ["<Cr>"] = {},
