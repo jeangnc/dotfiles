@@ -34,5 +34,3 @@ alias venv="python3 -m venv .venv && source .venv/bin/activate"
 
 alias wt="CLICOLOR_FORCE=1 watch --color"
 
-# claude
-alias claude="/Users/jeangnc/.claude/local/claude"
