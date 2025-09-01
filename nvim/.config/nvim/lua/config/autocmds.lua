@@ -44,3 +44,17 @@ vim.api.nvim_create_autocmd("InsertLeave", {
     vim.wo.relativenumber = true
   end,
 })
+
+local terminal_group = vim.api.nvim_create_augroup("terminal_window_management", { clear = true })
+
+-- Equalize windows when terminal opens
+vim.api.nvim_create_autocmd("TermOpen", {
+  group = terminal_group,
+  pattern = "*",
+  callback = function()
+    vim.defer_fn(function()
+      vim.cmd("wincmd =")
+    end, 100)
+  end,
+  desc = "Equalize windows when terminal opens"
+})
