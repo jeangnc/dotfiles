@@ -5,33 +5,9 @@
 local map = vim.keymap.set
 local unmap = vim.api.nvim_del_keymap
 
--- to speed up browser searches
-map("n", "<leader>sB", function()
-  vim.ui.input({ prompt = "Search query: " }, function(query)
-    if query then
-      local url = "https://www.google.com/search?q=" .. vim.fn.escape(query, " ")
-      vim.fn.jobstart({ "open", url }, { detach = true })
-    end
-  end)
-end, { desc = "Browser Search" })
-
---
--- buffers
---
-map("n", "<leader>bda", "<cmd>:bufdo bwipeout<cr>", { desc = "Delete All Buffers" })
-
-map("n", "<leader>bdd", function()
-  Snacks.bufdelete()
-end, { desc = "Delete Buffer" })
-
-map("n", "<leader>bdo", function()
-  Snacks.bufdelete.other()
-end, { desc = "Delete Other Buffers" })
-
-map("n", "<leader>bdD", "<cmd>:bd<cr>", { desc = "Delete Buffer and Window" })
-map("n", "<leader>1", "<cmd>FzfLua buffers sort_mru=true sort_lastused=true<cr>", { desc = "Shows all open buffers" })
-
--- removes unused buffer keymaps
+-- =============================================================================
+-- CLEANUP: Remove unused default keymaps
+-- =============================================================================
 unmap("n", "<leader><tab>d")
 unmap("n", "<leader>bd")
 unmap("n", "<leader>bl")
@@ -41,60 +17,43 @@ unmap("n", "<leader>bo")
 unmap("n", "<leader>bp")
 unmap("n", "<leader>bP")
 
---
--- windows
---
+-- =============================================================================
+-- SEARCH & NAVIGATION
+-- =============================================================================
+map("n", "<leader>0", LazyVim.pick("live_grep"), { desc = "Grep (Root Dir)" })
+map("n", "<leader>1", "<cmd>FzfLua buffers sort_mru=true sort_lastused=true<cr>", { desc = "Shows all open buffers" })
+
+-- =============================================================================
+-- BUFFER MANAGEMENT
+-- =============================================================================
+map("n", "<leader>bda", "<cmd>:bufdo bwipeout<cr>", { desc = "Delete All Buffers" })
+map("n", "<leader>bdD", "<cmd>:bd<cr>", { desc = "Delete Buffer and Window" })
+
+map("n", "<leader>bdd", function()
+  Snacks.bufdelete()
+end, { desc = "Delete Buffer" })
+
+map("n", "<leader>bdo", function()
+  Snacks.bufdelete.other()
+end, { desc = "Delete Other Buffers" })
+
+-- =============================================================================
+-- WINDOW MANAGEMENT
+-- =============================================================================
 map("n", "<leader>wc", "<cmd>close<cr>", { desc = "Close Window" })
 
---
--- tabs
---
-
+-- =============================================================================
+-- TAB MANAGEMENT
+-- =============================================================================
 map("n", "<leader><tab>c", "<cmd>tabclose<cr>", { desc = "Close tab" })
 
---
--- misc
---
-
--- shortcut to live grep
-map("n", "<leader>0", LazyVim.pick("live_grep"), { desc = "Grep (Root Dir)" })
-
--- yanks to global clipboard
+-- =============================================================================
+-- CLIPBOARD OPERATIONS
+-- =============================================================================
 map({ "n", "v", "o" }, "<leader>y", '"+y', { desc = "Yank to Clipboard", silent = true, noremap = true })
 map("n", "<leader>Y", ":%y+<cr>", { desc = "Yank File to Clipboard", silent = true, noremap = true })
 
-----------------------
-
--- search datadog metrics
-vim.keymap.set("n", "<leader>dm", function()
-  local fzf = require("fzf-lua")
-
-  local handle = io.popen("zsh -ic 'ddmm'")
-  local result = handle:read("*a")
-  handle:close()
-
-  local lines = {}
-  for line in result:gmatch("[^\r\n]+") do
-    if line ~= "" then
-      table.insert(lines, line)
-    end
-  end
-
-  if #lines == 0 then
-    table.insert(lines, "No results found")
-  end
-
-  fzf.fzf_exec(lines, {
-    prompt = "DD Metrics> ",
-    actions = {
-      ["default"] = function(selected)
-        if selected and selected[1] then
-          fzf.live_grep({
-            search = selected[1],
-            cwd = "app/",
-          })
-        end
-      end,
-    },
-  })
-end, { desc = "Search DD metrics" })
+-- =============================================================================
+-- PROJECT-SPECIFIC: DATADOG METRICS
+-- =============================================================================
+map("n", "<leader>dm", require("utils.datadog").search_metrics, { desc = "Search DD metrics" })
