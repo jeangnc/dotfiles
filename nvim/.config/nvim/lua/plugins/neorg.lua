@@ -256,14 +256,10 @@ return {
     event = "VeryLazy",
     opts_extend = { "spec" },
     opts = {
-      defaults = {},
       spec = {
-        {
-          { "<leader>o", group = "orgmode", icon = " " },
-          { "<leader>ow", group = "workspaces", icon = " " },
-          { "<leader>oj", group = "journal", icon = " " },
-          { "<localleader>a", group = "Append" },
-        },
+        { "<leader>o", group = "orgmode", icon = "🧠" },
+        { "<leader>ow", group = "workspaces", icon = " " },
+        { "<leader>oj", group = "journal", icon = "📓" },
       },
     },
   },
