@@ -9,6 +9,17 @@ return {
     lazy = true,
     ft = "norg",
     cmd = "Neorg",
+    dependencies = {
+      { "benlubas/neorg-conceal-wrap" },
+      { "benlubas/neorg-interim-ls" },
+      { "bottd/neorg-archive" },
+      { "kev-cao/neorg-fzflua" },
+      { "max397574/neorg-contexts" },
+      { "phenax/neorg-hop-extras" },
+
+      -- required by most plugins
+      { "nvim-lua/plenary.nvim" },
+    },
     keys = {
       -- Workspace management
       { "<leader>owp", "<cmd>Neorg workspace personal<cr>", desc = "Personal" },
@@ -16,7 +27,13 @@ return {
 
       -- File operations
       { "<leader>oi", "<cmd>Neorg index<cr>", desc = "Opens workspace's index file" },
-      { "<leader>on", "<Plug>(neorg.dirman.new-note)", desc = "Creates a new norg file" },
+      {
+        "<leader>on",
+        function()
+          neorg_utils.create_note_with_template()
+        end,
+        desc = "Create new note (with template)",
+      },
       { "<leader>or", "<cmd>Neorg return<cr>", desc = "Closes all Neorg-related buffers" },
 
       -- File navigation & search
@@ -47,17 +64,6 @@ return {
       { "<leader>ojp", "<cmd>Neorg journal yesterday<cr>", desc = "Open previous day's journal" },
       { "<leader>ojc", "<cmd>Neorg journal today<cr>", desc = "Open current today's journal" },
       { "<leader>ojn", "<cmd>Neorg journal tomorrow<cr>", desc = "Open next day's journal" },
-    },
-    dependencies = {
-      { "benlubas/neorg-conceal-wrap" },
-      { "benlubas/neorg-interim-ls" },
-      { "bottd/neorg-archive" },
-      { "kev-cao/neorg-fzflua" },
-      { "max397574/neorg-contexts" },
-      { "phenax/neorg-hop-extras" },
-
-      -- required by most plugins
-      { "nvim-lua/plenary.nvim" },
     },
     config = function()
       require("neorg").setup({
@@ -129,7 +135,6 @@ return {
           ["external.integrations.fzf-lua"] = {},
         },
       })
-
     end,
   },
   {
