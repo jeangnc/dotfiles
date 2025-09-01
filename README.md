@@ -44,9 +44,6 @@ sudo dnf install stow
 # Install all packages
 ./install.sh
 
-# Install specific packages only
-stow zsh git nvim
-
 # Remove all symlinks
 ./install.sh uninstall
 
