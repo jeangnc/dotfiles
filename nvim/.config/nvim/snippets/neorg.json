@@ -5,10 +5,10 @@
     "description": "Todo item"
   },
   "time_todo": {
-    "prefix": "ttodo",
+    "prefix": "tlog",
     "body": [
       "$CURRENT_HOUR:$CURRENT_MINUTE",
-      "- ( ) "
+      "- "
     ],
     "description": "Current time with todo"
   }
