@@ -35,7 +35,7 @@ return {
         auto_close_on_accept = true,
         vertical_split = true,
         open_in_current_tab = true,
-        keep_terminal_focus = false, -- If true, moves focus back to terminal after diff opens
+        keep_terminal_focus = true, -- If true, moves focus back to terminal after diff opens
       },
     },
     keys = {
