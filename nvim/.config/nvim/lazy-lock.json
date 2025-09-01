@@ -33,7 +33,6 @@
   "neorg-hop-extras": { "branch": "main", "commit": "f349ab3e9a52d214f1af6122cd087218b2722c81" },
   "neorg-interim-ls": { "branch": "main", "commit": "52bdf8a8cd246a9205756449776aa057bd593d61" },
   "neotest": { "branch": "master", "commit": "35a59c1f59dbb954d92b74ab64a966a668cea495" },
-  "neotest-go": { "branch": "main", "commit": "92950ad7be2ca02a41abca5c6600ff6ffaf5b5d6" },
   "neotest-golang": { "branch": "main", "commit": "54a82ecf9413473a366b364e4e73da7cab35cef2" },
   "neotest-minitest": { "branch": "main", "commit": "4d1c19f80be0efff7656dea76a589c02bf418b68" },
   "neotest-rspec": { "branch": "main", "commit": "825bc085b7a691860d5cafc5fa7ab140c713e6c8" },
