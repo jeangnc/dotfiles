@@ -1,8 +1,8 @@
 -- Neorg filetype-specific configuration
 
 -- Text formatting settings
-vim.opt_local.textwidth = 100
-vim.opt_local.colorcolumn = "100"
+vim.opt_local.textwidth = 120
+vim.opt_local.colorcolumn = "120"
 
 -- Neorg-specific keymaps
 vim.keymap.set("n", "gl", "<plug>(neorg.external.hop-extras.hop-link)", { buffer = true })
