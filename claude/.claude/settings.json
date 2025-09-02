@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(pwd:*)",
+      "Bash(terraform plan:*)",
+      "mcp__Linear__get_issue",
+      "mcp__Linear__get_user",
+      "mcp__Linear__list_comments",
+      "mcp__Linear__list_issues"
+    ],
+    "deny": [
+      "Bash(terraform apply:*)"
+    ]
+  }
+}
