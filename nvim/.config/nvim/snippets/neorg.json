@@ -4,12 +4,28 @@
     "body": "- ( ) ${1:task}",
     "description": "Todo item"
   },
-  "time_todo": {
+  "ldate": {
+    "prefix": "ldate",
+    "body": [
+      "$CURRENT_DAY_NAME $CURRENT_DATE $CURRENT_MONTH_NAME $CURRENT_YEAR"
+    ],
+    "description": "Insert date as Tuesday 12 August 2025"
+  },
+  "time_log": {
     "prefix": "tlog",
     "body": [
       "$CURRENT_HOUR:$CURRENT_MINUTE",
       "- "
     ],
-    "description": "Current time with todo"
+    "description": "Current time with item"
+  },
+  "journal_log": {
+    "prefix": "jlog",
+    "body": [
+      "** $CURRENT_DAY_NAME $CURRENT_DATE $CURRENT_MONTH_NAME $CURRENT_YEAR: ${1:theme}",
+      "",
+      "- ${2:entry}"
+    ],
+    "description": "Current date with item"
   }
 }
