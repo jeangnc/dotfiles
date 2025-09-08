@@ -58,3 +58,20 @@ vim.api.nvim_create_autocmd("TermOpen", {
   end,
   desc = "Equalize windows when terminal opens"
 })
+
+local neorg_backup_group = vim.api.nvim_create_augroup("neorg_backup", { clear = true })
+
+-- Auto-commit neorg files after save
+vim.api.nvim_create_autocmd("BufWritePost", {
+  group = neorg_backup_group,
+  pattern = "*.norg",
+  callback = function()
+    local file_path = vim.fn.expand("%:p")
+    vim.schedule(function()
+      vim.fn.system(string.format("cd %s && git add %s && git commit -m 'Backup'", 
+        vim.fn.shellescape(vim.fn.fnamemodify(file_path, ":h")), 
+        vim.fn.shellescape(file_path)))
+    end)
+  end,
+  desc = "Auto-commit neorg files with 'Backup' message"
+})
