@@ -26,3 +26,6 @@ vim.opt.laststatus = 3
 -- uses zsh and loads aliases
 vim.opt.shell = "/bin/zsh"
 vim.opt.shellcmdflag = "-ic"
+
+-- prevent folds from opening when navigating with paragraph motions
+vim.opt.foldopen:remove("block")
