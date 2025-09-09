@@ -29,3 +29,6 @@ vim.opt.shellcmdflag = "-ic"
 
 -- prevent folds from opening when navigating with paragraph motions
 vim.opt.foldopen:remove("block")
+
+-- disable auto-continuation of bullet points and numbered lists
+vim.opt.formatoptions:remove({ "r", "o" })
