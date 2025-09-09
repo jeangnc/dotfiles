@@ -78,6 +78,15 @@ return {
               default_keybinds = true,
             },
           },
+          ["core.itero"] = {
+            config = {
+              iterables = {
+                "unordered_list%d",
+                "ordered_list%d",
+                "quote%d",
+              },
+            },
+          },
           ["core.completion"] = {
             config = {
               engine = {
