@@ -21,6 +21,17 @@ function M.neotree_explore(folder)
   })
 end
 
+function M.fzf_files(folder)
+  if not folder then
+    return
+  end
+  require("fzf-lua").files({
+    prompt = "Neorg » ",
+    fd_opts = "--ignore --no-hidden --type=f --extension=norg",
+    cwd = folder,
+  })
+end
+
 function M.fzf_grep(folder)
   if not folder then
     return

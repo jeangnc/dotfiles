@@ -13,7 +13,6 @@ return {
       { "benlubas/neorg-conceal-wrap" },
       { "benlubas/neorg-interim-ls" },
       { "bottd/neorg-archive" },
-      { "kev-cao/neorg-fzflua" },
       { "max397574/neorg-contexts" },
       { "phenax/neorg-hop-extras" },
 
@@ -44,7 +43,13 @@ return {
         end,
         desc = "Explore Neorg files (workspace)",
       },
-      { "<leader>o<space>", "<cmd>Neorg fzf files<cr>", desc = "Search Neorg files (workspace)" },
+      {
+        "<leader>o<space>",
+        function()
+          neorg_utils.fzf_files(neorg_utils.current_workspace_dir())
+        end,
+        desc = "Search Neorg files (workspace)",
+      },
       {
         "<leader>o0",
         function()
@@ -141,7 +146,6 @@ return {
               bind_enter_key = false,
             },
           },
-          ["external.integrations.fzf-lua"] = {},
         },
       })
     end,
