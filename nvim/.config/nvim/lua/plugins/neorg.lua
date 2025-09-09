@@ -26,46 +26,16 @@ return {
 
       -- File operations
       { "<leader>oi", "<cmd>Neorg index<cr>", desc = "Opens workspace's index file" },
-      {
-        "<leader>on",
-        function()
-          neorg_utils.create_note_with_template()
-        end,
-        desc = "Create new note (with template)",
-      },
+      { "<leader>on", neorg_utils.create_note_with_template, desc = "Create new note (with template)" },
       { "<leader>or", "<cmd>Neorg return<cr>", desc = "Closes all Neorg-related buffers" },
 
       -- File navigation & search
-      {
-        "<leader>oe",
-        function()
-          neorg_utils.neotree_explore(neorg_utils.current_workspace_dir())
-        end,
-        desc = "Explore Neorg files (workspace)",
-      },
-      {
-        "<leader>o<space>",
-        function()
-          neorg_utils.fzf_files(neorg_utils.current_workspace_dir())
-        end,
-        desc = "Search Neorg files (workspace)",
-      },
-      {
-        "<leader>o0",
-        function()
-          neorg_utils.fzf_grep(neorg_utils.current_workspace_dir())
-        end,
-        desc = "Live grep Neorg files (workspace)",
-      },
+      { "<leader>oe", neorg_utils.explore_workspace, desc = "Explore Neorg files (workspace)" },
+      { "<leader>o<space>", neorg_utils.search_files, desc = "Search Neorg files (workspace)" },
+      { "<leader>o0", neorg_utils.search_content, desc = "Live grep Neorg files (workspace)" },
 
       -- Journal operations
-      {
-        "<leader>oje",
-        function()
-          neorg_utils.neotree_explore(neorg_utils.current_workspace_dir() .. "/**/.journalfiles")
-        end,
-        desc = "Explore journal files (workspace)",
-      },
+      { "<leader>oje", neorg_utils.explore_journal, desc = "Explore journal files (workspace)" },
       { "<leader>ojp", "<cmd>Neorg journal yesterday<cr>", desc = "Open previous day's journal" },
       { "<leader>ojc", "<cmd>Neorg journal today<cr>", desc = "Open current today's journal" },
       { "<leader>ojn", "<cmd>Neorg journal tomorrow<cr>", desc = "Open next day's journal" },

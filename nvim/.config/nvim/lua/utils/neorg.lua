@@ -137,5 +137,21 @@ function M.create_note_from_template(filename, template_file)
   create_note_file(filename, template_file)
 end
 
-return M
+-- Compact keymap helpers
+function M.explore_workspace()
+  M.neotree_explore(M.current_workspace_dir())
+end
 
+function M.search_files()
+  M.fzf_files(M.current_workspace_dir())
+end
+
+function M.search_content()
+  M.fzf_grep(M.current_workspace_dir())
+end
+
+function M.explore_journal()
+  M.neotree_explore(M.current_workspace_dir() .. "/**/.journalfiles")
+end
+
+return M
