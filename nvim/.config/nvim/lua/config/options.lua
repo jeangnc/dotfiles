@@ -18,7 +18,7 @@ vim.g.snacks_animate = false
 
 -- Highlight the 80th and 100th columns
 -- vim.opt.colorcolumn = "80,100"
-vim.cmd([[highlight ColorColumn ctermbg=lightgrey guibg=lightgrey]])
+vim.api.nvim_set_hl(0, "ColorColumn", { ctermbg = "lightgrey", bg = "lightgrey" })
 
 -- recommended by avante
 vim.opt.laststatus = 3
