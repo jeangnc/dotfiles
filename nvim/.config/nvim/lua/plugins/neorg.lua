@@ -23,6 +23,7 @@ return {
       -- Workspace management
       { "<leader>owp", "<cmd>Neorg workspace personal<cr>", desc = "Personal" },
       { "<leader>oww", "<cmd>Neorg workspace work<cr>", desc = "Work" },
+      { "<leader>owa", "<cmd>Neorg workspace archive<cr>", desc = "Archive" },
 
       -- File operations
       { "<leader>oi", "<cmd>Neorg index<cr>", desc = "Opens workspace's index file" },
