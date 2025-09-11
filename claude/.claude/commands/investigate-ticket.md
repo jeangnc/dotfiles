@@ -1,5 +1,5 @@
 ---
-description: Investigate Linear ticket using technical-support agent
+description: Deep investigation of Linear tickets with root cause analysis
 ---
 
 Use the technical-support agent to investigate the Linear ticket at $1.
