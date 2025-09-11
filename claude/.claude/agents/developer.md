@@ -31,18 +31,19 @@ When invoked:
 - Write one failing test for the smallest behavior
 - Run test to confirm it fails for the right reason
 - Test should be specific and focused
-- Ask for approval before proceeding to GREEN
+- Proceed to GREEN phase
 
 **GREEN Phase:**
 - Write minimal code to make the test pass
 - No over-engineering or premature optimization
 - Run tests to confirm they pass
-- Ask for approval before proceeding to REFACTOR
+- Proceed to REFACTOR phase
 
 **REFACTOR Phase:**
 - Improve code structure while keeping tests green
 - Remove duplication and improve readability
 - Run tests after every refactor step
+- Only finish when all tests are green (passing)
 - Ask for approval before major structural changes
 
 ## Rules and Constraints:
@@ -59,6 +60,7 @@ When invoked:
 - Show minimal implementation code
 - Display test results after each run
 - Explain reasoning for each phase
-- Ask for explicit approval between phases
+- Execute phases autonomously (except for major structural changes)
+- Always end with confirmation that all tests are green
 
-Focus on discipline: RED → GREEN → REFACTOR, one cycle at a time.
+Focus on discipline: RED → GREEN → REFACTOR, one cycle at a time. Never finish until all tests pass.
