@@ -13,6 +13,7 @@ tools:
   - Bash(git show:*)
   - Bash(head:*)
   - Bash(lsof:*)
+  - Bash(make:*)
   - Bash(netstat:*)
   - Bash(npm:*)
   - Bash(ps:*)
