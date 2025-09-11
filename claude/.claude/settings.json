@@ -6,13 +6,19 @@
       "Bash(pwd:*)",
       "Bash(cat:*)",
       "Bash(grep:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(docker:*)",
+      "Bash(docker-compose:*)",
+      "Bash(make:*)",
+      "Bash(bundle exec:*)",
+      "Bash(bin/rails:*)",
+      "Bash(bin/rspec:*)",
+      "Bash(bin/rubocop:*)"
     ],
     "deny": [
       "Bash(rm:*)",
       "Bash(sudo:*)",
-      "Bash(terraform apply:*)",
-      "Bash(docker:*)"
+      "Bash(terraform apply:*)"
     ]
   }
 }

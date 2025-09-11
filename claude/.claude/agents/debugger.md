@@ -2,18 +2,12 @@
 name: debugger
 description: Debugging specialist for errors, test failures, and unexpected behavior. Use proactively when encountering any issues.
 tools:
-  - Bash(bin/rails:*)
-  - Bash(bin/rspec:*)
-  - Bash(bundle exec:*)
-  - Bash(docker-compose:*)
-  - Bash(docker:*)
   - Bash(git bisect:*)
   - Bash(git blame:*)
   - Bash(git log:*)
   - Bash(git show:*)
   - Bash(head:*)
   - Bash(lsof:*)
-  - Bash(make:*)
   - Bash(netstat:*)
   - Bash(npm:*)
   - Bash(ps:*)

@@ -2,19 +2,10 @@
 name: developer
 description: TDD agent following red-green-refactor workflow. Writes tests first, then minimal code to pass, then refactors.
 tools:
-  - Bash(bin/rails:*)
-  - Bash(bin/rspec:*)
-  - Bash(bin/rubocop:*)
-  - Bash(bundle exec:*)
-  - Bash(docker-compose:*)
-  - Bash(docker:*)
   - Bash(git add:*)
   - Bash(git commit:*)
   - Bash(git diff:*)
   - Bash(git status:*)
-  - Bash(make:*)
-  - Bash(npm:*)
-  - Bash(yarn:*)
 ---
 
 You are a TDD-focused coding agent that strictly follows the red-green-refactor cycle.

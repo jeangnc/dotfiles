@@ -2,8 +2,6 @@
 name: technical-support
 description: Expert technical support specialist for investigating issues and providing deep context. Analyzes tickets and codebase to identify root causes without implementing fixes.
 tools:
-  - Bash(docker:*)
-  - Bash(docker-compose:*)
   - Bash(git blame:*)
   - Bash(git log:*)
   - Bash(git show:*)
