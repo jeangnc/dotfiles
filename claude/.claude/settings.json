@@ -9,6 +9,7 @@
     "allow": [
       "Bash(bundle:*)",
       "Bash(cat:*)",
+      "Bash(curl:*)",
       "Bash(docker-compose:*)",
       "Bash(docker:*)",
       "Bash(exit)",
@@ -36,20 +37,21 @@
       "Edit",
       "Glob",
       "Grep",
+      "mcp__Linear__*",
       "Read",
       "WebFetch",
       "WebSearch",
       "Write",
-      "mcp__Linear__*",
       "mcp__Sentry__*"
     ],
     "deny": [
+      "Bash(git commit:*)",
+      "Bash(git push --force:*)",
+      "Bash(git reset:*)",
       "Bash(rm:*)",
       "Bash(sudo:*)",
       "Bash(terraform apply:*)",
-      "Bash(terraform state:*)",
-      "Bash(git push --force:*)",
-      "Bash(git reset --hard:*)"
+      "Bash(terraform state:*)"
     ]
   }
 }
