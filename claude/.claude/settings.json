@@ -1,25 +1,55 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "Sentry",
+    "Linear"
+  ],
   "permissions": {
     "allow": [
-      "Bash(bin/rails:*)",
-      "Bash(bin/rspec:*)",
-      "Bash(bin/rubocop:*)",
-      "Bash(bundle exec:*)",
+      "Bash(bundle:*)",
       "Bash(cat:*)",
       "Bash(docker-compose:*)",
       "Bash(docker:*)",
       "Bash(exit)",
       "Bash(find:*)",
+      "Bash(gh:*)",
+      "Bash(git:*)",
+      "Bash(go:*)",
       "Bash(grep:*)",
+      "Bash(head:*)",
       "Bash(ls:*)",
+      "Bash(lsof:*)",
       "Bash(make:*)",
-      "Bash(pwd:*)"
+      "Bash(netstat:*)",
+      "Bash(npm:*)",
+      "Bash(ps:*)",
+      "Bash(pwd:*)",
+      "Bash(python:*)",
+      "Bash(rails:*)",
+      "Bash(rspec:*)",
+      "Bash(rubocop:*)",
+      "Bash(ruby:*)",
+      "Bash(tail:*)",
+      "Bash(terraform:*)",
+      "Bash(yarn:*)",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Read",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__Linear__*",
+      "mcp__Sentry__*"
     ],
     "deny": [
       "Bash(rm:*)",
       "Bash(sudo:*)",
-      "Bash(terraform apply:*)"
+      "Bash(terraform apply:*)",
+      "Bash(terraform state:*)",
+      "Bash(git push --force:*)",
+      "Bash(git reset --hard:*)"
     ]
   }
 }

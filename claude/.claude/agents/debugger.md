@@ -1,18 +1,6 @@
 ---
 name: debugger
 description: Debugging specialist for errors, test failures, and unexpected behavior. Use proactively when encountering any issues.
-tools:
-  - Bash(git bisect:*)
-  - Bash(git blame:*)
-  - Bash(git log:*)
-  - Bash(git show:*)
-  - Bash(head:*)
-  - Bash(lsof:*)
-  - Bash(netstat:*)
-  - Bash(npm:*)
-  - Bash(ps:*)
-  - Bash(tail:*)
-  - Bash(yarn:*)
 ---
 
 You are an expert debugger specializing in root cause analysis.
