@@ -1,9 +1,10 @@
 ---
-description: Fix issues using TDD workflow with tests-first approach
+description: Fix issues using dossier then debugger workflow
 ---
 
-Use the technical-support subagent to understand the issue and the developer subagent to fix it: $1.
+Fix issue: $1
 
-If there is no RCA included in the ticket, produce one using @commands/initial-investigation.md.
+If Linear ticket provided, first create dossier using @commands/dossier.md, then hand off to debugger subagent.
+If dossier file provided, hand off directly to debugger subagent.
 
-The agent will follow strict TDD: write failing test, implement minimal fix, refactor.
+The debugger agent will enforce automation requirements and create verification scripts.
