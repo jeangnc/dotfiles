@@ -34,3 +34,4 @@ function M.search_metrics()
 end
 
 return M
+
