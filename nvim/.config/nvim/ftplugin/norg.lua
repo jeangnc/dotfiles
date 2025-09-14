@@ -22,7 +22,7 @@ vim.keymap.set(
 vim.keymap.set({ "n", "i", "o" }, "<Tab>", function()
   vim.cmd("startinsert")
   vim.cmd('lua require("neorg.modules.core.itero.module").public.next_iteration_cr()')
-end, { desc = "", buffer = true })
+end, { desc = "Next iteration", buffer = true })
 
 -- Auto-indent on save and when leaving insert mode for .norg files
 vim.api.nvim_create_autocmd({ "BufWritePre", "InsertLeave" }, {
@@ -61,7 +61,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 local neorg_backup_group = vim.api.nvim_create_augroup("neorg_backup", { clear = true })
 
 -- Auto-commit neorg files after save, move, add, or remove
-vim.api.nvim_create_autocmd({"BufWritePost", "BufNewFile", "BufDelete"}, {
+vim.api.nvim_create_autocmd({ "BufWritePost", "BufNewFile", "BufDelete" }, {
   group = neorg_backup_group,
   pattern = "*.norg",
   callback = function(event)
@@ -69,25 +69,19 @@ vim.api.nvim_create_autocmd({"BufWritePost", "BufNewFile", "BufDelete"}, {
     local neorg_utils = require("utils.neorg")
     local git_utils = require("utils.git")
 
-    -- Only commit if file is inside a neorg workspace
     if not neorg_utils.is_file_in_workspace(file_path) then
       return
     end
 
-    -- Handle different event types
-    if event.event == "BufDelete" then
-      -- For deleted files, we need to commit the removal
-      vim.schedule(function()
-        git_utils.async_remove_and_commit(file_path, "Backup")
-      end)
-    else
-      -- For new files and saves, add and commit
-      vim.schedule(function()
-        git_utils.async_add_and_commit(file_path, "Backup")
-      end)
-    end
+    local commit_fn = event.event == "BufDelete"
+      and git_utils.async_remove_and_commit
+      or git_utils.async_add_and_commit
+
+    vim.schedule(function()
+      commit_fn(file_path, "Backup")
+    end)
   end,
-  desc = "Auto-commit neorg files in workspace with 'Backup' message"
+  desc = "Auto-commit neorg files in workspace",
 })
 
 -- Handle file moves/renames
@@ -107,5 +101,5 @@ vim.api.nvim_create_autocmd("User", {
       end)
     end
   end,
-  desc = "Auto-commit neorg file moves in workspace"
+  desc = "Auto-commit neorg file moves in workspace",
 })
