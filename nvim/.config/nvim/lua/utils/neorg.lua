@@ -97,7 +97,7 @@ local function create_note_file(filename, template_file_path)
   end
 
   local normalized_filename = (filename or "new-note"):gsub("%.norg$", "") .. ".norg"
-  local full_file_path = workspace_directory .. "/" .. normalized_filename
+  local full_file_path = workspace_directory .. "/inbox/" .. normalized_filename
 
   if template_file_path then
     local copy_command =
