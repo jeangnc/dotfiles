@@ -13,6 +13,14 @@ function M.current_workspace_dir()
   end
 end
 
+function M.is_file_in_workspace(file_path)
+  local workspace_dir = M.current_workspace_dir()
+  if not workspace_dir then
+    return false
+  end
+  return file_path:find(workspace_dir, 1, true) == 1
+end
+
 function M.get_default_workspace()
   local utils = require("utils")
   local config_path = utils.find_file_in_parents(".neorg/config.json")
