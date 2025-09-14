@@ -1,99 +1,84 @@
 local M = {}
+local common = require("utils.common")
+local file = require("utils.file")
+local dir = require("utils.dir")
+
+-- ============================================================================
+-- Template Discovery
+-- ============================================================================
 
 function M.get_available_templates(templates_directory, opts)
+  local default_opts = { extension = "*" }
+  opts = common.merge_opts(default_opts, opts)
+
   templates_directory = templates_directory or vim.fn.expand("~/.orgfiles/templates/")
-  opts = opts or {}
-  local extension = opts.extension or "*"
-  local pattern = "*." .. extension
+  local pattern = "*." .. opts.extension
 
-  local filesystem = require("utils.filesystem")
-  local template_list, template_file_map = filesystem.find_files_by_pattern(templates_directory, pattern)
-
+  local template_list, template_file_map = dir.find_files_by_pattern(templates_directory, pattern)
   return template_list, template_file_map, templates_directory
 end
 
+-- ============================================================================
+-- File Creation
+-- ============================================================================
+
 function M.create_file_from_template(filename, template_file_path, destination_directory, opts)
-  if not filename or not destination_directory then
+  if not common.validate_path(filename, "filename") or not common.validate_path(destination_directory, "destination directory") then
     return false
   end
 
-  opts = opts or {}
-  local extension = opts.extension or "norg"
-  local pattern = "%." .. extension .. "$"
-  local normalized_filename = filename:gsub(pattern, "") .. "." .. extension
-  local full_file_path = destination_directory .. "/" .. normalized_filename
+  local default_opts = { extension = "norg" }
+  opts = common.merge_opts(default_opts, opts)
 
-  local filesystem = require("utils.filesystem")
+  local normalized_filename = file.normalize_filename(filename, opts.extension)
+  local full_file_path = file.join_paths(destination_directory, normalized_filename)
 
   -- Ensure destination directory exists
-  local success, err = filesystem.ensure_directory_exists(destination_directory)
-  if not success then
-    vim.notify(err, vim.log.levels.ERROR)
+  local success, err = dir.ensure_exists(destination_directory)
+  if not common.handle_result(success, err) then
     return false
   end
 
   -- Copy template file if provided
   if template_file_path then
-    local success, err = filesystem.copy_file(template_file_path, full_file_path)
-    if not success then
-      vim.notify(err, vim.log.levels.ERROR)
+    local success, err = file.copy(template_file_path, full_file_path)
+    if not common.handle_result(success, err) then
       return false
     end
   end
 
-  filesystem.open_file_and_goto_top(full_file_path)
+  file.open_and_goto_top(full_file_path)
   return true
 end
 
+-- ============================================================================
+-- Interactive Template Selection
+-- ============================================================================
+
 function M.select_template_and_create_file(templates_directory, destination_directory, opts)
-  if not destination_directory then
-    vim.notify("No destination directory provided", vim.log.levels.ERROR)
+  if not common.validate_path(destination_directory, "destination directory") then
     return false
   end
 
   opts = opts or {}
-  local fzf = require("fzf-lua")
   local template_list, template_file_map, templates_dir = M.get_available_templates(templates_directory, opts)
 
   table.insert(template_list, 1, "-- No template --")
 
-  if #template_list == 1 then
-    vim.notify("No templates found in " .. templates_dir, vim.log.levels.WARN)
-    if opts.fallback_fn then
-      opts.fallback_fn()
-    end
-    return
-  end
+  local fzf_opts = {
+    empty_message = "No templates found in " .. templates_dir,
+    fallback_fn = opts.fallback_fn
+  }
 
-  fzf.fzf_exec(template_list, {
-    prompt = "Select template> ",
-    actions = {
-      ["default"] = function(selected_templates)
-        if not selected_templates or #selected_templates == 0 then
-          return
-        end
+  common.fzf_select(template_list, "Select template> ", function(selected_template)
+    common.fzf_input("Enter filename: ", function(user_filename)
+      local template_file_path = selected_template == "-- No template --"
+        and nil
+        or template_file_map[selected_template]
 
-        local selected_template = selected_templates[1]
-        vim.ui.input({ prompt = "Enter filename: " }, function(user_filename)
-          if not user_filename or user_filename == "" then
-            return
-          end
-
-          if selected_template == "-- No template --" then
-            M.create_file_from_template(user_filename, nil, destination_directory, opts)
-          else
-            M.create_file_from_template(
-              user_filename,
-              template_file_map[selected_template],
-              destination_directory,
-              opts
-            )
-          end
-        end)
-      end,
-    },
-  })
+      M.create_file_from_template(user_filename, template_file_path, destination_directory, opts)
+    end)
+  end, fzf_opts)
 end
 
 return M
-

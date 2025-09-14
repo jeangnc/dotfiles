@@ -1,37 +1,33 @@
 local M = {}
+local common = require("utils.common")
+
+-- ============================================================================
+-- Datadog Metrics Search
+-- ============================================================================
 
 function M.search_metrics()
-  local fzf = require("fzf-lua")
+  local result, err = common.execute_popen_command("zsh -ic 'ddmm'")
+  if not result then
+    vim.notify(err, vim.log.levels.ERROR)
+    return
+  end
 
-  local handle = io.popen("zsh -ic 'ddmm'")
-  local result = handle:read("*a")
-  handle:close()
+  local lines = common.split_lines(result)
 
-  local lines = {}
-  for line in result:gmatch("[^\r\n]+") do
-    if line ~= "" then
-      table.insert(lines, line)
+  local fzf_opts = {
+    empty_message = "No metrics found",
+    fallback_fn = function()
+      vim.notify("No results found", vim.log.levels.WARN)
     end
-  end
+  }
 
-  if #lines == 0 then
-    table.insert(lines, "No results found")
-  end
-
-  fzf.fzf_exec(lines, {
-    prompt = "DD Metrics> ",
-    actions = {
-      ["default"] = function(selected)
-        if selected and selected[1] then
-          fzf.live_grep({
-            search = selected[1],
-            cwd = "app/",
-          })
-        end
-      end,
-    },
-  })
+  common.fzf_select(lines, "DD Metrics> ", function(selected_metric)
+    local fzf = require("fzf-lua")
+    fzf.live_grep({
+      search = selected_metric,
+      cwd = "app/",
+    })
+  end, fzf_opts)
 end
 
 return M
-
