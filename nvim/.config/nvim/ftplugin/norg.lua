@@ -60,8 +60,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 local neorg_backup_group = vim.api.nvim_create_augroup("neorg_backup", { clear = true })
 
--- Auto-commit neorg files after save, move, add, or remove
-vim.api.nvim_create_autocmd({ "BufWritePost", "BufNewFile", "BufDelete" }, {
+-- Auto-commit neorg files after save or create
+vim.api.nvim_create_autocmd({ "BufWritePost", "BufNewFile" }, {
   group = neorg_backup_group,
   pattern = "*.norg",
   callback = function(event)
@@ -73,15 +73,51 @@ vim.api.nvim_create_autocmd({ "BufWritePost", "BufNewFile", "BufDelete" }, {
       return
     end
 
-    local commit_fn = event.event == "BufDelete"
-      and git_utils.async_remove_and_commit
-      or git_utils.async_add_and_commit
-
     vim.schedule(function()
       commit_fn(file_path, "Backup")
     end)
   end,
   desc = "Auto-commit neorg files in workspace",
+})
+
+-- Handle actual file deletion (not buffer deletion)
+vim.api.nvim_create_autocmd("User", {
+  group = neorg_backup_group,
+  pattern = "NeorgFileDeleted",
+  callback = function(event)
+    local file_path = event.data.file_path
+    local neorg_utils = require("utils.neorg")
+    local git_utils = require("utils.git")
+
+    if not neorg_utils.is_file_in_workspace(file_path) then
+      return
+    end
+
+    vim.schedule(function()
+      git_utils.async_remove_and_commit(file_path, "Backup")
+    end)
+  end,
+  desc = "Auto-commit neorg file deletions in workspace",
+})
+
+-- Handle file copy operations
+vim.api.nvim_create_autocmd("User", {
+  group = neorg_backup_group,
+  pattern = "NeorgFileCopied",
+  callback = function(event)
+    local new_path = event.data.new_path
+    local neorg_utils = require("utils.neorg")
+    local git_utils = require("utils.git")
+
+    if not neorg_utils.is_file_in_workspace(new_path) then
+      return
+    end
+
+    vim.schedule(function()
+      commit_fn(new_path, "Backup")
+    end)
+  end,
+  desc = "Auto-commit neorg file copies in workspace",
 })
 
 -- Handle file moves/renames
