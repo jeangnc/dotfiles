@@ -11,7 +11,6 @@ return {
     cmd = "Neorg",
     dependencies = {
       { "benlubas/neorg-conceal-wrap" },
-      { "benlubas/neorg-interim-ls" },
       { "bottd/neorg-archive" },
       { "max397574/neorg-contexts" },
       { "phenax/neorg-hop-extras" },
@@ -90,20 +89,6 @@ return {
             },
           },
 
-          -- External plugins
-          ["external.interim-ls"] = {
-            config = {
-              completion_provider = {
-                enable = true,
-                documentation = true,
-                categories = false,
-                people = {
-                  enable = false,
-                  path = "people",
-                },
-              },
-            },
-          },
           ["external.archive"] = {
             config = {
               workspace = "archive",
