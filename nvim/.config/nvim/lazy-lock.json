@@ -30,6 +30,7 @@
   "neorg-conceal-wrap": { "branch": "main", "commit": "e08b06042b175355496d3b5b033658021b90cd82" },
   "neorg-contexts": { "branch": "master", "commit": "8ae58b646700b8bc2d3bc1346c96835ceb71d884" },
   "neorg-hop-extras": { "branch": "main", "commit": "f349ab3e9a52d214f1af6122cd087218b2722c81" },
+  "neorg-interim-ls": { "branch": "main", "commit": "52bdf8a8cd246a9205756449776aa057bd593d61" },
   "neotest": { "branch": "master", "commit": "2cf3544fb55cdd428a9a1b7154aea9c9823426e8" },
   "neotest-golang": { "branch": "main", "commit": "0ada81e50429a071cc7d349301762e4ee04dcb2a" },
   "neotest-minitest": { "branch": "main", "commit": "4d1c19f80be0efff7656dea76a589c02bf418b68" },
