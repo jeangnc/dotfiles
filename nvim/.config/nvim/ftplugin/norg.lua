@@ -74,7 +74,7 @@ vim.api.nvim_create_autocmd({ "BufWritePost", "BufNewFile" }, {
     end
 
     vim.schedule(function()
-      commit_fn(file_path, "Backup")
+      git_utils.async_add_and_commit(file_path, "Backup")
     end)
   end,
   desc = "Auto-commit neorg files in workspace",
@@ -114,7 +114,7 @@ vim.api.nvim_create_autocmd("User", {
     end
 
     vim.schedule(function()
-      commit_fn(new_path, "Backup")
+      git_utils.async_add_and_commit(new_path, "Backup")
     end)
   end,
   desc = "Auto-commit neorg file copies in workspace",
