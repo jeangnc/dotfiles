@@ -33,9 +33,9 @@ return {
       -- Diff Integration
       diff_opts = {
         auto_close_on_accept = true,
-        vertical_split = true,
+        vertical_split = false,
         open_in_current_tab = true,
-        keep_terminal_focus = true, -- If true, moves focus back to terminal after diff opens
+        keep_terminal_focus = false, -- If true, moves focus back to terminal after diff opens
       },
     },
     keys = {
