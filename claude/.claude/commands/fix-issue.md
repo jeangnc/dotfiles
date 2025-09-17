@@ -1,10 +1,13 @@
 ---
-description: Fix issues using dossier then debugger workflow
+description: Fix a Linear ticket using multiple agents and systematic approach
 ---
 
-Fix issue: $1
+Fix Linear ticket: $1 using a comprehensive approach:
 
-If Linear ticket provided, first create dossier using @commands/dossier.md, then hand off to debugger subagent.
-If dossier file provided, hand off directly to debugger subagent.
-
-The debugger agent will enforce automation requirements and create verification scripts.
+1. Use `/contextualize-ticket` to get context about the issue
+1. Use `/investigate-ticket` if more information is needed
+1. Use the developer subagent to implement the fix
+1. Use the code-reviewer subagent to review the implemented changes
+1. Run tests and ensure quality checks pass
+1. Use `/contextualize-ticket` to verify the fix addresses the original issue
+1. Use `/open-pr` to create a pull request with the solution
