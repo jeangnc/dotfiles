@@ -34,6 +34,7 @@
       "Bash(ruby:*)",
       "Bash(tail:*)",
       "Bash(terraform:*)",
+      "Bash(terraform state list:*)",
       "Bash(yarn:*)",
       "Edit",
       "Glob",
@@ -52,7 +53,6 @@
       "Bash(rm:*)",
       "Bash(sudo:*)",
       "Bash(terraform apply:*)",
-      "Bash(terraform state:*)"
     ]
   }
 }
