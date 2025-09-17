@@ -7,8 +7,8 @@ tools:
   - Bash(git status:*)
 ---
 
-1. Check git status and review committed changes (vs main branch)
-1. Ignore my uncommited changes
+1. Check git status and review committed changes (against main branch)
+1. Ignore uncommited changes.
 1. Generate meaningful PR title from commit messages and changes
 1. Use repo's PR template from `.github/pull_request_template.md` if it exists
 1. Auto-fill template sections based on the changes:
