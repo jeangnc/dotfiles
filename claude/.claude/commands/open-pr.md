@@ -15,5 +15,5 @@ tools:
    - Description: Summarize what changed and why
    - Risk/Risk Mitigation: Analyze potential issues
    - Testing: Include relevant test commands from CLAUDE.md
-1. Create PR in draft mode by default (safer approach)
+1. Create PR in "Ready to review" mode by default
 1. Provide PR URL for review
