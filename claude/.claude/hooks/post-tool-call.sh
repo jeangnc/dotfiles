@@ -2,6 +2,9 @@
 # Post-tool-call hook - Claude-powered intelligent follow-up actions
 # Analyzes tool results to suggest or auto-launch appropriate agents
 
+# Debug: log that hook was called
+echo "DEBUG: post-tool-call hook invoked with TOOL_NAME=$TOOL_NAME" >> /tmp/hook_debug.log
+
 CLAUDE_DIR="$HOME/.dotfiles/claude/.claude"
 
 # Function to suggest agent via Claude analysis

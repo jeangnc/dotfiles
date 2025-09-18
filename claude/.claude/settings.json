@@ -7,8 +7,7 @@
   ],
   "hooks": {
     "userPromptSubmit": "hooks/user-prompt-submit.sh",
-    "postToolCall": "hooks/post-tool-call.sh",
-    "interruptionResume": "hooks/interruption-resume.sh"
+    "postToolCall": "hooks/post-tool-call.sh"
   },
   "permissions": {
     "allow": [
