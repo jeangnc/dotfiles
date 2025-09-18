@@ -1,58 +1,98 @@
 #!/bin/bash
-# User prompt submit hook for Great Question development
-# Analyzes user intent and automatically launches appropriate subagents
+# User prompt submit hook - Claude-powered intelligent agent selection
+# Uses Claude to analyze user intent and select the most appropriate agent
 
 USER_PROMPT="$1"
+CLAUDE_DIR="$HOME/.dotfiles/claude/.claude"
+STATE_FILE="$CLAUDE_DIR/.agent_state"
 
-# Debug and error investigation scenarios
-if [[ "$USER_PROMPT" =~ (fix|debug|broken|failing|not working|error|exception|investigate|why.*fail|what.*wrong) ]]; then
-  echo "🔧 Debugging task detected - auto-launching debugger agent..."
+# Get available agents
+AGENTS_LIST=$(ls "$CLAUDE_DIR/agents/"*.md 2>/dev/null | xargs -I {} basename {} .md | tr '\n' ', ' | sed 's/, $//')
+
+# Escape quotes in user prompt for JSON
+ESCAPED_PROMPT=$(echo "$USER_PROMPT" | sed 's/"/\\"/g')
+
+# Create the analysis prompt
+ANALYSIS_PROMPT="Analyze this user request and determine the most appropriate specialized agent:
+
+USER REQUEST: \"$ESCAPED_PROMPT\"
+
+AVAILABLE AGENTS: $AGENTS_LIST
+
+Respond with ONLY the agent name (e.g., 'debugger', 'code-reviewer', etc.) if you're confident (>80%) that a specialized agent would handle this better than the general assistant. If no specialized agent is clearly better, respond with 'general'.
+
+Consider:
+- debugger: Fixing bugs, troubleshooting errors, investigating failures
+- code-reviewer: Reviewing code quality, security, best practices
+- developer: Writing new features, implementing functionality, TDD/BDD
+- data-scientist: SQL queries, data analysis, BigQuery operations
+- solution-architect: System design, architecture planning, scalability
+- technical-support: Production issues, incident analysis, deep investigations
+- dba: Database optimization, migrations, schema changes
+- principal-engineer: Strategic planning, cross-team initiatives, roadmaps
+- sre: Reliability, monitoring, incident response, observability"
+
+# Use Claude API to determine the best agent
+SELECTED_AGENT=$(echo "$ANALYSIS_PROMPT" | claude --max-tokens 50 --temperature 0.1 2>/dev/null | tr -d '\n' | tr -d ' ')
+
+# Validate the response and launch agent if appropriate
+case "$SELECTED_AGENT" in
+"debugger")
+  echo "🔧 Claude detected debugging task - launching debugger agent..."
+  echo "$SELECTED_AGENT" >"$STATE_FILE"
   echo "SUBAGENT: debugger"
   exit 0
-fi
-
-# Code review scenarios
-if [[ "$USER_PROMPT" =~ (review|check.*code|analyze.*code|look.*at.*code|code.*quality|security.*review) ]]; then
-  echo "👀 Code review request detected - auto-launching code-reviewer agent..."
+  ;;
+"code-reviewer")
+  echo "👀 Claude detected code review task - launching code-reviewer agent..."
+  echo "$SELECTED_AGENT" >"$STATE_FILE"
   echo "SUBAGENT: code-reviewer"
   exit 0
-fi
-
-# Feature development with testing
-if [[ "$USER_PROMPT" =~ (implement|create.*feature|add.*functionality|build.*feature|new.*endpoint) ]]; then
-  echo "🛠️ Feature development detected - auto-launching developer agent for BDD approach..."
+  ;;
+"developer")
+  echo "🛠️ Claude detected development task - launching developer agent..."
+  echo "$SELECTED_AGENT" >"$STATE_FILE"
   echo "SUBAGENT: developer"
   exit 0
-fi
-
-# Data analysis and SQL queries
-if [[ "$USER_PROMPT" =~ (sql|query|database|data.*analy|bigquery|count.*records|find.*data|export.*data) ]]; then
-  echo "📊 Data analysis task detected - auto-launching data-scientist agent..."
+  ;;
+"data-scientist")
+  echo "📊 Claude detected data analysis task - launching data-scientist agent..."
+  echo "$SELECTED_AGENT" >"$STATE_FILE"
   echo "SUBAGENT: data-scientist"
   exit 0
-fi
-
-# System design and architecture
-if [[ "$USER_PROMPT" =~ (architect|design.*system|scale|performance|infrastructure|how.*should.*structure) ]]; then
-  echo "🏗️ System architecture task detected - auto-launching solution-architect agent..."
+  ;;
+"solution-architect")
+  echo "🏗️ Claude detected architecture task - launching solution-architect agent..."
+  echo "$SELECTED_AGENT" >"$STATE_FILE"
   echo "SUBAGENT: solution-architect"
   exit 0
-fi
-
-# Complex technical investigation
-if [[ "$USER_PROMPT" =~ (investigate|analyze.*issue|deep.*dive|root.*cause|technical.*analysis|why.*happen) ]]; then
-  echo "🔍 Technical investigation detected - auto-launching technical-support agent..."
+  ;;
+"technical-support")
+  echo "🔍 Claude detected investigation task - launching technical-support agent..."
+  echo "$SELECTED_AGENT" >"$STATE_FILE"
   echo "SUBAGENT: technical-support"
   exit 0
-fi
-
-# Database administration tasks
-if [[ "$USER_PROMPT" =~ (migration|schema|index|optimize.*query|database.*performance|db:) ]]; then
-  echo "🗃️ Database administration task detected - auto-launching dba agent..."
+  ;;
+"dba")
+  echo "🗃️ Claude detected database task - launching dba agent..."
+  echo "$SELECTED_AGENT" >"$STATE_FILE"
   echo "SUBAGENT: dba"
   exit 0
-fi
-
-# Let normal processing continue for other requests
-exit 1
-
+  ;;
+"principal-engineer")
+  echo "🎯 Claude detected strategic planning task - launching principal-engineer agent..."
+  echo "$SELECTED_AGENT" >"$STATE_FILE"
+  echo "SUBAGENT: principal-engineer"
+  exit 0
+  ;;
+"sre")
+  echo "⚡ Claude detected SRE task - launching sre agent..."
+  echo "$SELECTED_AGENT" >"$STATE_FILE"
+  echo "SUBAGENT: sre"
+  exit 0
+  ;;
+*)
+  # Continue with main agent for general tasks or if selection failed
+  exit 1
+  ;;
+esac
