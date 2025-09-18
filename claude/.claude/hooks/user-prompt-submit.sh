@@ -4,7 +4,6 @@
 
 USER_PROMPT="$1"
 CLAUDE_DIR="$HOME/.dotfiles/claude/.claude"
-STATE_FILE="$CLAUDE_DIR/.agent_state"
 
 # Get available agents
 AGENTS_LIST=$(ls "$CLAUDE_DIR/agents/"*.md 2>/dev/null | xargs -I {} basename {} .md | tr '\n' ', ' | sed 's/, $//')
@@ -39,55 +38,46 @@ SELECTED_AGENT=$(echo "$ANALYSIS_PROMPT" | claude --max-tokens 50 --temperature 
 case "$SELECTED_AGENT" in
 "debugger")
   echo "🔧 Claude detected debugging task - launching debugger agent..."
-  echo "$SELECTED_AGENT" >"$STATE_FILE"
   echo "SUBAGENT: debugger"
   exit 0
   ;;
 "code-reviewer")
   echo "👀 Claude detected code review task - launching code-reviewer agent..."
-  echo "$SELECTED_AGENT" >"$STATE_FILE"
   echo "SUBAGENT: code-reviewer"
   exit 0
   ;;
 "developer")
   echo "🛠️ Claude detected development task - launching developer agent..."
-  echo "$SELECTED_AGENT" >"$STATE_FILE"
   echo "SUBAGENT: developer"
   exit 0
   ;;
 "data-scientist")
   echo "📊 Claude detected data analysis task - launching data-scientist agent..."
-  echo "$SELECTED_AGENT" >"$STATE_FILE"
   echo "SUBAGENT: data-scientist"
   exit 0
   ;;
 "solution-architect")
   echo "🏗️ Claude detected architecture task - launching solution-architect agent..."
-  echo "$SELECTED_AGENT" >"$STATE_FILE"
   echo "SUBAGENT: solution-architect"
   exit 0
   ;;
 "technical-support")
   echo "🔍 Claude detected investigation task - launching technical-support agent..."
-  echo "$SELECTED_AGENT" >"$STATE_FILE"
   echo "SUBAGENT: technical-support"
   exit 0
   ;;
 "dba")
   echo "🗃️ Claude detected database task - launching dba agent..."
-  echo "$SELECTED_AGENT" >"$STATE_FILE"
   echo "SUBAGENT: dba"
   exit 0
   ;;
 "principal-engineer")
   echo "🎯 Claude detected strategic planning task - launching principal-engineer agent..."
-  echo "$SELECTED_AGENT" >"$STATE_FILE"
   echo "SUBAGENT: principal-engineer"
   exit 0
   ;;
 "sre")
   echo "⚡ Claude detected SRE task - launching sre agent..."
-  echo "$SELECTED_AGENT" >"$STATE_FILE"
   echo "SUBAGENT: sre"
   exit 0
   ;;
