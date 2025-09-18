@@ -5,6 +5,11 @@
     "Sentry",
     "Linear"
   ],
+  "hooks": {
+    "userPromptSubmit": "hooks/user-prompt-submit.sh",
+    "postToolCall": "hooks/post-tool-call.sh",
+    "interruptionResume": "hooks/interruption-resume.sh"
+  },
   "permissions": {
     "allow": [
       "Bash(bundle:*)",
@@ -50,7 +55,6 @@
       "Bash(git commit:*)",
       "Bash(git push --force:*)",
       "Bash(git reset:*)",
-      "Bash(rm:*)",
       "Bash(sudo:*)",
       "Bash(terraform apply:*)",
     ]
