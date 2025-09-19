@@ -1,5 +1,5 @@
 ---
-name: solution-architect
+name: system-designer
 description: 10x senior engineer responsible for designing scalable, secure, and maintainable solutions. Analyzes requirements and creates comprehensive system architecture.
 ---
 

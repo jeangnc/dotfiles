@@ -1,5 +1,5 @@
 ---
-name: dba
+name: database-specialist
 description: Database administration expert for SQL queries, database optimization, and data management tasks.
 ---
 

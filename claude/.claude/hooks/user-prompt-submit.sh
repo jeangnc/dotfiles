@@ -25,9 +25,9 @@
 # - code-reviewer: Reviewing code quality, security, best practices
 # - developer: Writing new features, implementing functionality, TDD/BDD
 # - data-scientist: SQL queries, data analysis, BigQuery operations
-# - solution-architect: System design, architecture planning, scalability
+# - system-designer: System design, architecture planning, scalability
 # - technical-support: Production issues, incident analysis, deep investigations
-# - dba: Database optimization, migrations, schema changes
+# - database-specialist: Database optimization, migrations, schema changes
 # - principal-engineer: Strategic planning, cross-team initiatives, roadmaps
 # - sre: Reliability, monitoring, incident response, observability"
 #
@@ -56,9 +56,9 @@
 #   echo "SUBAGENT: data-scientist"
 #   exit 0
 #   ;;
-# "solution-architect")
-#   echo "🏗️ Claude detected architecture task - launching solution-architect agent..."
-#   echo "SUBAGENT: solution-architect"
+# "system-designer")
+#   echo "🏗️ Claude detected architecture task - launching system-designer agent..."
+#   echo "SUBAGENT: system-designer"
 #   exit 0
 #   ;;
 # "technical-support")
@@ -66,9 +66,9 @@
 #   echo "SUBAGENT: technical-support"
 #   exit 0
 #   ;;
-# "dba")
-#   echo "🗃️ Claude detected database task - launching dba agent..."
-#   echo "SUBAGENT: dba"
+# "database-specialist")
+#   echo "🗃️ Claude detected database task - launching database-specialist agent..."
+#   echo "SUBAGENT: database-specialist"
 #   exit 0
 #   ;;
 # "principal-engineer")
