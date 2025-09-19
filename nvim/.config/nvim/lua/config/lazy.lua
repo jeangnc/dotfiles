@@ -31,8 +31,8 @@ vim.api.nvim_create_autocmd("VimEnter", {
 
 require("lazy").setup({
   spec = {
-    -- add LazyVim and import its plugins
-    { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+    -- add LazyVim and import its plugins (pinned to prevent auto-upgrades)
+    { "LazyVim/LazyVim", import = "lazyvim.plugins", pin = true },
     { import = "lazyvim.plugins.extras.ai.copilot" },
     { import = "lazyvim.plugins.extras.lang.go" },
     { import = "lazyvim.plugins.extras.test" },
