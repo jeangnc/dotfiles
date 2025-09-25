@@ -28,7 +28,7 @@
 # - system-designer: System design, architecture planning, scalability
 # - technical-support: Production issues, incident analysis, deep investigations
 # - database-specialist: Database optimization, migrations, schema changes
-# - principal-engineer: Strategic planning, cross-team initiatives, roadmaps
+# - staff-engineer: Strategic planning, cross-team initiatives, roadmaps
 # - sre: Reliability, monitoring, incident response, observability"
 #
 # # Use Claude API to determine the best agent
@@ -71,9 +71,9 @@
 #   echo "SUBAGENT: database-specialist"
 #   exit 0
 #   ;;
-# "principal-engineer")
-#   echo "🎯 Claude detected strategic planning task - launching principal-engineer agent..."
-#   echo "SUBAGENT: principal-engineer"
+# "staff-engineer")
+#   echo "🎯 Claude detected strategic planning task - launching staff-engineer agent..."
+#   echo "SUBAGENT: staff-engineer"
 #   exit 0
 #   ;;
 # "sre")

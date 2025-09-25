@@ -17,7 +17,7 @@ echo "DEBUG: post-tool-call hook invoked with TOOL_NAME=$TOOL_NAME" >>/tmp/hook_
 #   TOOL: $TOOL_NAME
 #   RESULT SUMMARY: \"$escaped_context\"
 #
-#   Available agents: debugger, code-reviewer, developer, data-scientist, system-designer, technical-support, database-specialist, principal-engineer, sre
+#   Available agents: debugger, code-reviewer, developer, data-scientist, system-designer, technical-support, database-specialist, staff-engineer, sre
 #
 #   Respond with ONLY the agent name if auto-launch is recommended (>90% confidence), otherwise 'none'.
 #

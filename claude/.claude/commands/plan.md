@@ -1,8 +1,8 @@
 ---
-description: Strategic technical planning using principal engineer perspective for Linear tickets or general prompts
+description: Strategic technical planning using staff engineer perspective for Linear tickets or general prompts
 ---
 
-Use the principal-engineer subagent to create a comprehensive strategic plan for: $1
+Use the staff-engineer subagent to create a comprehensive strategic plan for: $1
 
 **Planning Framework:**
 
