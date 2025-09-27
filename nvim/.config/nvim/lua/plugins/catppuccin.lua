@@ -13,6 +13,7 @@ return {
     integrations = {
       cmp = true,
       flash = true,
+      fzf = true,
       grug_far = true,
       gitsigns = true,
       headlines = true,
