@@ -52,7 +52,7 @@ function M.get_default_workspace()
     end
   end
 
-  return "work"
+  return "personal"
 end
 
 -- ============================================================================
