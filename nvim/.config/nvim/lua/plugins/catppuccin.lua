@@ -2,6 +2,27 @@ return {
   "catppuccin/nvim",
   name = "catppuccin",
   priority = 1000,
+  init = function()
+    -- Fix for catppuccin bufferline integration API change
+    -- Reference: https://github.com/LazyVim/LazyVim/issues/6355
+    -- Reference: https://github.com/LazyVim/LazyVim/pull/6354
+    -- The module was moved from groups.integrations.bufferline to special.bufferline
+    local bufferline_mod
+    local ok1, mod1 = pcall(require, "catppuccin.groups.integrations.bufferline")
+    local ok2, mod2 = pcall(require, "catppuccin.special.bufferline")
+
+    if ok1 and mod1 then
+      bufferline_mod = mod1
+    elseif ok2 and mod2 then
+      bufferline_mod = mod2
+      -- Create the expected module path for compatibility
+      package.loaded["catppuccin.groups.integrations.bufferline"] = mod2
+    end
+
+    if bufferline_mod and not bufferline_mod.get and type(bufferline_mod.get_theme) == "function" then
+      bufferline_mod.get = bufferline_mod.get_theme
+    end
+  end,
   opts = {
     color_overrides = {
       mocha = {
