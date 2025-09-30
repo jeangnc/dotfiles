@@ -1,5 +1,5 @@
 -- required to compile the norg treesitter parser
-require("nvim-treesitter.install").compilers = { "gcc-14" }
+-- require("nvim-treesitter.install").compilers = { "gcc-14" }
 
 local neorg_utils = require("utils.neorg")
 
