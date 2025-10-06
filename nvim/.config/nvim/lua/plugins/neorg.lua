@@ -37,6 +37,10 @@ return {
       { "<leader>ojp", "<cmd>Neorg journal yesterday<cr>", desc = "Open previous day's journal" },
       { "<leader>ojc", "<cmd>Neorg journal today<cr>", desc = "Open current today's journal" },
       { "<leader>ojn", "<cmd>Neorg journal tomorrow<cr>", desc = "Open next day's journal" },
+
+      -- Edit quirks
+      { "<localleader><tab>", "<cmd>Neorg toc<cr>", desc = "Opens Table of Content" },
+      { "<localleader>am", "<cmd>Neorg inject-metadata<cr>", desc = "Inject metadata", buffer = true },
     },
     config = function()
       require("neorg").setup({

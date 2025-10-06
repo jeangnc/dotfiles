@@ -13,12 +13,6 @@ vim.keymap.set(
   "<cmd>Neorg toggle-concealer<cr>",
   { desc = "Toggle concealer", buffer = true }
 )
-vim.keymap.set(
-  { "n" },
-  "<localleader>am",
-  "<cmd>Neorg inject-metadata<cr>",
-  { desc = "Inject metadata", buffer = true }
-)
 vim.keymap.set({ "n", "i", "o" }, "<Tab>", function()
   vim.cmd("startinsert")
   vim.cmd('lua require("neorg.modules.core.itero.module").public.next_iteration_cr()')
