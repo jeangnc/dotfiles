@@ -1,0 +1,8 @@
+{
+  "name": "default",
+  "description": "Default Claude Code agents, commands, and hooks for personal development workflow",
+  "version": "1.0.0",
+  "author": {
+    "name": "jeangnc"
+  }
+}

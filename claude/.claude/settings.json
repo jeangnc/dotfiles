@@ -38,7 +38,6 @@
       "Read",
       "WebFetch",
       "WebSearch",
-      "Write",
       "mcp__Sentry__*"
     ],
     "deny": [
@@ -77,5 +76,10 @@
         ]
       }
     ]
-  }
+  },
+  "enabledPlugins": {
+    "gq-dev@gq-marketplace": true,
+    "default@local": true
+  },
+  "alwaysThinkingEnabled": false
 }

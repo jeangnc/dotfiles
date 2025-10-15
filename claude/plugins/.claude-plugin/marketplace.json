@@ -1,0 +1,13 @@
+{
+  "name": "local",
+  "owner": {
+    "name": "jeangnc"
+  },
+  "plugins": [
+    {
+      "name": "default",
+      "source": "./default",
+      "description": "Default Claude Code agents, commands, and hooks for personal development workflow"
+    }
+  ]
+}
