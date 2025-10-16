@@ -15,6 +15,10 @@ export PATH="$HOME/.rbenv/bin:$PATH"
 # node
 export PATH="/opt/homebrew/opt/node@22/bin:$PATH"
 
+# go
+export GOPATH="$(go env GOPATH)"
+export PATH="$GOPATH/bin:$PATH"
+
 #pipx
 export PATH="$HOME/.local/bin:$PATH" 
 
