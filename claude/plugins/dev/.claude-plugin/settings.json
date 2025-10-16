@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(bundle:*)",
+      "Bash(docker-compose:*)",
+      "Bash(docker:*)",
+      "Bash(gh:*)",
+      "Bash(git:*)",
+      "Bash(go:*)",
+      "Bash(make:*)",
+      "Bash(npm:*)",
+      "Bash(python:*)",
+      "Bash(rails:*)",
+      "Bash(rspec:*)",
+      "Bash(rubocop:*)",
+      "Bash(ruby:*)",
+      "Bash(terraform:*)",
+      "Bash(terraform state list:*)",
+      "Bash(yarn:*)"
+    ],
+    "deny": [
+      "Bash(git commit:*)",
+      "Bash(git push --force:*)",
+      "Bash(git reset:*)",
+      "Bash(terraform apply:*)"
+    ]
+  }
+}

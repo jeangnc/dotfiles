@@ -2,84 +2,32 @@
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "permissions": {
     "allow": [
-      "Bash(bundle:*)",
       "Bash(cat:*)",
       "Bash(curl:*)",
-      "Bash(docker-compose:*)",
-      "Bash(docker:*)",
       "Bash(exit)",
       "Bash(find:*)",
-      "Bash(gh:*)",
-      "Bash(git:*)",
-      "Bash(go:*)",
       "Bash(grep:*)",
       "Bash(head:*)",
       "Bash(ls:*)",
       "Bash(lsof:*)",
-      "Bash(make:*)",
       "Bash(mkdir:*)",
       "Bash(netstat:*)",
-      "Bash(npm:*)",
       "Bash(ps:*)",
       "Bash(pwd:*)",
-      "Bash(python:*)",
-      "Bash(rails:*)",
-      "Bash(rspec:*)",
-      "Bash(rubocop:*)",
-      "Bash(ruby:*)",
       "Bash(tail:*)",
-      "Bash(terraform:*)",
-      "Bash(terraform state list:*)",
-      "Bash(yarn:*)",
-      "Edit",
       "Glob",
       "Grep",
-      "mcp__Linear__*",
       "Read",
       "WebFetch",
-      "WebSearch",
-      "mcp__Sentry__*"
+      "WebSearch"
     ],
     "deny": [
-      "Bash(git commit:*)",
-      "Bash(git push --force:*)",
-      "Bash(git reset:*)",
-      "Bash(sudo:*)",
-      "Bash(terraform apply:*)"
-    ]
-  },
-  "enableAllProjectMcpServers": true,
-  "enabledMcpjsonServers": [
-    "Sentry",
-    "Linear"
-  ],
-  "hooks": {
-    "UserPromptSubmit": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/user-prompt-submit.sh"
-          }
-        ]
-      }
-    ],
-    "PostToolUse": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/hooks/post-tool-call.sh"
-          }
-        ]
-      }
+      "Bash(sudo:*)"
     ]
   },
   "enabledPlugins": {
     "gq-dev@gq-marketplace": true,
-    "default@local": true
+    "dev@local": true
   },
-  "alwaysThinkingEnabled": false
+  "alwaysThinkingEnabled": true
 }

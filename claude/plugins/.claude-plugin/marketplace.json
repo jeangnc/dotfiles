@@ -5,9 +5,9 @@
   },
   "plugins": [
     {
-      "name": "default",
-      "source": "./default",
-      "description": "Default Claude Code agents, commands, and hooks for personal development workflow"
+      "name": "dev",
+      "source": "./dev",
+      "description": "Development tools and workflows for personal projects"
     }
   ]
 }

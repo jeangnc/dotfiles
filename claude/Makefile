@@ -21,9 +21,9 @@ install:
 	@echo ""
 	@echo "  /plugin marketplace add $(MARKETPLACE_NAME) ~/.dotfiles/claude/plugins"
 	@echo ""
-	@echo -e "$(BLUE)[INFO]$(NC) Then install the default plugin:"
+	@echo -e "$(BLUE)[INFO]$(NC) Then install the dev plugin:"
 	@echo ""
-	@echo "  /plugin install default@$(MARKETPLACE_NAME)"
+	@echo "  /plugin install dev@$(MARKETPLACE_NAME)"
 	@echo ""
 
 # Remove marketplace
@@ -42,7 +42,7 @@ update:
 		echo -e "$(GREEN)[SUCCESS]$(NC) Plugin changes committed"
 	@echo -e "$(YELLOW)[ACTION]$(NC) Run this command in Claude Code to sync:"
 	@echo ""
-	@echo "  /plugin update default@$(MARKETPLACE_NAME)"
+	@echo "  /plugin update dev@$(MARKETPLACE_NAME)"
 	@echo ""
 
 # Show help
