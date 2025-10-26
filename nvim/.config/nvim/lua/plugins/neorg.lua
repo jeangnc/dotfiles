@@ -2,11 +2,18 @@ local neorg_utils = require("utils.neorg")
 
 return {
   {
+    "vhyrro/luarocks.nvim",
+    priority = 1000,
+    opts = {
+      rocks = { "tree-sitter-norg" },
+    },
+  },
+  {
     "nvim-neorg/neorg",
-    lazy = true,
-    ft = "norg",
-    cmd = "Neorg",
+    lazy = false, -- Recommended by neorg docs - lazy loading can cause issues
+    branch = "main",
     dependencies = {
+      { "luarocks.nvim" },
       { "benlubas/neorg-conceal-wrap" },
       { "benlubas/neorg-interim-ls" },
       { "bottd/neorg-archive" },
@@ -46,7 +53,15 @@ return {
       require("neorg").setup({
         load = {
           -- Core modules
-          ["core.defaults"] = {},
+          ["core.defaults"] = {
+            config = {
+              disable = {
+                -- Disable treesitter integration as it's incompatible with latest nvim-treesitter
+                -- Parser installation is handled by luarocks.nvim build scripts
+                "core.integrations.treesitter",
+              },
+            },
+          },
           ["core.concealer"] = {},
           ["core.export"] = {},
           ["core.summary"] = {},
@@ -121,12 +136,6 @@ return {
         },
       })
     end,
-  },
-  {
-    "nvim-treesitter/nvim-treesitter",
-    opts = {
-      ensure_installed = { "norg" },
-    },
   },
   {
     "folke/which-key.nvim",
