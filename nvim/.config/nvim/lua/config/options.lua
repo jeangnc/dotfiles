@@ -32,3 +32,6 @@ vim.opt.foldopen:remove("block")
 
 -- disable auto-continuation of bullet points and numbered lists
 vim.opt.formatoptions:remove({ "r", "o" })
+
+-- Set CXX for tree-sitter-norg C++ scanner compilation
+vim.env.CXX = "g++"
