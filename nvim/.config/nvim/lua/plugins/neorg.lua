@@ -53,15 +53,7 @@ return {
       require("neorg").setup({
         load = {
           -- Core modules
-          ["core.defaults"] = {
-            config = {
-              disable = {
-                -- Disable treesitter integration as it's incompatible with latest nvim-treesitter
-                -- Parser installation is handled by luarocks.nvim build scripts
-                "core.integrations.treesitter",
-              },
-            },
-          },
+          ["core.defaults"] = {},
           ["core.concealer"] = {},
           ["core.export"] = {},
           ["core.summary"] = {},
