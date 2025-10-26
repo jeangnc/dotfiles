@@ -6,6 +6,12 @@ vim.opt_local.colorcolumn = "120"
 
 -- Neorg-specific keymaps
 vim.keymap.set("n", "gl", "<plug>(neorg.external.hop-extras.hop-link)", { buffer = true })
+vim.keymap.set(
+  "n",
+  "<C-Space>",
+  "<Plug>(neorg.qol.todo-items.todo.task-cycle)",
+  { desc = "Cycle todo state", buffer = true }
+)
 vim.keymap.set({ "n", "v", "o" }, "<C-E>", "<cmd>Neorg toc<cr>", { desc = "Toggle ToC", buffer = true })
 vim.keymap.set(
   { "n", "v", "o" },
