@@ -1,4 +1,8 @@
 -- changes the diagnostics style
+-- Commented out: Auto-showing diagnostics on CursorHold causes high CPU usage
+-- because it fires every updatetime (200ms), forcing kitty to redraw constantly.
+-- Use manual diagnostics instead: K (hover) or <leader>cd (diagnostics)
+--[[
 vim.api.nvim_create_autocmd("CursorHold", {
   callback = function()
     local opts = {
@@ -12,6 +16,7 @@ vim.api.nvim_create_autocmd("CursorHold", {
     vim.diagnostic.open_float(nil, opts)
   end,
 })
+--]]
 
 return {
   "nvim-lspconfig",

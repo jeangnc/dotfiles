@@ -10,7 +10,9 @@ return {
   },
   {
     "nvim-neorg/neorg",
-    lazy = false, -- Recommended by neorg docs - lazy loading can cause issues
+    lazy = false,
+    ft = "norg", -- Load when opening .norg files
+    cmd = "Neorg", -- Load when running Neorg commands
     branch = "main",
     dependencies = {
       { "luarocks.nvim" },
