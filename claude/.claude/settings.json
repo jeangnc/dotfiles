@@ -23,7 +23,8 @@
     ],
     "deny": [
       "Bash(sudo:*)"
-    ]
+    ],
+    "defaultMode": "plan"
   },
   "enabledPlugins": {
     "gq-dev@gq-marketplace": true,
