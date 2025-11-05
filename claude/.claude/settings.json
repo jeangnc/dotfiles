@@ -27,7 +27,9 @@
     "defaultMode": "plan"
   },
   "enabledPlugins": {
-    "gq-dev@gq-marketplace": true
+    "gq-dev@gq-marketplace": true,
+    "finance-tools@jeangnc-marketplace": true,
+    "dev-tools@jeangnc-marketplace": true
   },
   "alwaysThinkingEnabled": true
 }

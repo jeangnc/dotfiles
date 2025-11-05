@@ -18,7 +18,7 @@ install: check-stow
 	@$(foreach pkg,$(PACKAGES),\
 		if [ -d "$(pkg)" ]; then \
 			echo -e "$(BLUE)[INFO]$(NC) Installing $(pkg)..."; \
-			if stow --target="$(HOME)" "$(pkg)"; then \
+			if stow --no-folding --target="$(HOME)" "$(pkg)"; then \
 				echo -e "$(GREEN)[SUCCESS]$(NC) $(pkg) installed successfully"; \
 			else \
 				echo -e "$(RED)[ERROR]$(NC) Failed to install $(pkg)"; \
@@ -37,7 +37,7 @@ uninstall:
 	@$(foreach pkg,$(PACKAGES),\
 		if [ -d "$(pkg)" ]; then \
 			echo -e "$(BLUE)[INFO]$(NC) Removing $(pkg)..."; \
-			stow --target="$(HOME)" --delete "$(pkg)" || \
+			stow --no-folding --target="$(HOME)" --delete "$(pkg)" || \
 				echo -e "$(YELLOW)[WARN]$(NC) Failed to remove $(pkg)"; \
 		fi; \
 	)
@@ -49,7 +49,7 @@ restow:
 	@$(foreach pkg,$(PACKAGES),\
 		if [ -d "$(pkg)" ]; then \
 			echo -e "$(BLUE)[INFO]$(NC) Re-stowing $(pkg)..."; \
-			stow --target="$(HOME)" --restow "$(pkg)" || \
+			stow --no-folding --target="$(HOME)" --restow "$(pkg)" || \
 				echo -e "$(YELLOW)[WARN]$(NC) Failed to restow $(pkg)"; \
 		fi; \
 	)
