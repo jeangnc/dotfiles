@@ -1,1 +1,9 @@
 *.local.*
+
+# Ignore everything in .claude by default
+/claude/.claude/*
+
+# Keep configuration files only
+!/claude/.claude/settings.json
+!/claude/.claude/commands/
+!/claude/.claude/agents/
