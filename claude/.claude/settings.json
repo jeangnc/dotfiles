@@ -27,8 +27,7 @@
     "defaultMode": "plan"
   },
   "enabledPlugins": {
-    "gq-dev@gq-marketplace": true,
-    "dev@local": true
+    "gq-dev@gq-marketplace": true
   },
   "alwaysThinkingEnabled": true
 }
