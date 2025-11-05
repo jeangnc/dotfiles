@@ -36,8 +36,6 @@ map("n", "<leader>wc", "<cmd>close<cr>", { desc = "Close Window" })
 
 -- Tab Management
 map("n", "<leader><tab>c", "<cmd>tabclose<cr>", { desc = "Close tab" })
-map("n", "<C-S-h>", "<cmd>tabmove -1<cr>", { desc = "Move tab left" })
-map("n", "<C-S-l>", "<cmd>tabmove +1<cr>", { desc = "Move tab right" })
 
 -- Clipboard Operations
 map({ "n", "v", "o" }, "<leader>y", '"+y', { desc = "Yank to Clipboard", silent = true, noremap = true })
