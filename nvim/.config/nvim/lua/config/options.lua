@@ -35,3 +35,6 @@ vim.opt.formatoptions:remove({ "r", "o" })
 
 -- Set CXX for tree-sitter-norg C++ scanner compilation
 vim.env.CXX = "g++"
+
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.LazyVim.treesitter.foldexpr()"
