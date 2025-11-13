@@ -55,6 +55,8 @@ return {
       -- Diff management
       { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
       { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
+      -- AI Commands
+      { "<localleader>a", function() require("utils.claude").show_command_picker() end, desc = "AI Commands", mode = { "n", "v" } },
     },
   },
   {
