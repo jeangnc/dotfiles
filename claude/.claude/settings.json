@@ -29,7 +29,8 @@
   "enabledPlugins": {
     "gq-dev@gq-marketplace": true,
     "finance-tools@jeangnc-marketplace": true,
-    "dev-tools@jeangnc-marketplace": true
+    "dev-tools@jeangnc-marketplace": true,
+    "note-tools@jeangnc-marketplace": true
   },
   "alwaysThinkingEnabled": true
 }
