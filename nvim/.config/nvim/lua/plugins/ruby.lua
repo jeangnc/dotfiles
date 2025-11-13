@@ -1,5 +1,5 @@
 return {
-  { "tpope/vim-rails" },
+  { "tpope/vim-rails", ft = { "ruby", "eruby", "rake" } },
   {
     "nvim-treesitter/nvim-treesitter",
     opts = {
