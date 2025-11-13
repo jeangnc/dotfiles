@@ -16,9 +16,9 @@ return {
     branch = "main",
     dependencies = {
       { "luarocks.nvim" },
+      { "benlubas/neorg-interim-ls" }, -- Required by neorg-archive for external.refactor module
       { "benlubas/neorg-conceal-wrap" },
-      { "benlubas/neorg-interim-ls" },
-      { "bottd/neorg-archive" },
+      { "bottd/neorg-archive" }, -- Depends on neorg-interim-ls
       { "max397574/neorg-contexts" },
       { "phenax/neorg-hop-extras" },
 
@@ -49,7 +49,6 @@ return {
 
       -- Edit quirks
       { "<localleader><tab>", "<cmd>Neorg toc<cr>", desc = "Opens Table of Content" },
-      { "<localleader>am", "<cmd>Neorg inject-metadata<cr>", desc = "Inject metadata", buffer = true },
     },
     config = function()
       require("neorg").setup({
