@@ -3,8 +3,7 @@ return {
     "nvim-neotest/neotest",
     dependencies = {
       "olimorris/neotest-rspec",
-      -- "nvim-neotest/neotest-go",
-      "zidhuss/neotest-minitest",
+      "nvim-neotest/neotest-go",
     },
     opts = {
       adapters = {
