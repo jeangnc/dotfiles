@@ -8,13 +8,14 @@ local _cached_commands = nil
 function M.discover_commands()
   local commands = {}
 
-  local search_dirs = {
-    vim.fn.expand("~/.claude/plugins/marketplaces/gq-marketplace/*/commands"),
-    vim.fn.expand("~/.claude/plugins/marketplaces/jeangnc-marketplace/plugins/*/commands"),
-    vim.fn.expand("~/.claude/commands"),
+  local search_patterns = {
+    "~/.claude/plugins/marketplaces/gq-marketplace/*/commands",
+    "~/.claude/plugins/marketplaces/jeangnc-marketplace/plugins/*/commands",
+    "~/.claude/commands",
   }
 
-  for _, pattern in ipairs(search_dirs) do
+  for _, pattern in ipairs(search_patterns) do
+    -- glob() handles both ~ expansion and glob patterns correctly
     local dirs = vim.fn.glob(pattern, false, true)
     for _, dir in ipairs(dirs) do
       local files = vim.fn.glob(dir .. "/*.md", false, true)
@@ -105,7 +106,7 @@ end
 function M.get_context(mode)
   mode = mode or vim.fn.mode()
 
-  -- Check if in visual mode
+  -- Check if in visual mode (v=visual, V=visual line, \22=Ctrl-V visual block)
   if mode == "v" or mode == "V" or mode == "\22" then
     -- Get visual selection
     vim.cmd('noau normal! "vy"')
@@ -124,11 +125,11 @@ function M.get_context(mode)
   return nil
 end
 
---- Execute a Claude command
+--- Execute a Claude command in a terminal window (for interactive commands)
 ---@param command table Command specification
 ---@param args string|nil Optional arguments
----@param context string|nil Optional context (selection or file)
-function M.execute_command(command, args, context)
+---@param context string|nil Optional context (file path)
+function M.execute_in_terminal(command, args, context)
   local cmd_parts = { "claude", "-p" }
 
   -- Build command with arguments
@@ -137,14 +138,49 @@ function M.execute_command(command, args, context)
     full_cmd = full_cmd .. " " .. args
   end
 
-  -- Wrap in quotes to handle spaces
-  table.insert(cmd_parts, "'" .. full_cmd .. "'")
+  -- Properly escape for shell
+  table.insert(cmd_parts, vim.fn.shellescape(full_cmd))
 
   -- Add context if provided (pipe file content)
   local cmd_str
   if context and vim.fn.filereadable(context) == 1 then
     -- It's a file path, pipe its content
-    cmd_str = string.format("cat '%s' | %s", context, table.concat(cmd_parts, " "))
+    cmd_str = string.format("cat %s | %s", vim.fn.shellescape(context), table.concat(cmd_parts, " "))
+  else
+    -- Just the command
+    cmd_str = table.concat(cmd_parts, " ")
+  end
+
+  -- Show notification
+  vim.notify(string.format("Running: %s (interactive)", command.name), vim.log.levels.INFO)
+
+  -- Open terminal in bottom horizontal split
+  vim.cmd("botright split")
+  vim.cmd(string.format("terminal %s", cmd_str))
+  vim.cmd("startinsert") -- Enter insert mode so user can interact
+end
+
+--- Execute a Claude command asynchronously (for non-interactive commands)
+---@param command table Command specification
+---@param args string|nil Optional arguments
+---@param context string|nil Optional context (file path)
+function M.execute_async(command, args, context)
+  local cmd_parts = { "claude", "-p" }
+
+  -- Build command with arguments
+  local full_cmd = command.full_name
+  if args and args ~= "" then
+    full_cmd = full_cmd .. " " .. args
+  end
+
+  -- Properly escape for shell
+  table.insert(cmd_parts, vim.fn.shellescape(full_cmd))
+
+  -- Add context if provided (pipe file content)
+  local cmd_str
+  if context and vim.fn.filereadable(context) == 1 then
+    -- It's a file path, pipe its content
+    cmd_str = string.format("cat %s | %s", vim.fn.shellescape(context), table.concat(cmd_parts, " "))
   else
     -- Just the command
     cmd_str = table.concat(cmd_parts, " ")
@@ -158,17 +194,17 @@ function M.execute_command(command, args, context)
     stdout_buffered = true,
     stderr_buffered = true,
     on_stdout = function(_, data)
-      if data then
+      if data and #data > 0 then
         local output = table.concat(data, "\n")
-        if output and output ~= "" then
+        if output ~= "" then
           M.show_result(output, command.name)
         end
       end
     end,
     on_stderr = function(_, data)
-      if data then
+      if data and #data > 0 then
         local err = table.concat(data, "\n")
-        if err and err ~= "" then
+        if err ~= "" then
           vim.notify(string.format("Error: %s", err), vim.log.levels.ERROR)
         end
       end
@@ -179,6 +215,24 @@ function M.execute_command(command, args, context)
       end
     end,
   })
+end
+
+--- Execute a Claude command (hybrid: detects interactive vs non-interactive)
+---@param command table Command specification
+---@param args string|nil Optional arguments
+---@param context string|nil Optional context (file path)
+function M.execute_command(command, args, context)
+  -- Detect if this is likely an interactive command
+  -- Interactive: commands that need input OR commands without file context
+  local is_interactive = command.needs_input or not context or vim.fn.filereadable(context) ~= 1
+
+  if is_interactive then
+    -- Use terminal window for interactive commands
+    M.execute_in_terminal(command, args, context)
+  else
+    -- Use async execution for non-interactive commands with file context
+    M.execute_async(command, args, context)
+  end
 end
 
 --- Show command result in a scratch buffer
@@ -193,10 +247,10 @@ function M.show_result(content, title)
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
 
   -- Set buffer options
-  vim.api.nvim_buf_set_option(buf, "filetype", "markdown")
-  vim.api.nvim_buf_set_option(buf, "buftype", "nofile")
-  vim.api.nvim_buf_set_option(buf, "bufhidden", "wipe")
-  vim.api.nvim_buf_set_option(buf, "modifiable", false)
+  vim.bo[buf].filetype = "markdown"
+  vim.bo[buf].buftype = "nofile"
+  vim.bo[buf].bufhidden = "wipe"
+  vim.bo[buf].modifiable = false
 
   -- Open in a new window
   vim.cmd("botright vsplit")
@@ -204,8 +258,8 @@ function M.show_result(content, title)
   vim.api.nvim_buf_set_name(buf, "Claude: " .. title)
 
   -- Set local keymaps to close easily
-  vim.api.nvim_buf_set_keymap(buf, "n", "q", ":q<CR>", { noremap = true, silent = true })
-  vim.api.nvim_buf_set_keymap(buf, "n", "<Esc>", ":q<CR>", { noremap = true, silent = true })
+  vim.keymap.set("n", "q", ":q<CR>", { buffer = buf, noremap = true, silent = true })
+  vim.keymap.set("n", "<Esc>", ":q<CR>", { buffer = buf, noremap = true, silent = true })
 end
 
 --- Handle command selection and execution
@@ -217,7 +271,7 @@ function M.handle_command_selection(command)
     -- Prompt for input
     local input_prompt = string.format("%s (e.g., PR URL, ticket ID): ", command.name)
     vim.ui.input({ prompt = input_prompt }, function(input)
-      if input and input ~= "" then
+      if input and input:match("%S") then
         M.execute_command(command, input, nil)
       end
     end)
@@ -237,10 +291,10 @@ function M.show_command_picker()
     return
   end
 
-  -- Format commands for display: [Category] Description (plugin:command)
+  -- Format commands for display: [plugin-name] Description
   local items = {}
   for _, cmd in ipairs(commands) do
-    local display = string.format("[%s] %s (%s)", cmd.category, cmd.description, cmd.full_name)
+    local display = string.format("[%s] %s", cmd.plugin, cmd.description)
     table.insert(items, display)
   end
 
@@ -251,7 +305,7 @@ function M.show_command_picker()
     end
 
     -- Find the corresponding command
-    local idx = nil
+    local idx
     for i, item in ipairs(items) do
       if item == selected then
         idx = i
