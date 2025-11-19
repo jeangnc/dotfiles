@@ -7,6 +7,12 @@ return {
     },
     opts = {
       adapters = {
+        ["neotest-go"] = {
+          experimental = {
+            test_table = true,
+          },
+          args = { "-count=1", "-timeout=60s" },
+        },
         ["neotest-rspec"] = {
           rspec_cmd = function()
             return vim.tbl_flatten({
