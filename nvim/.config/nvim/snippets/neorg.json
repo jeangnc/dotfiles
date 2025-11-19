@@ -19,12 +19,21 @@
     ],
     "description": "Current time with item"
   },
-  "journal_log": {
-    "prefix": "jlog",
+  "2_level_log": {
+    "prefix": "2log",
     "body": [
-      "** $CURRENT_DAY_NAME $CURRENT_DATE $CURRENT_MONTH_NAME $CURRENT_YEAR: ${1:theme}",
+      "** $CURRENT_DAY_NAME $CURRENT_DATE $CURRENT_MONTH_NAME $CURRENT_YEAR",
       "",
-      "- ${2:entry}"
+      "- ${1:entry}"
+    ],
+    "description": "Current date with item"
+  },
+  "3_level_log": {
+    "prefix": "3log",
+    "body": [
+      "*** $CURRENT_DAY_NAME $CURRENT_DATE $CURRENT_MONTH_NAME $CURRENT_YEAR",
+      "",
+      "- ${1:entry}"
     ],
     "description": "Current date with item"
   }
