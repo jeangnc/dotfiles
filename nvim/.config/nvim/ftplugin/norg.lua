@@ -24,6 +24,14 @@ vim.keymap.set({ "n", "i", "o" }, "<Tab>", function()
   vim.cmd('lua require("neorg.modules.core.itero.module").public.next_iteration_cr()')
 end, { desc = "Next iteration", buffer = true })
 
+-- Journal-specific keymaps (only in .journalfiles directory)
+local current_file = vim.fn.expand("%:p")
+if current_file:match("%.journalfiles/") then
+  vim.keymap.set("n", "<localleader>jc", function()
+    require("utils.neorg").continue_journal()
+  end, { desc = "Continue journal from previous entry", buffer = true })
+end
+
 -- Auto-indent on save and when leaving insert mode for .norg files
 vim.api.nvim_create_autocmd({ "BufWritePre", "InsertLeave" }, {
   pattern = "*.norg",

@@ -135,5 +135,237 @@ function M.explore_journal()
   end)
 end
 
+-- ============================================================================
+-- Journal Continuation
+-- ============================================================================
+
+local function scan_journal_files(journal_dir)
+  local files = {}
+  local scan = vim.loop.fs_scandir(journal_dir)
+
+  if not scan then
+    return files
+  end
+
+  while true do
+    local name, type = vim.loop.fs_scandir_next(scan)
+    if not name then break end
+
+    if type == "directory" then
+      -- Recursively scan subdirectories (year/month structure)
+      local subdir = journal_dir .. "/" .. name
+      local subfiles = scan_journal_files(subdir)
+      for _, f in ipairs(subfiles) do
+        table.insert(files, f)
+      end
+    elseif type == "file" and name:match("%.norg$") then
+      table.insert(files, journal_dir .. "/" .. name)
+    end
+  end
+
+  return files
+end
+
+local function parse_journal_date(filepath)
+  -- Extract date from nested structure: .journalfiles/YYYY/MM/DD.norg
+  local pattern = "/(%d%d%d%d)/(%d%d)/(%d%d)%.norg$"
+  local year, month, day = filepath:match(pattern)
+
+  if year and month and day then
+    return os.time({
+      year = tonumber(year),
+      month = tonumber(month),
+      day = tonumber(day),
+      hour = 0,
+      min = 0,
+      sec = 0
+    })
+  end
+
+  return nil
+end
+
+local function find_most_recent_journal(workspace_dir)
+  local journal_dir = workspace_dir .. "/.journalfiles"
+
+  -- Check if journal directory exists
+  local stat = vim.loop.fs_stat(journal_dir)
+  if not stat or stat.type ~= "directory" then
+    return nil
+  end
+
+  local files = scan_journal_files(journal_dir)
+  local today = os.time(os.date("*t", os.time()))
+  local most_recent = nil
+  local most_recent_time = 0
+
+  for _, filepath in ipairs(files) do
+    local file_time = parse_journal_date(filepath)
+    if file_time and file_time < today and file_time > most_recent_time then
+      most_recent = filepath
+      most_recent_time = file_time
+    end
+  end
+
+  return most_recent
+end
+
+-- Recursively check if a node contains completed/cancelled todos
+local function contains_completed_todo(node)
+  local node_type = node:type()
+
+  -- Check if this node itself is a completed/cancelled todo
+  if node_type == "todo_item_done" or node_type == "todo_item_pending" then
+    return true
+  end
+
+  -- Recursively check children
+  for child in node:iter_children() do
+    if contains_completed_todo(child) then
+      return true
+    end
+  end
+
+  return false
+end
+
+local function should_keep_node(node, bufnr)
+  local node_type = node:type()
+
+  -- For list items, check if they contain completed/cancelled todos
+  if node_type == "unordered_list1" or node_type == "unordered_list2" or node_type == "unordered_list3" then
+    if contains_completed_todo(node) then
+      return false
+    end
+    return true
+  end
+
+  -- Remove paragraphs that are just timestamps (HH:MM format)
+  if node_type == "paragraph" or node_type == "paragraph_segment" then
+    local text = vim.treesitter.get_node_text(node, bufnr)
+    -- Check if it's ONLY a timestamp (with optional whitespace)
+    if text and text:match("^%s*%d%d:%d%d%s*$") then
+      return false
+    end
+    return true
+  end
+
+  -- Keep everything else (headings, quotes, regular content, horizontal lines)
+  return true
+end
+
+local function filter_journal_content(filepath)
+  -- Load file into a temporary buffer
+  local bufnr = vim.fn.bufadd(filepath)
+  vim.fn.bufload(bufnr)
+
+  -- Parse with treesitter
+  local parser = vim.treesitter.get_parser(bufnr, "norg")
+  local tree = parser:parse()[1]
+  local root = tree:root()
+
+  local filtered_lines = {}
+  local lines_to_skip = {}
+
+  -- First pass: identify lines to skip
+  local function mark_lines_to_skip(node, parent)
+    if not should_keep_node(node, bufnr) then
+      local start_row, _, end_row, end_col = node:range()
+      -- Only mark up to end_row-1 if end_col is 0 (node ends at beginning of next line)
+      local actual_end_row = (end_col == 0) and (end_row - 1) or end_row
+      for i = start_row, actual_end_row do
+        lines_to_skip[i] = true
+      end
+    else
+      -- Check if this is a list following a timestamp paragraph
+      local node_type = node:type()
+      if node_type == "generic_list" and parent then
+        -- Get previous sibling
+        local prev_sibling = nil
+        for child in parent:iter_children() do
+          if child == node then
+            break
+          end
+          if child:type() == "paragraph" then
+            prev_sibling = child
+          end
+        end
+
+        -- If previous sibling is a timestamp, skip this list too
+        if prev_sibling then
+          local prev_text = vim.treesitter.get_node_text(prev_sibling, bufnr)
+          if prev_text and prev_text:match("^%s*%d%d:%d%d%s*$") then
+            local start_row, _, end_row, end_col = node:range()
+            local actual_end_row = (end_col == 0) and (end_row - 1) or end_row
+            for i = start_row, actual_end_row do
+              lines_to_skip[i] = true
+            end
+            return  -- Don't recurse into this node
+          end
+        end
+      end
+
+      -- Recursively check children
+      for child in node:iter_children() do
+        mark_lines_to_skip(child, node)
+      end
+    end
+  end
+
+  for node in root:iter_children() do
+    mark_lines_to_skip(node, root)
+  end
+
+  -- Second pass: collect lines that aren't marked to skip
+  local all_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+  for i, line in ipairs(all_lines) do
+    if not lines_to_skip[i - 1] then -- 0-indexed
+      table.insert(filtered_lines, line)
+    end
+  end
+
+  -- Clean up temporary buffer
+  vim.api.nvim_buf_delete(bufnr, { force = true })
+
+  return filtered_lines
+end
+
+function M.continue_journal()
+  -- Validate we're in a workspace
+  local workspace_dir = validate_workspace()
+  if not workspace_dir then
+    return
+  end
+
+  -- Find most recent journal entry
+  local previous_journal = find_most_recent_journal(workspace_dir)
+
+  if not previous_journal then
+    vim.notify("No previous journal entries found", vim.log.levels.WARN)
+    return
+  end
+
+  -- Filter content from previous journal
+  local ok, filtered_content = pcall(filter_journal_content, previous_journal)
+
+  if not ok then
+    vim.notify("Failed to filter journal content: " .. tostring(filtered_content), vim.log.levels.ERROR)
+    return
+  end
+
+  if #filtered_content == 0 then
+    vim.notify("No content to continue from previous journal", vim.log.levels.INFO)
+    return
+  end
+
+  -- Replace current buffer content
+  local current_bufnr = vim.api.nvim_get_current_buf()
+  vim.api.nvim_buf_set_lines(current_bufnr, 0, -1, false, filtered_content)
+
+  -- Extract date from filepath for notification
+  local date_match = previous_journal:match("(%d%d%d%d/%d%d/%d%d)%.norg$")
+  vim.notify("Continued from journal: " .. (date_match or previous_journal), vim.log.levels.INFO)
+end
+
 return M
 
