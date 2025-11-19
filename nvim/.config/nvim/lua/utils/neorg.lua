@@ -266,21 +266,48 @@ local function filter_journal_content(filepath)
 
   local filtered_lines = {}
   local lines_to_skip = {}
+  local lines_to_uncheck = {}  -- Lines containing routine todos to uncheck
 
-  -- First pass: identify lines to skip
+  -- Track if we're under heading1 (routine section) or heading2+ (regular section)
+  local under_heading1 = false
+  local under_heading2_plus = false
+
+  -- First pass: identify lines to skip and lines to uncheck
   local function mark_lines_to_skip(node, parent)
+    local node_type = node:type()
+
+    -- Track heading context
+    if node_type == "heading1" then
+      under_heading1 = true
+      under_heading2_plus = false
+    elseif node_type:match("^heading[2-9]") then
+      under_heading1 = false
+      under_heading2_plus = true
+    end
+
+    -- Check routine todos FIRST (before should_keep_node)
+    if (node_type == "unordered_list1" or node_type == "unordered_list2" or node_type == "unordered_list3")
+       and under_heading1 and not under_heading2_plus then
+      if contains_completed_todo(node) then
+        -- Routine todo: mark for unchecking instead of skipping
+        local start_row, _, end_row, end_col = node:range()
+        local actual_end_row = (end_col == 0) and (end_row - 1) or end_row
+        for i = start_row, actual_end_row do
+          lines_to_uncheck[i] = true
+        end
+        return  -- Don't process further
+      end
+    end
+
     if not should_keep_node(node, bufnr) then
       local start_row, _, end_row, end_col = node:range()
-      -- Only mark up to end_row-1 if end_col is 0 (node ends at beginning of next line)
       local actual_end_row = (end_col == 0) and (end_row - 1) or end_row
       for i = start_row, actual_end_row do
         lines_to_skip[i] = true
       end
     else
       -- Check if this is a list following a timestamp paragraph
-      local node_type = node:type()
       if node_type == "generic_list" and parent then
-        -- Get previous sibling
         local prev_sibling = nil
         for child in parent:iter_children() do
           if child == node then
@@ -291,7 +318,6 @@ local function filter_journal_content(filepath)
           end
         end
 
-        -- If previous sibling is a timestamp, skip this list too
         if prev_sibling then
           local prev_text = vim.treesitter.get_node_text(prev_sibling, bufnr)
           if prev_text and prev_text:match("^%s*%d%d:%d%d%s*$") then
@@ -300,7 +326,7 @@ local function filter_journal_content(filepath)
             for i = start_row, actual_end_row do
               lines_to_skip[i] = true
             end
-            return  -- Don't recurse into this node
+            return
           end
         end
       end
@@ -316,10 +342,15 @@ local function filter_journal_content(filepath)
     mark_lines_to_skip(node, root)
   end
 
-  -- Second pass: collect lines that aren't marked to skip
+  -- Second pass: collect and process lines
   local all_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
   for i, line in ipairs(all_lines) do
-    if not lines_to_skip[i - 1] then -- 0-indexed
+    local line_idx = i - 1  -- 0-indexed
+    if not lines_to_skip[line_idx] then
+      if lines_to_uncheck[line_idx] then
+        -- Uncheck the todo: (x) or (-) → ( )
+        line = line:gsub("%-(%s*)%([xX%-]%)", "-%1( )")
+      end
       table.insert(filtered_lines, line)
     end
   end
