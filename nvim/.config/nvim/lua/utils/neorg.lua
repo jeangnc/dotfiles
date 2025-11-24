@@ -195,7 +195,18 @@ local function find_most_recent_journal(workspace_dir)
   end
 
   local files = scan_journal_files(journal_dir)
-  local today = os.time(os.date("*t", os.time()))
+
+  -- Normalize today to midnight to correctly exclude today's journal
+  local now = os.date("*t")
+  local today = os.time({
+    year = now.year,
+    month = now.month,
+    day = now.day,
+    hour = 0,
+    min = 0,
+    sec = 0
+  })
+
   local most_recent = nil
   local most_recent_time = 0
 
