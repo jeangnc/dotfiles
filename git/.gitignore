@@ -3,6 +3,7 @@
 *.swn
 *.iml
 *.DS_Store
+*.local.*
 
 cover.out
 .DS_Store
