@@ -24,7 +24,9 @@
     "body": [
       "** $CURRENT_DAY_NAME $CURRENT_DATE $CURRENT_MONTH_NAME $CURRENT_YEAR",
       "",
-      "- ${1:entry}"
+      "- ",
+      "",
+      "---"
     ],
     "description": "Current date with item"
   },
@@ -33,7 +35,9 @@
     "body": [
       "*** $CURRENT_DAY_NAME $CURRENT_DATE $CURRENT_MONTH_NAME $CURRENT_YEAR",
       "",
-      "- ${1:entry}"
+      "- ",
+      "",
+      "---"
     ],
     "description": "Current date with item"
   }
