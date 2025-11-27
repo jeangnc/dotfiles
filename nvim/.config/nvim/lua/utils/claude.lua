@@ -102,183 +102,87 @@ end
 
 --- Get context from current buffer or visual selection
 ---@param mode string|nil Optional mode hint
----@return string|nil Context text or file path
+---@return table Context with file_path and optional line range
 function M.get_context(mode)
   mode = mode or vim.fn.mode()
 
-  -- Check if in visual mode (v=visual, V=visual line, \22=Ctrl-V visual block)
-  if mode == "v" or mode == "V" or mode == "\22" then
-    -- Get visual selection
-    vim.cmd('noau normal! "vy"')
-    local text = vim.fn.getreg("v")
-    return text
-  end
-
-  -- Otherwise return current buffer path
   local bufnr = vim.api.nvim_get_current_buf()
   local filepath = vim.api.nvim_buf_get_name(bufnr)
 
+  -- Check if in visual mode (v=visual, V=visual line, \22=Ctrl-V visual block)
+  if mode == "v" or mode == "V" or mode == "\22" then
+    -- Get visual selection line range (0-indexed for claudecode API)
+    local start_line = vim.fn.line("'<") - 1
+    local end_line = vim.fn.line("'>") - 1
+    return {
+      file_path = filepath,
+      start_line = start_line,
+      end_line = end_line,
+    }
+  end
+
+  -- Otherwise return current buffer path
   if filepath and filepath ~= "" then
-    return filepath
+    return { file_path = filepath }
   end
 
-  return nil
+  return {}
 end
 
---- Execute a Claude command in a terminal window (for interactive commands)
+--- Execute a Claude command in the interactive Claude terminal
 ---@param command table Command specification
 ---@param args string|nil Optional arguments
----@param context string|nil Optional context (file path)
-function M.execute_in_terminal(command, args, context)
-  local cmd_parts = { "claude", "-p" }
+---@param context table|nil Optional context with file_path and line range
+function M.execute_in_claude(command, args, context)
+  local terminal = require("claudecode.terminal")
+  local claudecode = require("claudecode")
 
-  -- Build command with arguments
-  local full_cmd = command.full_name
+  -- Send file context as @mention if available
+  if context and context.file_path and context.file_path ~= "" then
+    claudecode.send_at_mention(context.file_path, context.start_line, context.end_line)
+  end
+
+  -- Ensure terminal is open
+  terminal.open()
+
+  -- Build command text
+  local cmd_text = command.full_name
   if args and args ~= "" then
-    full_cmd = full_cmd .. " " .. args
+    cmd_text = cmd_text .. " " .. args
   end
 
-  -- Properly escape for shell
-  table.insert(cmd_parts, vim.fn.shellescape(full_cmd))
-
-  -- Add context if provided (pipe file content)
-  local cmd_str
-  if context and vim.fn.filereadable(context) == 1 then
-    -- It's a file path, pipe its content
-    cmd_str = string.format("cat %s | %s", vim.fn.shellescape(context), table.concat(cmd_parts, " "))
-  else
-    -- Just the command
-    cmd_str = table.concat(cmd_parts, " ")
-  end
-
-  -- Show notification
-  vim.notify(string.format("Running: %s (interactive)", command.name), vim.log.levels.INFO)
-
-  -- Open terminal in bottom horizontal split
-  vim.cmd("botright split")
-  vim.cmd(string.format("terminal %s", cmd_str))
-  vim.cmd("startinsert") -- Enter insert mode so user can interact
-end
-
---- Execute a Claude command asynchronously (for non-interactive commands)
----@param command table Command specification
----@param args string|nil Optional arguments
----@param context string|nil Optional context (file path)
-function M.execute_async(command, args, context)
-  local cmd_parts = { "claude", "-p" }
-
-  -- Build command with arguments
-  local full_cmd = command.full_name
-  if args and args ~= "" then
-    full_cmd = full_cmd .. " " .. args
-  end
-
-  -- Properly escape for shell
-  table.insert(cmd_parts, vim.fn.shellescape(full_cmd))
-
-  -- Add context if provided (pipe file content)
-  local cmd_str
-  if context and vim.fn.filereadable(context) == 1 then
-    -- It's a file path, pipe its content
-    cmd_str = string.format("cat %s | %s", vim.fn.shellescape(context), table.concat(cmd_parts, " "))
-  else
-    -- Just the command
-    cmd_str = table.concat(cmd_parts, " ")
-  end
-
-  -- Show notification that command is running
-  vim.notify(string.format("Running: %s", command.name), vim.log.levels.INFO)
-
-  -- Execute command asynchronously
-  vim.fn.jobstart(cmd_str, {
-    stdout_buffered = true,
-    stderr_buffered = true,
-    on_stdout = function(_, data)
-      if data and #data > 0 then
-        local output = table.concat(data, "\n")
-        if output ~= "" then
-          M.show_result(output, command.name)
-        end
+  -- Wait briefly for terminal to be ready, then send the command
+  vim.defer_fn(function()
+    local bufnr = terminal.get_active_terminal_bufnr()
+    if bufnr then
+      local chan = vim.bo[bufnr].channel
+      if chan then
+        vim.api.nvim_chan_send(chan, cmd_text .. "\n")
+      else
+        vim.notify("Could not get terminal channel", vim.log.levels.ERROR)
       end
-    end,
-    on_stderr = function(_, data)
-      if data and #data > 0 then
-        local err = table.concat(data, "\n")
-        if err ~= "" then
-          vim.notify(string.format("Error: %s", err), vim.log.levels.ERROR)
-        end
-      end
-    end,
-    on_exit = function(_, exit_code)
-      if exit_code ~= 0 then
-        vim.notify(string.format("Command failed with exit code: %d", exit_code), vim.log.levels.ERROR)
-      end
-    end,
-  })
-end
-
---- Execute a Claude command (hybrid: detects interactive vs non-interactive)
----@param command table Command specification
----@param args string|nil Optional arguments
----@param context string|nil Optional context (file path)
-function M.execute_command(command, args, context)
-  -- Detect if this is likely an interactive command
-  -- Interactive: commands that need input OR commands without file context
-  local is_interactive = command.needs_input or not context or vim.fn.filereadable(context) ~= 1
-
-  if is_interactive then
-    -- Use terminal window for interactive commands
-    M.execute_in_terminal(command, args, context)
-  else
-    -- Use async execution for non-interactive commands with file context
-    M.execute_async(command, args, context)
-  end
-end
-
---- Show command result in a scratch buffer
----@param content string The content to display
----@param title string Title for the buffer
-function M.show_result(content, title)
-  -- Create a new scratch buffer
-  local buf = vim.api.nvim_create_buf(false, true)
-
-  -- Split content into lines
-  local lines = vim.split(content, "\n")
-  vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
-
-  -- Set buffer options
-  vim.bo[buf].filetype = "markdown"
-  vim.bo[buf].buftype = "nofile"
-  vim.bo[buf].bufhidden = "wipe"
-  vim.bo[buf].modifiable = false
-
-  -- Open in a new window
-  vim.cmd("botright vsplit")
-  vim.api.nvim_win_set_buf(0, buf)
-  vim.api.nvim_buf_set_name(buf, "Claude: " .. title)
-
-  -- Set local keymaps to close easily
-  vim.keymap.set("n", "q", ":q<CR>", { buffer = buf, noremap = true, silent = true })
-  vim.keymap.set("n", "<Esc>", ":q<CR>", { buffer = buf, noremap = true, silent = true })
+    else
+      vim.notify("Could not find Claude terminal", vim.log.levels.ERROR)
+    end
+  end, 200) -- Small delay to ensure terminal is ready
 end
 
 --- Handle command selection and execution
 ---@param command table The selected command
 function M.handle_command_selection(command)
   local mode = vim.fn.mode()
+  local context = M.get_context(mode)
 
   if command.needs_input then
-    -- Prompt for input
+    -- Prompt for input argument
     local input_prompt = string.format("%s (e.g., PR URL, ticket ID): ", command.name)
     vim.ui.input({ prompt = input_prompt }, function(input)
       if input and input:match("%S") then
-        M.execute_command(command, input, nil)
+        M.execute_in_claude(command, input, context)
       end
     end)
   else
-    -- Use context from buffer or selection
-    local context = M.get_context(mode)
-    M.execute_command(command, nil, context)
+    M.execute_in_claude(command, nil, context)
   end
 end
 
