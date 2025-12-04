@@ -265,6 +265,20 @@ local function should_keep_node(node, bufnr)
   return true
 end
 
+-- Remove consecutive empty lines from a list of lines
+local function remove_consecutive_empty_lines(lines)
+  local result = {}
+  local prev_empty = false
+  for _, line in ipairs(lines) do
+    local is_empty = line:match("^%s*$")
+    if not (is_empty and prev_empty) then
+      table.insert(result, line)
+    end
+    prev_empty = is_empty
+  end
+  return result
+end
+
 local function filter_journal_content(filepath)
   -- Load file into a temporary buffer
   local bufnr = vim.fn.bufadd(filepath)
@@ -369,7 +383,7 @@ local function filter_journal_content(filepath)
   -- Clean up temporary buffer
   vim.api.nvim_buf_delete(bufnr, { force = true })
 
-  return filtered_lines
+  return remove_consecutive_empty_lines(filtered_lines)
 end
 
 function M.continue_journal()
