@@ -1,7 +1,5 @@
 # macOS defaults
 defaults write -g ApplePressAndHoldEnabled -bool false
-defaults write com.apple.dock no-bouncing -bool TRUE
-defaults write com.apple.dock appswitcher-all-displays -bool false # show app switcher on all displays
 ulimit -n 4096
 
 # setup homebrew
