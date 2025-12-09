@@ -26,6 +26,19 @@
     ],
     "defaultMode": "plan"
   },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/docker-transform.sh"
+          }
+        ]
+      }
+    ]
+  },
   "enabledPlugins": {
     "gq-dev@gq-marketplace": true,
     "finance-tools@jeangnc-marketplace": true,
