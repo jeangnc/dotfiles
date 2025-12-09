@@ -135,43 +135,56 @@ end
 ---@param context table|nil Optional context with file_path and line range
 function M.execute_in_claude(command, args, context)
   local terminal = require("claudecode.terminal")
-  local claudecode = require("claudecode")
-
-  -- Send file context as @mention if available
-  if context and context.file_path and context.file_path ~= "" then
-    claudecode.send_at_mention(context.file_path, context.start_line, context.end_line)
-  end
 
   -- Ensure terminal is open
   terminal.open()
 
-  -- Build command text
-  local cmd_text = command.full_name
+  -- Build input text: command @file (for no-arg commands) or command args
+  local input_parts = {}
+
+  -- Add command first
+  table.insert(input_parts, command.full_name)
+
+  -- Add args if present, otherwise add @mention for file context
   if args and args ~= "" then
-    cmd_text = cmd_text .. " " .. args
+    table.insert(input_parts, args)
+  elseif context and context.file_path and context.file_path ~= "" then
+    table.insert(input_parts, "@" .. context.file_path)
   end
 
-  -- Wait briefly for terminal to be ready, then send the command
+  local input_text = table.concat(input_parts, " ")
+
+  -- Wait for terminal buffer, then type command (user presses Enter when ready)
   vim.defer_fn(function()
     local bufnr = terminal.get_active_terminal_bufnr()
     if bufnr then
-      local chan = vim.bo[bufnr].channel
-      if chan then
-        vim.api.nvim_chan_send(chan, cmd_text .. "\n")
-      else
-        vim.notify("Could not get terminal channel", vim.log.levels.ERROR)
+      -- Focus terminal window
+      for _, win in ipairs(vim.api.nvim_list_wins()) do
+        if vim.api.nvim_win_get_buf(win) == bufnr then
+          vim.api.nvim_set_current_win(win)
+          break
+        end
       end
+      -- Enter terminal insert mode and type command
+      vim.cmd("startinsert")
+      vim.schedule(function()
+        vim.api.nvim_feedkeys(input_text, "t", true)
+      end)
     else
       vim.notify("Could not find Claude terminal", vim.log.levels.ERROR)
     end
-  end, 200) -- Small delay to ensure terminal is ready
+  end, 200)
 end
 
 --- Handle command selection and execution
 ---@param command table The selected command
-function M.handle_command_selection(command)
-  local mode = vim.fn.mode()
-  local context = M.get_context(mode)
+---@param context table|nil Pre-captured context (file_path, start_line, end_line)
+function M.handle_command_selection(command, context)
+  -- Use provided context or capture current (fallback for direct calls)
+  if not context then
+    local mode = vim.fn.mode()
+    context = M.get_context(mode)
+  end
 
   if command.needs_input then
     -- Prompt for input argument
@@ -194,6 +207,10 @@ function M.show_command_picker()
     vim.notify("No Claude commands found", vim.log.levels.WARN)
     return
   end
+
+  -- Capture context BEFORE opening picker (current buffer will change during FZF)
+  local mode = vim.fn.mode()
+  local context = M.get_context(mode)
 
   -- Format commands for display: [plugin-name] Description
   local items = {}
@@ -218,7 +235,7 @@ function M.show_command_picker()
     end
 
     if idx then
-      M.handle_command_selection(commands[idx])
+      M.handle_command_selection(commands[idx], context)
     end
   end, {
     empty_message = "No commands found",
