@@ -12,7 +12,7 @@ NC := \033[0m
 PLUGINS_DIR := $(CURDIR)/plugins
 MARKETPLACE_NAME := local
 
-.PHONY: install uninstall update help
+.PHONY: install uninstall update install-hooks help
 
 # Install marketplace and plugins
 install:
@@ -45,6 +45,13 @@ update:
 	@echo "  /plugin update dev@$(MARKETPLACE_NAME)"
 	@echo ""
 
+# Install hooks
+install-hooks:
+	@mkdir -p $(HOME)/.claude/hooks
+	@cp -r $(CURDIR)/.claude/hooks/* $(HOME)/.claude/hooks/
+	@chmod +x $(HOME)/.claude/hooks/*.sh
+	@echo -e "$(GREEN)[SUCCESS]$(NC) Hooks installed to ~/.claude/hooks/"
+
 # Show help
 help:
 	@echo "Claude Plugins Makefile"
@@ -52,7 +59,8 @@ help:
 	@echo "Usage: make [target]"
 	@echo ""
 	@echo "Targets:"
-	@echo "  install   - Show commands to install marketplace and plugins"
-	@echo "  update    - Commit plugin changes and show update command"
-	@echo "  uninstall - Show command to remove marketplace"
-	@echo "  help      - Show this help message"
+	@echo "  install       - Show commands to install marketplace and plugins"
+	@echo "  install-hooks - Install Claude Code hooks to ~/.claude/hooks/"
+	@echo "  update        - Commit plugin changes and show update command"
+	@echo "  uninstall     - Show command to remove marketplace"
+	@echo "  help          - Show this help message"
