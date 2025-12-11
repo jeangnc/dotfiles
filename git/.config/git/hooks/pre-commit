@@ -1,0 +1,245 @@
+#!/bin/bash
+#
+# Git pre-commit hook for Ruby & Go projects
+# Runs language-specific linters on staged files
+#
+# Ruby: RuboCop (with auto-fix) + Reek
+# Go: golangci-lint (with auto-fix)
+#
+# Installation:
+#   Managed via ~/.dotfiles with GNU Stow
+#   Run: cd ~/.dotfiles && make install
+#
+# Per-project opt-in:
+#   Option 1: Create .git-hooks file with HOOKS_RUBY=1 and/or HOOKS_GO=1
+#   Option 2: git config hooks.ruby true / git config hooks.go true
+#   Default: Auto-detect based on Gemfile/go.mod presence
+#
+
+set -e
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# ============================================================================
+# Configuration Detection
+# ============================================================================
+
+# Check if a hook is enabled via .git-hooks file, git config, or auto-detect
+is_hook_enabled() {
+  local hook_name="$1"
+  local env_var="HOOKS_$(echo "$hook_name" | tr '[:lower:]' '[:upper:]')"
+
+  # Priority 1: .git-hooks file
+  if [ -f ".git-hooks" ]; then
+    local value
+    value=$(grep "^${env_var}=" .git-hooks 2>/dev/null | cut -d'=' -f2 | tr -d ' ')
+    if [ "$value" = "1" ] || [ "$value" = "true" ]; then
+      return 0
+    elif [ "$value" = "0" ] || [ "$value" = "false" ]; then
+      return 1
+    fi
+  fi
+
+  # Priority 2: git config
+  local git_config
+  git_config=$(git config --get "hooks.${hook_name}" 2>/dev/null || echo "")
+  if [ "$git_config" = "true" ]; then
+    return 0
+  elif [ "$git_config" = "false" ]; then
+    return 1
+  fi
+
+  # Priority 3: Auto-detect based on project files
+  case "$hook_name" in
+    ruby)
+      [ -f "Gemfile" ] || [ -f ".rubocop.yml" ]
+      return $?
+      ;;
+    go)
+      [ -f "go.mod" ]
+      return $?
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+# ============================================================================
+# Ruby Linting (RuboCop + Reek)
+# ============================================================================
+
+run_ruby_linters() {
+  # Get staged Ruby files (Added, Copied, Modified only)
+  local ruby_files
+  ruby_files=$(git diff --cached --name-only --diff-filter=ACM -- '*.rb' 2>/dev/null || true)
+
+  if [ -z "$ruby_files" ]; then
+    return 0
+  fi
+
+  echo -e "${BLUE}[Ruby]${NC} Staged files:"
+  echo "$ruby_files" | while read -r file; do [ -n "$file" ] && echo "  $file"; done
+  echo ""
+
+  # Detect RuboCop
+  local rubocop_cmd=""
+  if [ -x "./bin/rubocop" ]; then
+    rubocop_cmd="./bin/rubocop"
+  elif [ -f "Gemfile.lock" ] && grep -q "rubocop" Gemfile.lock 2>/dev/null; then
+    rubocop_cmd="bundle exec rubocop"
+  elif command -v rubocop >/dev/null 2>&1; then
+    rubocop_cmd="rubocop"
+  fi
+
+  # Run RuboCop with auto-fix
+  if [ -n "$rubocop_cmd" ]; then
+    echo -e "${BLUE}[Ruby]${NC} Running RuboCop auto-fix..."
+
+    local rubocop_exit=0
+    echo "$ruby_files" | xargs $rubocop_cmd -a --force-exclusion 2>/dev/null || rubocop_exit=$?
+
+    # Re-stage any files that were auto-fixed
+    echo "$ruby_files" | while read -r file; do
+      if [ -n "$file" ] && [ -f "$file" ]; then
+        git add "$file"
+      fi
+    done
+
+    if [ $rubocop_exit -ne 0 ]; then
+      echo -e "${YELLOW}[Ruby]${NC} RuboCop found issues that could not be auto-fixed"
+      echo ""
+    else
+      echo -e "${GREEN}[Ruby]${NC} RuboCop: All checks passed"
+      echo ""
+    fi
+  else
+    echo -e "${YELLOW}[Ruby]${NC} RuboCop not found, skipping..."
+    echo ""
+  fi
+
+  # Detect Reek
+  local reek_cmd=""
+  if [ -x "./bin/reek" ]; then
+    reek_cmd="./bin/reek"
+  elif [ -f "Gemfile.lock" ] && grep -q "reek" Gemfile.lock 2>/dev/null; then
+    reek_cmd="bundle exec reek"
+  elif command -v reek >/dev/null 2>&1; then
+    reek_cmd="reek"
+  fi
+
+  # Run Reek (warning only, no auto-fix available)
+  if [ -n "$reek_cmd" ]; then
+    echo -e "${BLUE}[Ruby]${NC} Running Reek code smell detection..."
+
+    local reek_exit=0
+    echo "$ruby_files" | xargs $reek_cmd 2>/dev/null || reek_exit=$?
+
+    if [ $reek_exit -ne 0 ]; then
+      echo -e "${YELLOW}[Ruby]${NC} Reek detected code smells (non-blocking)"
+      echo ""
+    else
+      echo -e "${GREEN}[Ruby]${NC} Reek: No code smells detected"
+      echo ""
+    fi
+  else
+    echo -e "${YELLOW}[Ruby]${NC} Reek not found, skipping..."
+    echo ""
+  fi
+}
+
+# ============================================================================
+# Go Linting (golangci-lint)
+# ============================================================================
+
+run_go_linters() {
+  # Get staged Go files (Added, Copied, Modified only)
+  local go_files
+  go_files=$(git diff --cached --name-only --diff-filter=ACM -- '*.go' 2>/dev/null || true)
+
+  if [ -z "$go_files" ]; then
+    return 0
+  fi
+
+  echo -e "${BLUE}[Go]${NC} Staged files:"
+  echo "$go_files" | while read -r file; do [ -n "$file" ] && echo "  $file"; done
+  echo ""
+
+  # Detect golangci-lint
+  local golangci_cmd=""
+  if command -v golangci-lint >/dev/null 2>&1; then
+    golangci_cmd="golangci-lint"
+  fi
+
+  if [ -n "$golangci_cmd" ]; then
+    echo -e "${BLUE}[Go]${NC} Running golangci-lint..."
+
+    # Get unique directories containing staged Go files
+    local go_dirs
+    go_dirs=$(echo "$go_files" | xargs -n1 dirname | sort -u)
+
+    local lint_exit=0
+    for dir in $go_dirs; do
+      $golangci_cmd run --fix "$dir/..." 2>/dev/null || lint_exit=$?
+    done
+
+    # Re-stage any files that were auto-fixed
+    echo "$go_files" | while read -r file; do
+      if [ -n "$file" ] && [ -f "$file" ]; then
+        git add "$file"
+      fi
+    done
+
+    if [ $lint_exit -ne 0 ]; then
+      echo -e "${YELLOW}[Go]${NC} golangci-lint found issues that could not be auto-fixed"
+      echo ""
+    else
+      echo -e "${GREEN}[Go]${NC} golangci-lint: All checks passed"
+      echo ""
+    fi
+  else
+    echo -e "${YELLOW}[Go]${NC} golangci-lint not found, skipping..."
+    echo ""
+  fi
+}
+
+# ============================================================================
+# Main
+# ============================================================================
+
+main() {
+  local ran_any=0
+
+  # Run Ruby linters if enabled
+  if is_hook_enabled "ruby"; then
+    run_ruby_linters
+    ran_any=1
+  fi
+
+  # Run Go linters if enabled
+  if is_hook_enabled "go"; then
+    run_go_linters
+    ran_any=1
+  fi
+
+  # Chain to project-specific pre-commit hook if it exists
+  if [ -x ".git/hooks/pre-commit" ]; then
+    local hooks_path
+    hooks_path=$(git config core.hooksPath 2>/dev/null || echo "")
+    # Only chain if we're not already running from .git/hooks
+    if [ -n "$hooks_path" ] && [ "$hooks_path" != ".git/hooks" ]; then
+      echo -e "${BLUE}[Hook]${NC} Running project-specific pre-commit hook..."
+      .git/hooks/pre-commit
+    fi
+  fi
+
+  # Always exit 0 - we warn but don't block
+  exit 0
+}
+
+main
