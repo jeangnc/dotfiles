@@ -7,3 +7,4 @@
 !/claude/.claude/settings.json
 !/claude/.claude/commands/
 !/claude/.claude/agents/
+!/claude/.claude/hooks/
