@@ -3,7 +3,7 @@
 # Git pre-commit hook for Ruby & Go projects
 # Runs language-specific linters on staged files
 #
-# Ruby: RuboCop (with auto-fix) + Reek
+# Ruby: RuboCop (with auto-fix)
 # Go: golangci-lint (with auto-fix)
 #
 # Installation:
@@ -56,22 +56,22 @@ is_hook_enabled() {
 
   # Priority 3: Auto-detect based on project files
   case "$hook_name" in
-    ruby)
-      [ -f "Gemfile" ] || [ -f ".rubocop.yml" ]
-      return $?
-      ;;
-    go)
-      [ -f "go.mod" ]
-      return $?
-      ;;
-    *)
-      return 1
-      ;;
+  ruby)
+    [ -f "Gemfile" ] || [ -f ".rubocop.yml" ]
+    return $?
+    ;;
+  go)
+    [ -f "go.mod" ]
+    return $?
+    ;;
+  *)
+    return 1
+    ;;
   esac
 }
 
 # ============================================================================
-# Ruby Linting (RuboCop + Reek)
+# Ruby Linting (RuboCop)
 # ============================================================================
 
 run_ruby_linters() {
@@ -120,35 +120,6 @@ run_ruby_linters() {
     fi
   else
     echo -e "${YELLOW}[Ruby]${NC} RuboCop not found, skipping..."
-    echo ""
-  fi
-
-  # Detect Reek
-  local reek_cmd=""
-  if [ -x "./bin/reek" ]; then
-    reek_cmd="./bin/reek"
-  elif [ -f "Gemfile.lock" ] && grep -q "reek" Gemfile.lock 2>/dev/null; then
-    reek_cmd="bundle exec reek"
-  elif command -v reek >/dev/null 2>&1; then
-    reek_cmd="reek"
-  fi
-
-  # Run Reek (warning only, no auto-fix available)
-  if [ -n "$reek_cmd" ]; then
-    echo -e "${BLUE}[Ruby]${NC} Running Reek code smell detection..."
-
-    local reek_exit=0
-    echo "$ruby_files" | xargs $reek_cmd 2>/dev/null || reek_exit=$?
-
-    if [ $reek_exit -ne 0 ]; then
-      echo -e "${YELLOW}[Ruby]${NC} Reek detected code smells (non-blocking)"
-      echo ""
-    else
-      echo -e "${GREEN}[Ruby]${NC} Reek: No code smells detected"
-      echo ""
-    fi
-  else
-    echo -e "${YELLOW}[Ruby]${NC} Reek not found, skipping..."
     echo ""
   fi
 }
