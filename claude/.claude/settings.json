@@ -40,10 +40,10 @@
     ]
   },
   "enabledPlugins": {
-    "gq-dev@gq-marketplace": true,
-    "finance-tools@jeangnc-marketplace": true,
-    "dev-tools@jeangnc-marketplace": true,
-    "note-tools@jeangnc-marketplace": true
+    "finance-tools@jeangnc-marketplace": false,
+    "dev-tools@jeangnc-marketplace": false,
+    "note-tools@jeangnc-marketplace": false,
+    "gopls-lsp@claude-plugins-official": false
   },
   "alwaysThinkingEnabled": true
 }
