@@ -20,10 +20,6 @@ alias vim="nvim"
 alias jf="jq -C . | less -R"
 alias je="jq -c '.[]'"
 
-# misc
-alias dotf="~/.dotfiles"
-alias orgf="~/.orgfiles"
-
 alias o="open"
 alias xo="xargs open"
 alias oi="kitten icat"
@@ -34,3 +30,8 @@ alias venv="python3 -m venv .venv && source .venv/bin/activate"
 
 alias wt="CLICOLOR_FORCE=1 watch --color"
 
+
+# misc
+alias dotf="~/.dotfiles"
+alias orgf="~/.orgfiles"
+alias ka="caffeinate -disu"
