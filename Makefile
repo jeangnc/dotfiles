@@ -66,6 +66,12 @@ check-stow:
 		exit 1; \
 	fi
 
+.PHONY: macos
+macos:
+	@echo -e "$(BLUE)[INFO]$(NC) Applying macOS defaults..."
+	@bash macos/defaults.sh
+	@echo -e "$(GREEN)[SUCCESS]$(NC) macOS defaults applied"
+
 .PHONY: help
 help:
 	@echo "Usage: make [target]"
@@ -73,4 +79,5 @@ help:
 	@echo "  install   - Install dotfiles (default)"
 	@echo "  uninstall - Remove all symlinks"
 	@echo "  restow    - Re-install (useful after changes)"
+	@echo "  macos     - Apply macOS defaults settings"
 	@echo "  help      - Show this help message"
