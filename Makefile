@@ -2,7 +2,7 @@
 # Manages dotfiles installation using GNU Stow
 
 # Define packages to install/uninstall
-PACKAGES := zsh git kitty nvim tmux claude
+PACKAGES := zsh git kitty nvim tmux
 
 # Colors for output
 RED := \033[0;31m
