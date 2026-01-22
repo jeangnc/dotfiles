@@ -56,6 +56,21 @@ vim.api.nvim_create_autocmd("TermOpen", {
       vim.cmd("wincmd =")
     end, 100)
   end,
-  desc = "Equalize windows when terminal opens"
+  desc = "Equalize windows when terminal opens",
 })
 
+-- Notify LSP servers when files change externally (e.g., via claudecode.nvim)
+vim.api.nvim_create_autocmd("FileChangedShellPost", {
+  callback = function(args)
+    local clients = vim.lsp.get_clients({ bufnr = args.buf })
+    if #clients == 0 then
+      return
+    end
+    local uri = vim.uri_from_fname(vim.api.nvim_buf_get_name(args.buf))
+    local changes = { { uri = uri, type = 2 } } -- FileChangeType.Changed
+    for _, client in ipairs(clients) do
+      client:notify("workspace/didChangeWatchedFiles", { changes = changes })
+    end
+  end,
+  desc = "Notify LSP servers when files change externally",
+})
