@@ -226,7 +226,7 @@ local function contains_completed_todo(node)
   local node_type = node:type()
 
   -- Check if this node itself is a completed/cancelled todo
-  if node_type == "todo_item_done" or node_type == "todo_item_pending" then
+  if node_type == "todo_item_done" or node_type == "todo_item_cancelled" then
     return true
   end
 
