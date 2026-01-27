@@ -5,7 +5,7 @@ alias gbd='function _gbd() { git branch -D "$1" && git push origin --delete "$1"
 
 # git worktree
 unalias gwt 2>/dev/null
-_gwt() {
+gwt() {
   local branch="$1"
   if [[ -z "$branch" ]]; then
     echo "Usage: gwt <branch>" >&2
@@ -16,19 +16,11 @@ _gwt() {
   if [[ ! -d "$wt_path" ]]; then
     git worktree add "$wt_path" "$branch" || return 1
   fi
-  echo "$wt_path"
-}
-
-gwt() {
-  local wt_path
-  wt_path=$(_gwt "$1") || return 1
   cd "$wt_path"
 }
 
 gwte() {
-  local wt_path
-  wt_path=$(_gwt "$1") || return 1
-  $EDITOR "$wt_path"
+  gwt "$1" && $EDITOR .
 }
 
 # "git update"
