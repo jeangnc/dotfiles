@@ -12,8 +12,9 @@ gwt() {
     return 1
   fi
   local repo=$(basename "$(git rev-parse --show-toplevel)")
-  local wt_path="/tmp/git-worktrees/$repo/$branch"
+  local wt_path="/private/tmp/git-worktrees/$repo/$branch"
   if [[ ! -d "$wt_path" ]]; then
+    git worktree prune
     git worktree add "$wt_path" "$branch" || return 1
   fi
   cd "$wt_path"
