@@ -24,6 +24,8 @@ gwte() {
   gwt "$1" && $EDITOR .
 }
 
+alias gwtc='rm -rf /tmp/git-worktrees && git worktree prune'
+
 # "git update"
 alias gu='git checkout -q main && git pull && git for-each-ref refs/heads/ "--format=%(refname:short)" | while read branch; do mergeBase=$(git merge-base main $branch) && [[ $(git cherry main $(git commit-tree $(git rev-parse "$branch^{tree}") -p $mergeBase -m _)) == "-"* ]] && git branch -D $branch; done'
 
