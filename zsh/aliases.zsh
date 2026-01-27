@@ -12,23 +12,23 @@ _gwt() {
     return 1
   fi
   local repo=$(basename "$(git rev-parse --show-toplevel)")
-  local path="/tmp/git-worktrees/$repo/$branch"
-  if [[ ! -d "$path" ]]; then
-    git worktree add "$path" "$branch" || return 1
+  local wt_path="/tmp/git-worktrees/$repo/$branch"
+  if [[ ! -d "$wt_path" ]]; then
+    git worktree add "$wt_path" "$branch" || return 1
   fi
-  echo "$path"
+  echo "$wt_path"
 }
 
 gwt() {
-  local path
-  path=$(_gwt "$1") || return 1
-  cd "$path"
+  local wt_path
+  wt_path=$(_gwt "$1") || return 1
+  cd "$wt_path"
 }
 
 gwte() {
-  local path
-  path=$(_gwt "$1") || return 1
-  $EDITOR "$path"
+  local wt_path
+  wt_path=$(_gwt "$1") || return 1
+  $EDITOR "$wt_path"
 }
 
 # "git update"
