@@ -221,16 +221,46 @@ local function find_most_recent_journal(workspace_dir)
   return most_recent
 end
 
--- Recursively check if a node contains completed/cancelled todos
+-- Check if a list item has pending/undone status (should be kept)
+-- Returns true if item should be KEPT (undone/pending)
+-- Returns false if item should be FILTERED (done/cancelled)
+-- Returns nil if no todo marker found yet (continue searching)
+local function is_pending_todo(node)
+  local node_type = node:type()
+
+  -- Found undone or pending todo - keep it
+  if node_type == "todo_item_undone" or node_type == "todo_item_pending" then
+    return true
+  end
+
+  -- Found done or cancelled todo - filter it
+  if node_type == "todo_item_done" or node_type == "todo_item_cancelled" then
+    return false
+  end
+
+  -- Check children, but skip nested list items (they're evaluated separately)
+  for child in node:iter_children() do
+    local child_type = child:type()
+    if not child_type:match("^unordered_list%d$") then
+      local result = is_pending_todo(child)
+      if result ~= nil then
+        return result
+      end
+    end
+  end
+
+  return nil
+end
+
+-- Recursively check if a node contains completed/cancelled todos (for routine unchecking)
+-- This checks the ENTIRE tree including nested lists
 local function contains_completed_todo(node)
   local node_type = node:type()
 
-  -- Check if this node itself is a completed/cancelled todo
   if node_type == "todo_item_done" or node_type == "todo_item_cancelled" then
     return true
   end
 
-  -- Recursively check children
   for child in node:iter_children() do
     if contains_completed_todo(child) then
       return true
@@ -243,12 +273,11 @@ end
 local function should_keep_node(node, bufnr)
   local node_type = node:type()
 
-  -- For list items, check if they contain completed/cancelled todos
-  if node_type == "unordered_list1" or node_type == "unordered_list2" or node_type == "unordered_list3" then
-    if contains_completed_todo(node) then
-      return false
-    end
-    return true
+  -- For list items, check if they have pending/undone status
+  if node_type:match("^unordered_list%d$") then
+    local result = is_pending_todo(node)
+    -- Keep if pending/undone (true), or if no todo marker found (nil)
+    return result ~= false
   end
 
   -- Remove paragraphs that are just timestamps (HH:MM format)
