@@ -1,10 +1,10 @@
 #!/bin/bash
 #
 # Git pre-commit hook for Ruby & Go projects
-# Runs language-specific linters on staged files
+# Runs language-specific linters on staged files (check-only, no auto-fix)
 #
-# Ruby: RuboCop (with auto-fix)
-# Go: golangci-lint (with auto-fix)
+# Ruby: RuboCop (check only)
+# Go: golangci-lint (check only)
 #
 # Installation:
 #   Managed via ~/.dotfiles with GNU Stow
@@ -97,22 +97,15 @@ run_ruby_linters() {
     rubocop_cmd="rubocop"
   fi
 
-  # Run RuboCop with auto-fix
+  # Run RuboCop (check only, no auto-fix to preserve partial staging)
   if [ -n "$rubocop_cmd" ]; then
-    echo -e "${BLUE}[Ruby]${NC} Running RuboCop auto-fix..."
+    echo -e "${BLUE}[Ruby]${NC} Running RuboCop..."
 
     local rubocop_exit=0
-    echo "$ruby_files" | xargs $rubocop_cmd -a --force-exclusion 2>/dev/null || rubocop_exit=$?
-
-    # Re-stage any files that were auto-fixed
-    echo "$ruby_files" | while read -r file; do
-      if [ -n "$file" ] && [ -f "$file" ]; then
-        git add "$file"
-      fi
-    done
+    echo "$ruby_files" | xargs $rubocop_cmd --force-exclusion 2>/dev/null || rubocop_exit=$?
 
     if [ $rubocop_exit -ne 0 ]; then
-      echo -e "${YELLOW}[Ruby]${NC} RuboCop found issues that could not be auto-fixed"
+      echo -e "${YELLOW}[Ruby]${NC} RuboCop found issues. Run 'rubocop -a <files>' to auto-fix."
       echo ""
     else
       echo -e "${GREEN}[Ruby]${NC} RuboCop: All checks passed"
@@ -156,18 +149,11 @@ run_go_linters() {
 
     local lint_exit=0
     for dir in $go_dirs; do
-      $golangci_cmd run --fix "$dir/..." 2>/dev/null || lint_exit=$?
-    done
-
-    # Re-stage any files that were auto-fixed
-    echo "$go_files" | while read -r file; do
-      if [ -n "$file" ] && [ -f "$file" ]; then
-        git add "$file"
-      fi
+      $golangci_cmd run "$dir/..." 2>/dev/null || lint_exit=$?
     done
 
     if [ $lint_exit -ne 0 ]; then
-      echo -e "${YELLOW}[Go]${NC} golangci-lint found issues that could not be auto-fixed"
+      echo -e "${YELLOW}[Go]${NC} golangci-lint found issues. Run 'golangci-lint run --fix' to auto-fix."
       echo ""
     else
       echo -e "${GREEN}[Go]${NC} golangci-lint: All checks passed"
