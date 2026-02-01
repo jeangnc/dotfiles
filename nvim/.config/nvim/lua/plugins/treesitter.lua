@@ -1,7 +1,7 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    commit = "main",
+    branch = "main",
     opts = function(_, opts)
       opts.incremental_selection = {
         enable = false,
