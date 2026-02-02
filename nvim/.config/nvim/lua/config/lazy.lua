@@ -21,6 +21,7 @@ require("lazy").setup({
     { import = "lazyvim.plugins.extras.ai.copilot" },
     { import = "lazyvim.plugins.extras.lang.go" },
     { import = "lazyvim.plugins.extras.test" },
+    { import = "lazyvim.plugins.extras.editor.aerial" },
     { import = "plugins" },
 
     -- needs to be at the end or it breaks when open a file
