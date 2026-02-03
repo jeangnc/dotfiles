@@ -21,6 +21,7 @@ return {
       { "bottd/neorg-archive" }, -- Depends on neorg-interim-ls
       { "max397574/neorg-contexts" },
       { "phenax/neorg-hop-extras" },
+      { "jeangnc/neorg-indent" },
 
       -- required by most plugins
       { "nvim-lua/plenary.nvim" },
@@ -93,6 +94,12 @@ return {
             config = {
               journal_folder = ".journalfiles",
               default_workspace = neorg_utils.get_default_workspace,
+            },
+          },
+
+          ["external.indent"] = {
+            config = {
+              indent_per_level = 4,
             },
           },
 
