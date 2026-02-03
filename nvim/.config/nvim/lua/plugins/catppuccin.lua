@@ -1,3 +1,8 @@
+local function load_highlights(name)
+  local path = vim.fn.stdpath("config") .. "/lua/highlights/" .. name .. ".lua"
+  return dofile(path)
+end
+
 return {
   "catppuccin/nvim",
   name = "catppuccin",
@@ -24,6 +29,9 @@ return {
     end
   end,
   opts = {
+    custom_highlights = function(colors)
+      return load_highlights("neorg")(colors)
+    end,
     color_overrides = {
       mocha = {
         -- base = "#000000",
@@ -32,15 +40,15 @@ return {
       },
     },
     integrations = {
-      cmp = true,
+      cmp = false,
       flash = true,
       fzf = true,
       grug_far = true,
       gitsigns = true,
-      headlines = true,
-      illuminate = true,
-      indent_blankline = { enabled = true },
-      leap = true,
+      headlines = false,
+      illuminate = false,
+      indent_blankline = { enabled = false },
+      leap = false,
       lsp_trouble = true,
       mason = true,
       markdown = true,
@@ -54,7 +62,7 @@ return {
           information = { "undercurl" },
         },
       },
-      navic = { enabled = true, custom_bg = "lualine" },
+      navic = { enabled = false },
       neotest = true,
       neotree = true,
       noice = true,
