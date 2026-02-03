@@ -20,12 +20,11 @@ vim.g.snacks_animate = false
 -- vim.opt.colorcolumn = "80,100"
 vim.api.nvim_set_hl(0, "ColorColumn", { ctermbg = "lightgrey", bg = "lightgrey" })
 
--- recommended by avante
 vim.opt.laststatus = 3
 
--- uses zsh and loads aliases
+-- uses zsh
 vim.opt.shell = "/bin/zsh"
-vim.opt.shellcmdflag = "-ic"
+vim.opt.shellcmdflag = "-c"
 
 -- prevent folds from opening when navigating with paragraph motions
 vim.opt.foldopen:remove("block")

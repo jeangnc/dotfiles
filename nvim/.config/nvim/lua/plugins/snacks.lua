@@ -25,6 +25,13 @@ return {
     quickfile = { enabled = true },
     statuscolumn = { enabled = true },
     words = { enabled = true },
+    indent = {
+      enabled = true,
+      filter = function(buf)
+        return vim.bo[buf].filetype ~= "norg"
+      end,
+    },
+    scope = { enabled = true },
 
     notifier = {
       enabled = true,

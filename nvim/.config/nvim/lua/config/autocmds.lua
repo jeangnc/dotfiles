@@ -48,16 +48,18 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 local terminal_group = vim.api.nvim_create_augroup("terminal_window_management", { clear = true })
 
 -- Equalize windows when terminal opens
-vim.api.nvim_create_autocmd("TermOpen", {
-  group = terminal_group,
-  pattern = "*",
-  callback = function()
-    vim.defer_fn(function()
-      vim.cmd("wincmd =")
-    end, 100)
-  end,
-  desc = "Equalize windows when terminal opens",
-})
+-- Disabled: conflicts with claudecode.nvim's split_width_percentage,
+-- causing terminal rendering glitches when the window gets resized 100ms after opening.
+-- vim.api.nvim_create_autocmd("TermOpen", {
+--   group = terminal_group,
+--   pattern = "*",
+--   callback = function()
+--     vim.defer_fn(function()
+--       vim.cmd("wincmd =")
+--     end, 100)
+--   end,
+--   desc = "Equalize windows when terminal opens",
+-- })
 
 -- Notify LSP servers when files change externally (e.g., via claudecode.nvim)
 vim.api.nvim_create_autocmd("FileChangedShellPost", {

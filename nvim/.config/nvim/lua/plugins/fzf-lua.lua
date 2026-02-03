@@ -1,9 +1,9 @@
-local actions = require("fzf-lua").actions
-
 return {
   "ibhagwan/fzf-lua",
   lazy = true,
-  opts = {
+  opts = function()
+    local actions = require("fzf-lua").actions
+    return {
     oldfiles = {
       -- In Telescope, when I used <leader>fr, it would load old buffers.
       -- fzf lua does the same, but by default buffers visited in the current
@@ -40,5 +40,6 @@ return {
         ["ctrl-t"] = actions.file_tabedit,
       },
     },
-  },
+  }
+  end,
 }

@@ -3,11 +3,10 @@ return {
     "nvim-neotest/neotest",
     dependencies = {
       "olimorris/neotest-rspec",
-      "nvim-neotest/neotest-go",
     },
     opts = {
       adapters = {
-        ["neotest-go"] = {
+        ["neotest-golang"] = {
           experimental = {
             test_table = true,
           },
