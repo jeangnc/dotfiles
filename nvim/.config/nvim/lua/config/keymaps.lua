@@ -20,7 +20,13 @@ map("n", "<leader>0", LazyVim.pick("live_grep"), { desc = "Grep (Root Dir)" })
 map("n", "<leader>1", "<cmd>FzfLua buffers sort_mru=true sort_lastused=true<cr>", { desc = "Shows all open buffers" })
 
 -- Buffer Management
-map("n", "<leader>bda", "<cmd>:bufdo bwipeout<cr>", { desc = "Delete All Buffers" })
+map("n", "<leader>bda", function()
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buftype ~= "terminal" then
+      vim.api.nvim_buf_delete(buf, { force = true })
+    end
+  end
+end, { desc = "Delete All Buffers" })
 map("n", "<leader>bdD", "<cmd>:bd<cr>", { desc = "Delete Buffer and Window" })
 
 map("n", "<leader>bdd", function()
