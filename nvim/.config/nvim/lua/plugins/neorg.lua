@@ -22,9 +22,9 @@ return {
       { "benlubas/neorg-interim-ls" }, -- Required by neorg-archive for external.refactor module
       { "benlubas/neorg-conceal-wrap" },
       { "bottd/neorg-archive" }, -- Depends on neorg-interim-ls
-      { "max397574/neorg-contexts" },
       { "phenax/neorg-hop-extras" },
       { "jeangnc/neorg-indent" },
+      { "jeangnc/neorg-breadcrumbs" },
 
       -- required by most plugins
       { "nvim-lua/plenary.nvim" },
@@ -128,7 +128,7 @@ return {
             },
           },
           ["external.conceal-wrap"] = {},
-          ["external.context"] = {},
+          ["external.breadcrumbs"] = {},
           ["external.hop-extras"] = {
             config = {
               bind_enter_key = false,
