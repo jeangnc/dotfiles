@@ -32,7 +32,7 @@
   "neorg-breadcrumbs": { "branch": "main", "commit": "b188414bb5f7865d27d101007eec3613a4219e79" },
   "neorg-conceal-wrap": { "branch": "main", "commit": "447a76e4abf07ccc5eeb8cc3ee5fae241b434f5a" },
   "neorg-hop-extras": { "branch": "main", "commit": "f349ab3e9a52d214f1af6122cd087218b2722c81" },
-  "neorg-indent": { "branch": "main", "commit": "faa436c820c9288b3c029a5599145bd17596d2d7" },
+  "neorg-indent": { "branch": "main", "commit": "bca9dba171918165d706bd43b53f7c276772b48a" },
   "neorg-interim-ls": { "branch": "main", "commit": "e2f86982ba5857ed5581ff5814edd57b5c2c67e0" },
   "neotest": { "branch": "master", "commit": "deadfb1af5ce458742671ad3a013acb9a6b41178" },
   "neotest-golang": { "branch": "main", "commit": "3f6c5498134a7fb7afada6d133065a777a67a596" },
