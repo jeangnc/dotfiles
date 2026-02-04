@@ -120,6 +120,9 @@ return {
               semicolon = "Disable",
               arrayIndex = "Disable",
             },
+            semantic = {
+              enable = false,
+            },
           },
         },
       },

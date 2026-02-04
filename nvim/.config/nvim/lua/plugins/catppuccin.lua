@@ -9,9 +9,7 @@ return {
   priority = 1000,
   opts = {
     custom_highlights = function(colors)
-      local neorg_highlights = load_highlights("neorg")(colors)
-      local lua_highlights = load_highlights("lua")(colors)
-      return vim.tbl_extend("force", neorg_highlights, lua_highlights)
+      return load_highlights("neorg")(colors)
     end,
     color_overrides = {
       mocha = {
