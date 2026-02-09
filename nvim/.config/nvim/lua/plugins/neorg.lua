@@ -103,7 +103,7 @@ return {
 
           ["external.indent"] = {
             config = {
-              indent_per_level = 4,
+              indent_per_level = 2,
             },
           },
 
