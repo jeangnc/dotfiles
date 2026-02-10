@@ -327,28 +327,30 @@ local function filter_journal_content(filepath)
   local lines_to_skip = {}
   local lines_to_uncheck = {} -- Lines containing routine todos to uncheck
 
-  -- Track if we're under heading1 (routine section) or heading2+ (regular section)
-  local under_heading1 = false
-  local under_heading2_plus = false
+  -- Track current section by name: "todo", "log", or "other"
+  local current_section = "other"
 
   -- First pass: identify lines to skip and lines to uncheck
   local function mark_lines_to_skip(node, parent)
     local node_type = node:type()
 
-    -- Track heading context
-    if node_type == "heading1" then
-      under_heading1 = true
-      under_heading2_plus = false
-    elseif node_type:match("^heading[2-9]") then
-      under_heading1 = false
-      under_heading2_plus = true
+    -- Track current section by heading name
+    if node_type:match("^heading[12]$") then
+      local start_row = node:range()
+      local title = vim.api.nvim_buf_get_lines(bufnr, start_row, start_row + 1, false)[1] or ""
+      if title:match("TO%s*DO") then
+        current_section = "todo"
+      elseif title:match("Log") then
+        current_section = "log"
+      else
+        current_section = "other"
+      end
     end
 
-    -- Check routine todos FIRST (before should_keep_node)
+    -- Outside TO DO: uncheck completed todos instead of removing them
     if
       (node_type == "unordered_list1" or node_type == "unordered_list2" or node_type == "unordered_list3")
-      and under_heading1
-      and not under_heading2_plus
+      and current_section ~= "todo"
     then
       if contains_completed_todo(node) then
         -- Routine todo: mark for unchecking instead of skipping
