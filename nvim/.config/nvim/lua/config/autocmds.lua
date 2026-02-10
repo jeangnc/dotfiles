@@ -2,48 +2,60 @@
 -- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
 -- Add any additional autocmds here
 
-local autoview = vim.api.nvim_create_augroup("autoview", { clear = true })
+local augroup = require("utils.common").augroup
 
--- creates a view when leaving the file
-vim.api.nvim_create_autocmd({ "BufWinLeave", "BufWritePost" }, {
-  group = autoview,
-  pattern = "*",
-  callback = function(event)
-    if vim.b[event.buf].view then
-      vim.cmd.mkview({ mods = { emsg_silent = true } })
-    end
-  end,
-})
+augroup("autoview", function(autocmd)
+  -- creates a view when leaving the file
+  autocmd({ "BufWinLeave", "BufWritePost" }, {
+    pattern = "*",
+    callback = function(event)
+      if vim.b[event.buf].view then
+        vim.cmd.mkview({ mods = { emsg_silent = true } })
+      end
+    end,
+  })
 
--- reads view after buffer is loaded but preserves current directory
-vim.api.nvim_create_autocmd("BufReadPost", {
-  group = autoview,
-  pattern = "*",
-  callback = function(event)
-    local current_dir = vim.fn.getcwd()
-    vim.cmd.loadview({ mods = { emsg_silent = true } })
-    vim.cmd.cd(current_dir) -- restore original directory
-    vim.b[event.buf].view = true
-  end,
-})
+  -- reads view after buffer is loaded but preserves current directory
+  autocmd("BufReadPost", {
+    pattern = "*",
+    callback = function(event)
+      local current_dir = vim.fn.getcwd()
+      vim.cmd.loadview({ mods = { emsg_silent = true } })
+      vim.cmd.cd(current_dir) -- restore original directory
+      vim.b[event.buf].view = true
+    end,
+  })
+end)
 
-local linenumber_group = vim.api.nvim_create_augroup("toggle_line_number", { clear = true })
+augroup("terminal_settings", function(autocmd)
+  autocmd("TermOpen", {
+    callback = function()
+      vim.opt_local.signcolumn = "no"
+      vim.opt_local.number = false
+      vim.opt_local.relativenumber = false
+      vim.opt_local.foldcolumn = "0"
+      vim.opt_local.statuscolumn = ""
+      vim.opt_local.spell = false
+      vim.opt_local.cursorline = false
+    end,
+  })
+end)
 
-vim.api.nvim_create_autocmd("InsertEnter", {
-  group = linenumber_group,
-  pattern = "*",
-  callback = function()
-    vim.wo.relativenumber = false
-  end,
-})
+augroup("toggle_line_number", function(autocmd)
+  autocmd("InsertEnter", {
+    pattern = "*",
+    callback = function()
+      vim.wo.relativenumber = false
+    end,
+  })
 
-vim.api.nvim_create_autocmd("InsertLeave", {
-  group = linenumber_group,
-  pattern = "*",
-  callback = function()
-    vim.wo.relativenumber = true
-  end,
-})
+  autocmd("InsertLeave", {
+    pattern = "*",
+    callback = function()
+      vim.wo.relativenumber = true
+    end,
+  })
+end)
 
 -- Notify LSP servers when files change externally (e.g., via claudecode.nvim)
 vim.api.nvim_create_autocmd("FileChangedShellPost", {

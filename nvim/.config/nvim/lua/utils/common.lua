@@ -122,6 +122,18 @@ end
 
 
 -- ============================================================================
+-- Autocmd Utilities
+-- ============================================================================
+
+function M.augroup(name, callback)
+  local group = vim.api.nvim_create_augroup(name, { clear = true })
+  callback(function(event, opts)
+    opts.group = group
+    vim.api.nvim_create_autocmd(event, opts)
+  end)
+end
+
+-- ============================================================================
 -- Validation Utilities
 -- ============================================================================
 
