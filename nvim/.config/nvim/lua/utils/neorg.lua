@@ -86,11 +86,15 @@ function M.create_note_with_template()
   local templates_directory = vim.fn.expand("~/.orgfiles/templates/")
   local destination_directory = workspace_directory .. "/inbox"
 
-  return templates.select_template_and_create_file(templates_directory, destination_directory, vim.tbl_extend("force", get_neorg_opts(), {
-    fallback_fn = function()
-      M.create_blank_note()
-    end,
-  }))
+  return templates.select_template_and_create_file(
+    templates_directory,
+    destination_directory,
+    vim.tbl_extend("force", get_neorg_opts(), {
+      fallback_fn = function()
+        M.create_blank_note()
+      end,
+    })
+  )
 end
 
 function M.create_blank_note(filename)
@@ -102,7 +106,6 @@ function M.create_blank_note(filename)
   local destination_directory = workspace_directory .. "/inbox"
   return templates.create_file_from_template(filename or "new-note", nil, destination_directory, get_neorg_opts())
 end
-
 
 -- ============================================================================
 -- Convenience Functions (Workspace Shortcuts)
@@ -149,7 +152,9 @@ local function scan_journal_files(journal_dir)
 
   while true do
     local name, type = vim.loop.fs_scandir_next(scan)
-    if not name then break end
+    if not name then
+      break
+    end
 
     if type == "directory" then
       -- Recursively scan subdirectories (year/month structure)
@@ -178,7 +183,7 @@ local function parse_journal_date(filepath)
       day = tonumber(day),
       hour = 0,
       min = 0,
-      sec = 0
+      sec = 0,
     })
   end
 
@@ -204,7 +209,7 @@ local function find_most_recent_journal(workspace_dir)
     day = now.day,
     hour = 0,
     min = 0,
-    sec = 0
+    sec = 0,
   })
 
   local most_recent = nil
@@ -320,7 +325,7 @@ local function filter_journal_content(filepath)
 
   local filtered_lines = {}
   local lines_to_skip = {}
-  local lines_to_uncheck = {}  -- Lines containing routine todos to uncheck
+  local lines_to_uncheck = {} -- Lines containing routine todos to uncheck
 
   -- Track if we're under heading1 (routine section) or heading2+ (regular section)
   local under_heading1 = false
@@ -340,8 +345,11 @@ local function filter_journal_content(filepath)
     end
 
     -- Check routine todos FIRST (before should_keep_node)
-    if (node_type == "unordered_list1" or node_type == "unordered_list2" or node_type == "unordered_list3")
-       and under_heading1 and not under_heading2_plus then
+    if
+      (node_type == "unordered_list1" or node_type == "unordered_list2" or node_type == "unordered_list3")
+      and under_heading1
+      and not under_heading2_plus
+    then
       if contains_completed_todo(node) then
         -- Routine todo: mark for unchecking instead of skipping
         local start_row, _, end_row, end_col = node:range()
@@ -349,7 +357,7 @@ local function filter_journal_content(filepath)
         for i = start_row, actual_end_row do
           lines_to_uncheck[i] = true
         end
-        return  -- Don't process further
+        return -- Don't process further
       end
     end
 
@@ -399,7 +407,7 @@ local function filter_journal_content(filepath)
   -- Second pass: collect and process lines
   local all_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
   for i, line in ipairs(all_lines) do
-    local line_idx = i - 1  -- 0-indexed
+    local line_idx = i - 1 -- 0-indexed
     if not lines_to_skip[line_idx] then
       if lines_to_uncheck[line_idx] then
         -- Uncheck the todo: (x) or (-) → ( )
@@ -453,4 +461,3 @@ function M.continue_journal()
 end
 
 return M
-

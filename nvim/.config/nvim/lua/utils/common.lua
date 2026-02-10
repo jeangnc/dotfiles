@@ -1,8 +1,6 @@
 local M = {}
 
--- ============================================================================
--- Command Execution Utilities
--- ============================================================================
+--- Command Execution Utilities
 
 function M.execute_sync_command(command)
   if vim.fn.system(command) and vim.v.shell_error ~= 0 then
@@ -32,9 +30,7 @@ function M.execute_popen_command(command)
   return result
 end
 
--- ============================================================================
--- Options Handling
--- ============================================================================
+--- Options Handling
 
 function M.merge_opts(default_opts, user_opts)
   user_opts = user_opts or {}
@@ -46,9 +42,7 @@ function M.get_opt(opts, key, default_value)
   return opts[key] or default_value
 end
 
--- ============================================================================
--- Error Handling & Notifications
--- ============================================================================
+--- Error Handling & Notifications
 
 function M.handle_result(success, error_message)
   if not success then
@@ -58,9 +52,7 @@ function M.handle_result(success, error_message)
   return true
 end
 
--- ============================================================================
--- String Processing Utilities
--- ============================================================================
+--- String Processing Utilities
 
 function M.split_lines(text)
   local lines = {}
@@ -76,9 +68,7 @@ function M.is_empty_list(list)
   return not list or #list == 0
 end
 
--- ============================================================================
--- FZF Integration Utilities
--- ============================================================================
+--- FZF Integration Utilities
 
 function M.create_fzf_action(callback)
   return {
@@ -87,7 +77,7 @@ function M.create_fzf_action(callback)
         return
       end
       callback(selected[1], selected)
-    end
+    end,
   }
 end
 
@@ -107,7 +97,7 @@ function M.fzf_select(items, prompt, callback, opts)
 
   fzf.fzf_exec(items, {
     prompt = prompt,
-    actions = M.create_fzf_action(callback)
+    actions = M.create_fzf_action(callback),
   })
 end
 
@@ -120,10 +110,7 @@ function M.fzf_input(prompt, callback)
   end)
 end
 
-
--- ============================================================================
--- Autocmd Utilities
--- ============================================================================
+--- Autocmd Utilities
 
 function M.augroup(name, callback)
   local group = vim.api.nvim_create_augroup(name, { clear = true })
@@ -133,9 +120,7 @@ function M.augroup(name, callback)
   end)
 end
 
--- ============================================================================
--- Validation Utilities
--- ============================================================================
+--- Validation Utilities
 
 function M.validate_path(path, action_name)
   if not path then

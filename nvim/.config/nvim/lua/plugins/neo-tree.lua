@@ -43,7 +43,7 @@ return {
     },
     default_component_configs = {
       indent = {
-        padding = 0, -- Reduz o espaço ao redor dos ícones
+        padding = 0, -- Reduce padding around icons
       },
       git_status = {
         symbols = {
