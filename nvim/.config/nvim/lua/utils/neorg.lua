@@ -335,10 +335,11 @@ local function filter_journal_content(filepath)
     local node_type = node:type()
 
     -- Track current section by heading name
-    if node_type:match("^heading[12]$") then
+    if node_type:match("^heading%d$") then
       local start_row = node:range()
       local title = vim.api.nvim_buf_get_lines(bufnr, start_row, start_row + 1, false)[1] or ""
-      if title:match("TO%s*DO") then
+      local title_lower = title:lower()
+      if title_lower:match("to%s*do") or title_lower:match("^%W*tarefas") then
         current_section = "todo"
       elseif title:match("Log") then
         current_section = "log"
@@ -349,8 +350,7 @@ local function filter_journal_content(filepath)
 
     -- Outside TO DO: uncheck completed todos instead of removing them
     if
-      (node_type == "unordered_list1" or node_type == "unordered_list2" or node_type == "unordered_list3")
-      and current_section ~= "todo"
+      node_type:match("^unordered_list%d$") and current_section ~= "todo"
     then
       if contains_completed_todo(node) then
         -- Routine todo: mark for unchecking instead of skipping
