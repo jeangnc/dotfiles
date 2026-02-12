@@ -52,17 +52,17 @@ return function(colors)
 
     -- Neorg quotes: same pastel cascade but dimmer (no bold)
     ["@neorg.quotes.1.prefix"] = { fg = colors.mauve },
-    ["@neorg.quotes.1.content"] = { fg = colors.subtext0 },
+    ["@neorg.quotes.1.content"] = { fg = colors.overlay0, italic = true },
     ["@neorg.quotes.2.prefix"] = { fg = colors.pink },
-    ["@neorg.quotes.2.content"] = { fg = colors.subtext0 },
+    ["@neorg.quotes.2.content"] = { fg = colors.overlay0, italic = true },
     ["@neorg.quotes.3.prefix"] = { fg = colors.sapphire },
-    ["@neorg.quotes.3.content"] = { fg = colors.subtext0 },
+    ["@neorg.quotes.3.content"] = { fg = colors.overlay0, italic = true },
     ["@neorg.quotes.4.prefix"] = { fg = colors.teal },
-    ["@neorg.quotes.4.content"] = { fg = colors.subtext0 },
+    ["@neorg.quotes.4.content"] = { fg = colors.overlay0, italic = true },
     ["@neorg.quotes.5.prefix"] = { fg = colors.flamingo },
-    ["@neorg.quotes.5.content"] = { fg = colors.subtext0 },
+    ["@neorg.quotes.5.content"] = { fg = colors.overlay0, italic = true },
     ["@neorg.quotes.6.prefix"] = { fg = colors.lavender },
-    ["@neorg.quotes.6.content"] = { fg = colors.subtext0 },
+    ["@neorg.quotes.6.content"] = { fg = colors.overlay0, italic = true },
 
     -- Neorg lists
     ["@neorg.lists.unordered.prefix"] = { fg = colors.mauve, bold = true },
