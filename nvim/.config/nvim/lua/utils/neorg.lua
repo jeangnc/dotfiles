@@ -226,20 +226,20 @@ local function find_most_recent_journal(workspace_dir)
   return most_recent
 end
 
--- Check if a list item has pending/undone status (should be kept)
--- Returns true if item should be KEPT (undone/pending)
--- Returns false if item should be FILTERED (done/cancelled)
+-- Check if a list item has undone status (should be carried over)
+-- Returns true only for todo_item_undone
+-- Returns false for done/cancelled/pending
 -- Returns nil if no todo marker found yet (continue searching)
 local function is_pending_todo(node)
   local node_type = node:type()
 
-  -- Found undone or pending todo - keep it
-  if node_type == "todo_item_undone" or node_type == "todo_item_pending" then
+  -- Found undone todo - keep it
+  if node_type == "todo_item_undone" then
     return true
   end
 
-  -- Found done or cancelled todo - filter it
-  if node_type == "todo_item_done" or node_type == "todo_item_cancelled" then
+  -- Found done, cancelled, or pending todo - filter it
+  if node_type == "todo_item_done" or node_type == "todo_item_cancelled" or node_type == "todo_item_pending" then
     return false
   end
 
@@ -257,48 +257,6 @@ local function is_pending_todo(node)
   return nil
 end
 
--- Recursively check if a node contains completed/cancelled todos (for routine unchecking)
--- This checks the ENTIRE tree including nested lists
-local function contains_completed_todo(node)
-  local node_type = node:type()
-
-  if node_type == "todo_item_done" or node_type == "todo_item_cancelled" then
-    return true
-  end
-
-  for child in node:iter_children() do
-    if contains_completed_todo(child) then
-      return true
-    end
-  end
-
-  return false
-end
-
-local function should_keep_node(node, bufnr)
-  local node_type = node:type()
-
-  -- For list items, check if they have pending/undone status
-  if node_type:match("^unordered_list%d$") then
-    local result = is_pending_todo(node)
-    -- Keep if pending/undone (true), or if no todo marker found (nil)
-    return result ~= false
-  end
-
-  -- Remove paragraphs that are just timestamps (HH:MM format)
-  if node_type == "paragraph" or node_type == "paragraph_segment" then
-    local text = vim.treesitter.get_node_text(node, bufnr)
-    -- Check if it's ONLY a timestamp (with optional whitespace)
-    if text and text:match("^%s*%d%d:%d%d%s*$") then
-      return false
-    end
-    return true
-  end
-
-  -- Keep everything else (headings, quotes, regular content, horizontal lines)
-  return true
-end
-
 -- Remove consecutive empty lines from a list of lines
 local function remove_consecutive_empty_lines(lines)
   local result = {}
@@ -313,126 +271,206 @@ local function remove_consecutive_empty_lines(lines)
   return result
 end
 
-local function filter_journal_content(filepath)
-  -- Load file into a temporary buffer
+-- Extract undone ( ) todos from a journal file, grouped by heading3 subsection key
+local function extract_undone_todos(filepath)
   local bufnr = vim.fn.bufadd(filepath)
   vim.fn.bufload(bufnr)
 
-  -- Parse with treesitter
   local parser = vim.treesitter.get_parser(bufnr, "norg")
   local tree = parser:parse()[1]
   local root = tree:root()
 
-  local filtered_lines = {}
-  local lines_to_skip = {}
-  local lines_to_uncheck = {} -- Lines containing routine todos to uncheck
+  -- Map from subsection key (e.g. "Crucial") to list of item line groups
+  local todos_by_subsection = {}
+  local in_todo_section = false
+  local current_subsection = nil
 
-  -- Track current section by name: "todo", "log", or "other"
-  local current_section = "other"
-
-  -- First pass: identify lines to skip and lines to uncheck
-  local function mark_lines_to_skip(node, parent)
+  local function walk(node)
     local node_type = node:type()
 
-    -- Track current section by heading name
+    -- Track heading sections
     if node_type:match("^heading%d$") then
+      local level = tonumber(node_type:match("(%d)$"))
       local start_row = node:range()
       local title = vim.api.nvim_buf_get_lines(bufnr, start_row, start_row + 1, false)[1] or ""
-      local title_lower = title:lower()
-      if title_lower:match("to%s*do") or title_lower:match("^%W*tarefas") then
-        current_section = "todo"
-      elseif title:match("Log") then
-        current_section = "log"
-      else
-        current_section = "other"
+
+      if level == 2 then
+        if title:lower():match("to%s*do") then
+          in_todo_section = true
+        else
+          in_todo_section = false
+          current_subsection = nil
+        end
+      elseif level == 3 and in_todo_section then
+        local key = title:match("%*%*%*%s*(%w+)")
+        if key then
+          current_subsection = key
+          todos_by_subsection[key] = todos_by_subsection[key] or {}
+        end
       end
     end
 
-    -- Outside TO DO: uncheck completed todos instead of removing them
-    if
-      node_type:match("^unordered_list%d$") and current_section ~= "todo"
-    then
-      if contains_completed_todo(node) then
-        -- Routine todo: mark for unchecking instead of skipping
+    -- Collect undone todo items in the TO DO section
+    if in_todo_section and current_subsection and node_type:match("^unordered_list%d$") then
+      if is_pending_todo(node) then
         local start_row, _, end_row, end_col = node:range()
         local actual_end_row = (end_col == 0) and (end_row - 1) or end_row
-        for i = start_row, actual_end_row do
-          lines_to_uncheck[i] = true
-        end
-        return -- Don't process further
+        local lines = vim.api.nvim_buf_get_lines(bufnr, start_row, actual_end_row + 1, false)
+        table.insert(todos_by_subsection[current_subsection], lines)
       end
+      return -- Don't recurse into list items
     end
 
-    if not should_keep_node(node, bufnr) then
-      local start_row, _, end_row, end_col = node:range()
-      local actual_end_row = (end_col == 0) and (end_row - 1) or end_row
-      for i = start_row, actual_end_row do
-        lines_to_skip[i] = true
-      end
-    else
-      -- Check if this is a list following a timestamp paragraph
-      if node_type == "generic_list" and parent then
-        local prev_sibling = nil
-        for child in parent:iter_children() do
-          if child == node then
-            break
-          end
-          if child:type() == "paragraph" then
-            prev_sibling = child
-          end
-        end
-
-        if prev_sibling then
-          local prev_text = vim.treesitter.get_node_text(prev_sibling, bufnr)
-          if prev_text and prev_text:match("^%s*%d%d:%d%d%s*$") then
-            local start_row, _, end_row, end_col = node:range()
-            local actual_end_row = (end_col == 0) and (end_row - 1) or end_row
-            for i = start_row, actual_end_row do
-              lines_to_skip[i] = true
-            end
-            return
-          end
-        end
-      end
-
-      -- Recursively check children
-      for child in node:iter_children() do
-        mark_lines_to_skip(child, node)
-      end
+    for child in node:iter_children() do
+      walk(child)
     end
   end
 
   for node in root:iter_children() do
-    mark_lines_to_skip(node, root)
+    walk(node)
   end
 
-  -- Second pass: collect and process lines
-  local all_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
-  for i, line in ipairs(all_lines) do
-    local line_idx = i - 1 -- 0-indexed
-    if not lines_to_skip[line_idx] then
-      if lines_to_uncheck[line_idx] then
-        -- Uncheck the todo: (x) or (-) → ( )
-        line = line:gsub("%-(%s*)%([xX%-]%)", "-%1( )")
+  vim.api.nvim_buf_delete(bufnr, { force = true })
+  return todos_by_subsection
+end
+
+-- Fallback: copy previous journal directly, keeping only undone ( ) todos
+-- and resetting routine items outside TO DO back to ( )
+local function filter_previous_journal(filepath)
+  local bufnr = vim.fn.bufadd(filepath)
+  vim.fn.bufload(bufnr)
+
+  local parser = vim.treesitter.get_parser(bufnr, "norg")
+  local tree = parser:parse()[1]
+  local root = tree:root()
+
+  local lines_to_skip = {}
+  local lines_to_uncheck = {}
+  local in_todo_section = false
+
+  local function walk(node)
+    local node_type = node:type()
+
+    if node_type:match("^heading%d$") then
+      local level = tonumber(node_type:match("(%d)$"))
+      if level == 2 then
+        local start_row = node:range()
+        local title = vim.api.nvim_buf_get_lines(bufnr, start_row, start_row + 1, false)[1] or ""
+        in_todo_section = title:lower():match("to%s*do") ~= nil
       end
-      table.insert(filtered_lines, line)
+    end
+
+    if node_type:match("^unordered_list%d$") then
+      local is_undone = is_pending_todo(node)
+      local start_row, _, end_row, end_col = node:range()
+      local actual_end_row = (end_col == 0) and (end_row - 1) or end_row
+
+      if in_todo_section then
+        -- Remove completed/cancelled/pending items
+        if not is_undone then
+          for i = start_row, actual_end_row do
+            lines_to_skip[i] = true
+          end
+        end
+      else
+        -- Reset checked routines back to ( )
+        if is_undone == false then
+          for i = start_row, actual_end_row do
+            lines_to_uncheck[i] = true
+          end
+        end
+      end
+      return
+    end
+
+    for child in node:iter_children() do
+      walk(child)
     end
   end
 
-  -- Clean up temporary buffer
-  vim.api.nvim_buf_delete(bufnr, { force = true })
+  for node in root:iter_children() do
+    walk(node)
+  end
 
-  return remove_consecutive_empty_lines(filtered_lines)
+  local all_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+  local result = {}
+  for i, line in ipairs(all_lines) do
+    local line_idx = i - 1
+    if not lines_to_skip[line_idx] then
+      if lines_to_uncheck[line_idx] then
+        line = line:gsub("%-(%s*)%([xX%-_]%)", "-%1( )")
+      end
+      table.insert(result, line)
+    end
+  end
+
+  vim.api.nvim_buf_delete(bufnr, { force = true })
+  return remove_consecutive_empty_lines(result)
+end
+
+-- Build journal content from template, splicing in undone todos from previous journal.
+-- Falls back to copying previous journal directly when no template exists.
+local function filter_journal_content(filepath, workspace_dir)
+  local template_path = workspace_dir .. "/.journalfiles/template.norg"
+  local ok_read, template_lines = pcall(vim.fn.readfile, template_path)
+  if not ok_read or not template_lines or #template_lines == 0 then
+    return filter_previous_journal(filepath)
+  end
+
+  -- Extract undone todos from previous journal grouped by subsection
+  local todos_by_subsection = extract_undone_todos(filepath)
+
+  -- Build result from template, replacing placeholders with collected items
+  local result = {}
+  local in_todo_section = false
+  local current_subsection = nil
+
+  for _, line in ipairs(template_lines) do
+    -- Track heading2 sections (** but not ***)
+    if line:match("^%s*%*%*[^%*]") then
+      if line:lower():match("to%s*do") then
+        in_todo_section = true
+      else
+        in_todo_section = false
+      end
+      current_subsection = nil
+    end
+
+    -- Track heading3 subsections within TO DO
+    if in_todo_section and line:match("^%s*%*%*%*[^%*]") then
+      current_subsection = line:match("%*%*%*%s*(%w+)")
+    end
+
+    -- Replace placeholder with collected undone items
+    if in_todo_section and current_subsection and line:match("^%s+%- %( %)%s*$") then
+      local items = todos_by_subsection[current_subsection]
+      if items and #items > 0 then
+        for idx, item_lines in ipairs(items) do
+          for _, item_line in ipairs(item_lines) do
+            table.insert(result, item_line)
+          end
+          -- Blank line between items, but not after the last one
+          if idx < #items then
+            table.insert(result, "")
+          end
+        end
+      else
+        table.insert(result, line)
+      end
+    else
+      table.insert(result, line)
+    end
+  end
+
+  return remove_consecutive_empty_lines(result)
 end
 
 function M.continue_journal()
-  -- Validate we're in a workspace
   local workspace_dir = validate_workspace()
   if not workspace_dir then
     return
   end
 
-  -- Find most recent journal entry
   local previous_journal = find_most_recent_journal(workspace_dir)
 
   if not previous_journal then
@@ -440,24 +478,22 @@ function M.continue_journal()
     return
   end
 
-  -- Filter content from previous journal
-  local ok, filtered_content = pcall(filter_journal_content, previous_journal)
+  local ok, content = pcall(filter_journal_content, previous_journal, workspace_dir)
 
   if not ok then
-    vim.notify("Failed to filter journal content: " .. tostring(filtered_content), vim.log.levels.ERROR)
+    vim.notify("Failed to build journal: " .. tostring(content), vim.log.levels.ERROR)
     return
   end
 
-  if #filtered_content == 0 then
+  if #content == 0 then
     vim.notify("No content to continue from previous journal", vim.log.levels.INFO)
     return
   end
 
   -- Replace current buffer content
   local current_bufnr = vim.api.nvim_get_current_buf()
-  vim.api.nvim_buf_set_lines(current_bufnr, 0, -1, false, filtered_content)
+  vim.api.nvim_buf_set_lines(current_bufnr, 0, -1, false, content)
 
-  -- Extract date from filepath for notification
   local date_match = previous_journal:match("(%d%d%d%d/%d%d/%d%d)%.norg$")
   vim.notify("Continued from journal: " .. (date_match or previous_journal), vim.log.levels.INFO)
 end
