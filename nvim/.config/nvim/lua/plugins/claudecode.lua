@@ -1,14 +1,17 @@
 return {
   {
     "coder/claudecode.nvim",
-    dependencies = { "folke/snacks.nvim" },
+    dependencies = {
+      "folke/snacks.nvim",
+      { "davidbeesley/claude-chill", build = "cargo install --path crates/claude-chill" },
+    },
     config = true,
     opts = {
       -- Server Configuration
       port_range = { min = 10000, max = 65535 },
       auto_start = true,
       log_level = "info", -- "trace", "debug", "info", "warn", "error"
-      terminal_cmd = "claude", -- Custom terminal command (default: "claude")
+      terminal_cmd = "claude-chill -- claude", -- Uses claude-chill PTY proxy to reduce TUI glitches
       -- For local installations: "~/.claude/local/claude"
       -- For native binary: use output from 'which claude'
 
@@ -19,7 +22,7 @@ return {
       -- Terminal Configuration
       terminal = {
         split_side = "right", -- "left" or "right"
-        split_width_percentage = 0.40,
+        split_width_percentage = 0.50,
         provider = "auto", -- "auto", "snacks", "native", "external", or custom provider table
         auto_close = true,
         snacks_win_opts = {}, -- Opts to pass to `Snacks.terminal.open()` - see Floating Window section below
