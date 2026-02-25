@@ -238,8 +238,13 @@ local function is_pending_todo(node)
     return true
   end
 
-  -- Found done, cancelled, or pending todo - filter it
-  if node_type == "todo_item_done" or node_type == "todo_item_cancelled" or node_type == "todo_item_pending" then
+  -- Found pending (in-progress) todo - keep it
+  if node_type == "todo_item_pending" then
+    return true
+  end
+
+  -- Found done or cancelled todo - filter it
+  if node_type == "todo_item_done" or node_type == "todo_item_cancelled" then
     return false
   end
 
@@ -280,10 +285,11 @@ local function extract_undone_todos(filepath)
   local tree = parser:parse()[1]
   local root = tree:root()
 
-  -- Map from subsection key (e.g. "Crucial") to list of item line groups
-  local todos_by_subsection = {}
+  local lines_to_skip = {}
+  local item_ranges = {} -- {subsection_key: {{start_row, end_row}, ...}}
   local in_todo_section = false
   local current_subsection = nil
+  local inside_item = false
 
   local function walk(node)
     local node_type = node:type()
@@ -305,20 +311,38 @@ local function extract_undone_todos(filepath)
         local key = title:match("%*%*%*%s*(%w+)")
         if key then
           current_subsection = key
-          todos_by_subsection[key] = todos_by_subsection[key] or {}
+          item_ranges[key] = item_ranges[key] or {}
         end
       end
     end
 
-    -- Collect undone todo items in the TO DO section
-    if in_todo_section and current_subsection and node_type:match("^unordered_list%d$") then
-      if is_pending_todo(node) then
+    if node_type:match("^unordered_list%d$") then
+      local is_undone = is_pending_todo(node)
+
+      -- Done/cancelled: mark entire subtree for skipping
+      if is_undone == false then
         local start_row, _, end_row, end_col = node:range()
         local actual_end_row = (end_col == 0) and (end_row - 1) or end_row
-        local lines = vim.api.nvim_buf_get_lines(bufnr, start_row, actual_end_row + 1, false)
-        table.insert(todos_by_subsection[current_subsection], lines)
+        for i = start_row, actual_end_row do
+          lines_to_skip[i] = true
+        end
+        return
       end
-      return -- Don't recurse into list items
+
+      -- Record top-level kept items in TODO section
+      if in_todo_section and current_subsection and is_undone and not inside_item then
+        local start_row, _, end_row, end_col = node:range()
+        local actual_end_row = (end_col == 0) and (end_row - 1) or end_row
+        table.insert(item_ranges[current_subsection], { start_row, actual_end_row })
+        inside_item = true
+        for child in node:iter_children() do
+          walk(child)
+        end
+        inside_item = false
+        return
+      end
+
+      -- Nested kept items: fall through to recurse
     end
 
     for child in node:iter_children() do
@@ -330,12 +354,26 @@ local function extract_undone_todos(filepath)
     walk(node)
   end
 
+  -- Collect lines from recorded ranges, excluding done subitems
+  local todos_by_subsection = {}
+  for key, ranges in pairs(item_ranges) do
+    todos_by_subsection[key] = {}
+    for _, range in ipairs(ranges) do
+      local lines = {}
+      for i = range[1], range[2] do
+        if not lines_to_skip[i] then
+          table.insert(lines, vim.api.nvim_buf_get_lines(bufnr, i, i + 1, false)[1])
+        end
+      end
+      table.insert(todos_by_subsection[key], lines)
+    end
+  end
+
   vim.api.nvim_buf_delete(bufnr, { force = true })
   return todos_by_subsection
 end
 
--- Fallback: copy previous journal directly, keeping only undone ( ) todos
--- and resetting routine items outside TO DO back to ( )
+-- Fallback: copy previous journal directly, removing completed/cancelled items
 local function filter_previous_journal(filepath)
   local bufnr = vim.fn.bufadd(filepath)
   vim.fn.bufload(bufnr)
@@ -345,42 +383,21 @@ local function filter_previous_journal(filepath)
   local root = tree:root()
 
   local lines_to_skip = {}
-  local lines_to_uncheck = {}
-  local in_todo_section = false
 
   local function walk(node)
     local node_type = node:type()
 
-    if node_type:match("^heading%d$") then
-      local level = tonumber(node_type:match("(%d)$"))
-      if level == 2 then
-        local start_row = node:range()
-        local title = vim.api.nvim_buf_get_lines(bufnr, start_row, start_row + 1, false)[1] or ""
-        in_todo_section = title:lower():match("to%s*do") ~= nil
-      end
-    end
-
     if node_type:match("^unordered_list%d$") then
       local is_undone = is_pending_todo(node)
-      local start_row, _, end_row, end_col = node:range()
-      local actual_end_row = (end_col == 0) and (end_row - 1) or end_row
-
-      if in_todo_section then
-        -- Remove completed/cancelled/pending items
-        if not is_undone then
-          for i = start_row, actual_end_row do
-            lines_to_skip[i] = true
-          end
+      if is_undone == false then
+        local start_row, _, end_row, end_col = node:range()
+        local actual_end_row = (end_col == 0) and (end_row - 1) or end_row
+        for i = start_row, actual_end_row do
+          lines_to_skip[i] = true
         end
-      else
-        -- Reset checked routines back to ( )
-        if is_undone == false then
-          for i = start_row, actual_end_row do
-            lines_to_uncheck[i] = true
-          end
-        end
+        return
       end
-      return
+      -- Kept or non-todo item: fall through to recurse into subitems
     end
 
     for child in node:iter_children() do
@@ -395,11 +412,7 @@ local function filter_previous_journal(filepath)
   local all_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
   local result = {}
   for i, line in ipairs(all_lines) do
-    local line_idx = i - 1
-    if not lines_to_skip[line_idx] then
-      if lines_to_uncheck[line_idx] then
-        line = line:gsub("%-(%s*)%([xX%-_]%)", "-%1( )")
-      end
+    if not lines_to_skip[i - 1] then
       table.insert(result, line)
     end
   end
@@ -413,7 +426,16 @@ end
 local function filter_journal_content(filepath, workspace_dir)
   local template_path = workspace_dir .. "/.journalfiles/template.norg"
   local ok_read, template_lines = pcall(vim.fn.readfile, template_path)
-  if not ok_read or not template_lines or #template_lines == 0 then
+  local function has_content(lines)
+    for _, line in ipairs(lines) do
+      if line:match("%S") then
+        return true
+      end
+    end
+    return false
+  end
+
+  if not ok_read or not template_lines or not has_content(template_lines) then
     return filter_previous_journal(filepath)
   end
 
