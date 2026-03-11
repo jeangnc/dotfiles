@@ -27,7 +27,7 @@ return {
 
         rubocop = {
           mason = false,
-          enabled = true,
+          enabled = false, -- ruby-lsp already includes the RuboCop addon
           cmd = { "bundle", "exec", "rubocop", "--lsp", "--force-exclusion" },
           init_options = {
             lint = {
