@@ -24,19 +24,6 @@ return {
           mason = false,
           cmd = { vim.fn.expand("~/.rbenv/shims/ruby-lsp") },
         },
-
-        rubocop = {
-          mason = false,
-          enabled = false, -- ruby-lsp already includes the RuboCop addon
-          cmd = { "bundle", "exec", "rubocop", "--lsp", "--force-exclusion" },
-          init_options = {
-            lint = {
-              rubocop = {
-                enabled = false,
-              },
-            },
-          },
-        },
       },
     },
   },
