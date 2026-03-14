@@ -3,7 +3,6 @@ return {
     "coder/claudecode.nvim",
     dependencies = {
       "folke/snacks.nvim",
-      { "davidbeesley/claude-chill", build = "cargo install --path crates/claude-chill" },
     },
     config = true,
     opts = {
@@ -11,7 +10,7 @@ return {
       port_range = { min = 10000, max = 65535 },
       auto_start = true,
       log_level = "info", -- "trace", "debug", "info", "warn", "error"
-      terminal_cmd = "claude-chill -- claude", -- Uses claude-chill PTY proxy to reduce TUI glitches
+      terminal_cmd = "claude",
       -- For local installations: "~/.claude/local/claude"
       -- For native binary: use output from 'which claude'
 
@@ -60,7 +59,14 @@ return {
       { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
       { "<leader>aD", "<cmd>ClaudeCode --dangerously-skip-permissions<cr>", desc = "Claude (skip permissions)" },
       -- AI Commands
-      { "<localleader>a", function() require("utils.claude").show_command_picker() end, desc = "AI Commands", mode = { "n", "v" } },
+      {
+        "<localleader>a",
+        function()
+          require("utils.claude").show_command_picker()
+        end,
+        desc = "AI Commands",
+        mode = { "n", "v" },
+      },
     },
   },
   {
