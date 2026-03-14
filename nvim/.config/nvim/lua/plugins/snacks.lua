@@ -39,6 +39,8 @@ return {
       timeout = 3000,
     },
 
+    input = { enabled = true },
+
     ---@type table<string, snacks.win.Config>
     styles = {
       notification = {

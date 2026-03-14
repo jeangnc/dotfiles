@@ -102,12 +102,14 @@ function M.fzf_select(items, prompt, callback, opts)
 end
 
 function M.fzf_input(prompt, callback)
-  vim.ui.input({ prompt = prompt }, function(input)
-    if not input or input == "" then
-      return
-    end
-    callback(input)
-  end)
+  vim.defer_fn(function()
+    vim.ui.input({ prompt = prompt }, function(input)
+      if not input or input == "" then
+        return
+      end
+      callback(input)
+    end)
+  end, 10)
 end
 
 --- Autocmd Utilities
