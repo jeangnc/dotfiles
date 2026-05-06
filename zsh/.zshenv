@@ -59,4 +59,4 @@ export PATH="$QLTY_INSTALL/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 
 # local overrides
-[ -f "$HOME/.config/zsh/.zshenv.local" ] && source "$HOME/.config/zsh/.zshenv.local"
+[ -f "$HOME/.zshenv.local" ] && source "$HOME/.zshenv.local"
