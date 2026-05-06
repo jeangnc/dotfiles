@@ -2,6 +2,9 @@ export ZSH="$HOME/.oh-my-zsh"
 
 ulimit -n 4096
 
+# homebrew completions (must precede compinit in oh-my-zsh.sh)
+fpath=("/opt/homebrew/share/zsh/site-functions" $fpath)
+
 ZSH_THEME="lambda"
 ZSH_CUSTOM="$HOME/.config/zsh"
 
