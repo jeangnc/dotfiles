@@ -1,7 +1,16 @@
 # git
 alias gps='git push origin "$(git_current_branch)"'
 alias gpl='git pull origin "$(git_current_branch)"'
-alias gbd='function _gbd() { git branch -D "$1" && git push origin --delete "$1"; }; _gbd'
+
+unalias gbd 2>/dev/null
+gbd() {
+  local branch="$1"
+  if [[ -z "$branch" ]]; then
+    echo "Usage: gbd <branch>" >&2
+    return 1
+  fi
+  git branch -D "$branch" && git push origin --delete "$branch"
+}
 
 # git worktree
 unalias gwt 2>/dev/null
@@ -50,6 +59,12 @@ alias oi="kitten icat"
 # python
 alias pip="python3 -m pip"
 alias venv="python3 -m venv .venv && source .venv/bin/activate"
+
+# node
+# Usage: npr [patch|minor|major|prerelease]  (default: patch)
+npr() {
+  pnpm version "${1:-patch}" && git push --follow-tags
+}
 
 alias wt="CLICOLOR_FORCE=1 watch --color"
 
