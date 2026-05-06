@@ -1,3 +1,6 @@
+local split_pct = 0.50
+local window = require("utils.window")
+
 return {
   {
     "coder/claudecode.nvim",
@@ -5,6 +8,15 @@ return {
       "folke/snacks.nvim",
     },
     config = true,
+    init = function()
+      window.keep_width_pct({
+        name = "claudecode_resize",
+        pct = split_pct,
+        window = function()
+          return window.find_by_buf(require("claudecode.terminal").get_active_terminal_bufnr())
+        end,
+      })
+    end,
     opts = {
       -- Server Configuration
       port_range = { min = 10000, max = 65535 },
@@ -21,7 +33,7 @@ return {
       -- Terminal Configuration
       terminal = {
         split_side = "right", -- "left" or "right"
-        split_width_percentage = 0.50,
+        split_width_percentage = split_pct,
         provider = "auto", -- "auto", "snacks", "native", "external", or custom provider table
         auto_close = true,
         snacks_win_opts = {}, -- Opts to pass to `Snacks.terminal.open()` - see Floating Window section below
