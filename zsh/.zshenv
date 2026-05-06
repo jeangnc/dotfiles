@@ -21,6 +21,8 @@ export MANWIDTH=999
 # ruby (YJIT)
 export RUBY_YJIT_ENABLE=1
 
+typeset -U path PATH
+
 ##
 ## path
 ##
