@@ -1,3 +1,4 @@
+*.local
 *.local.*
 
 # Ignore everything in .claude by default

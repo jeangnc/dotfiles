@@ -36,8 +36,7 @@ export MANPATH="/opt/homebrew/share/man${MANPATH:+:$MANPATH}"
 export INFOPATH="/opt/homebrew/share/info${INFOPATH:+:$INFOPATH}"
 
 # rbenv
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init - --no-rehash zsh)"
+export PATH="$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH"
 
 # node
 export PATH="/opt/homebrew/opt/node@22/bin:$PATH"
@@ -55,3 +54,9 @@ export PATH="/opt/homebrew/opt/postgresql@18/bin:$PATH"
 # qlty
 export QLTY_INSTALL="$HOME/.qlty"
 export PATH="$QLTY_INSTALL/bin:$PATH"
+
+# cargo
+export PATH="$HOME/.cargo/bin:$PATH"
+
+# local overrides
+[ -f "$HOME/.config/zsh/.zshenv.local" ] && source "$HOME/.config/zsh/.zshenv.local"
