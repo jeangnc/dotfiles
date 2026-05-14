@@ -58,5 +58,17 @@ export PATH="$QLTY_INSTALL/bin:$PATH"
 # cargo
 export PATH="$HOME/.cargo/bin:$PATH"
 
+# android
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+export PATH="$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator"
+
+# pnpm
+export PNPM_HOME="/Users/jeangnc/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
 # local overrides
 [ -f "$HOME/.zshenv.local" ] && source "$HOME/.zshenv.local"

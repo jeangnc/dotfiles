@@ -20,3 +20,4 @@ source <(fzf --zsh)
 
 # qlty completion
 [ -s "/opt/homebrew/share/zsh/site-functions/_qlty" ] && source "/opt/homebrew/share/zsh/site-functions/_qlty"
+
