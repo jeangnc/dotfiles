@@ -21,3 +21,11 @@ source <(fzf --zsh)
 # qlty completion
 [ -s "/opt/homebrew/share/zsh/site-functions/_qlty" ] && source "/opt/homebrew/share/zsh/site-functions/_qlty"
 
+
+# pnpm
+export PNPM_HOME="/Users/jeangnc/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
