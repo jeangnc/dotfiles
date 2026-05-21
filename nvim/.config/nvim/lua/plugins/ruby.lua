@@ -12,6 +12,7 @@ return {
       ensure_installed = {
         "erb-formatter",
         "erb-lint",
+        "ruby-lsp",
       },
     },
   },
@@ -21,8 +22,7 @@ return {
       servers = {
         ruby_lsp = {
           enabled = true,
-          mason = false,
-          cmd = { vim.fn.expand("~/.rbenv/shims/ruby-lsp") },
+          mason = true,
         },
       },
     },
