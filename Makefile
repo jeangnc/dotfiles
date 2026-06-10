@@ -66,6 +66,17 @@ check-stow:
 		exit 1; \
 	fi
 
+.PHONY: brew
+brew:
+	@if ! command -v brew >/dev/null 2>&1; then \
+		echo -e "$(RED)[ERROR]$(NC) Homebrew is not installed!"; \
+		echo "Install it from https://brew.sh"; \
+		exit 1; \
+	fi
+	@echo -e "$(BLUE)[INFO]$(NC) Installing Homebrew packages from Brewfile..."
+	@brew bundle --file=brew/Brewfile
+	@echo -e "$(GREEN)[SUCCESS]$(NC) Homebrew packages installed"
+
 .PHONY: macos
 macos:
 	@echo -e "$(BLUE)[INFO]$(NC) Applying macOS defaults..."
@@ -79,5 +90,6 @@ help:
 	@echo "  install   - Install dotfiles (default)"
 	@echo "  uninstall - Remove all symlinks"
 	@echo "  restow    - Re-install (useful after changes)"
+	@echo "  brew      - Install Homebrew packages from Brewfile"
 	@echo "  macos     - Apply macOS defaults settings"
 	@echo "  help      - Show this help message"
