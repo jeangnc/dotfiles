@@ -10,10 +10,6 @@ return {
       opts.auto_install = false
       -- Skip problematic parsers
       opts.ignore_install = { "jsonc" }
-      -- Register norg parser (installed via luarocks.nvim) so LazyVim recognizes it
-      opts.ensure_installed = {
-        "norg",
-      }
 
       -- Manually start treesitter for norg files (luarocks-installed parser)
       vim.api.nvim_create_autocmd("FileType", {
