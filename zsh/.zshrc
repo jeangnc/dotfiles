@@ -18,6 +18,9 @@ eval "$(rbenv init - --no-rehash zsh)"
 # fzf
 source <(fzf --zsh)
 
+# direnv
+eval "$(direnv hook zsh)"
+
 # qlty completion
 [ -s "/opt/homebrew/share/zsh/site-functions/_qlty" ] && source "/opt/homebrew/share/zsh/site-functions/_qlty"
 
