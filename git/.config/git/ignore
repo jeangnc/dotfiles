@@ -10,3 +10,4 @@ cover.out
 *.irb_history
 
 .env
+.envrc
