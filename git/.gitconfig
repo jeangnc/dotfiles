@@ -1,7 +1,6 @@
 [core]
   editor = nvim
   excludesfile = ~/.config/git/ignore
-  hooksPath = ~/.config/git/hooks
 [user]
   name = Jean Gonçalves
   email = jean.gnc@gmail.com
