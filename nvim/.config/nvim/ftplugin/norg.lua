@@ -9,14 +9,32 @@ vim.opt_local.formatoptions:append("t")
 
 --- Keymaps
 
+local function jump_snippet_or_iterate()
+  if require("blink.cmp").snippet_forward() then
+    return
+  end
+
+  if vim.fn.mode() == "s" then
+    return
+  end
+
+  if vim.fn.mode() ~= "i" then
+    vim.cmd("startinsert")
+  end
+
+  vim.schedule(require("neorg.modules.core.itero.module").public.next_iteration_cr)
+end
+
 map("n", "gl", "<plug>(neorg.external.hop-extras.hop-link)", { desc = "Hop link", buffer = true })
 map("n", "<C-Space>", "<Plug>(neorg.qol.todo-items.todo.task-cycle)", { desc = "Cycle todo state", buffer = true })
 map({ "n", "v", "o" }, "<C-E>", "<cmd>Neorg toc<cr>", { desc = "Toggle ToC", buffer = true })
 map({ "n", "v", "o" }, "<F12>", "<cmd>Neorg toggle-concealer<cr>", { desc = "Toggle concealer", buffer = true })
-map({ "n", "i", "o" }, "<Tab>", function()
-  vim.cmd("startinsert")
-  vim.cmd('lua require("neorg.modules.core.itero.module").public.next_iteration_cr()')
-end, { desc = "Next iteration", buffer = true })
+map(
+  { "n", "i", "s" },
+  "<Tab>",
+  jump_snippet_or_iterate,
+  { desc = "Snippet forward or next iteration", buffer = true }
+)
 
 local current_file = vim.fn.expand("%:p")
 if current_file:match("%.journalfiles/") then
