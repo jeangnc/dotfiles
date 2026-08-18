@@ -36,33 +36,47 @@ gwte() {
 alias gwtc='rm -rf /tmp/git-worktrees && git worktree prune'
 
 # Safe prune: drop dead entries + remove worktrees that are clean AND fully pushed.
+# -f: also remove worktrees with uncommitted changes, no upstream, or unpushed commits.
 gwtp() {
+  local force=0
+  [[ "$1" == "-f" ]] && force=1
   local main
   main=$(git rev-parse --show-toplevel) || return 1
   git worktree prune
   git worktree list --porcelain | awk '/^worktree /{print $2}' | while read -r wt; do
     [[ "$wt" == "$main" ]] && continue
-    if [[ -n "$(git -C "$wt" status --porcelain)" ]]; then
+    if [[ "$force" -eq 0 && -n "$(git -C "$wt" status --porcelain)" ]]; then
       echo "skip (uncommitted): $wt" >&2
       continue
     fi
-    local upstream=""
-    upstream=$(git -C "$wt" rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' 2>/dev/null) || true
-    if [[ -z "$upstream" ]]; then
-      echo "skip (no upstream): $wt" >&2
-      continue
+    if [[ "$force" -eq 0 ]]; then
+      local upstream=""
+      upstream=$(git -C "$wt" rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' 2>/dev/null) || true
+      if [[ -z "$upstream" ]]; then
+        echo "skip (no upstream): $wt" >&2
+        continue
+      fi
+      if [[ -n "$(git -C "$wt" rev-list "$upstream"..HEAD)" ]]; then
+        echo "skip (unpushed):    $wt" >&2
+        continue
+      fi
     fi
-    if [[ -n "$(git -C "$wt" rev-list "$upstream"..HEAD)" ]]; then
-      echo "skip (unpushed):    $wt" >&2
-      continue
-    fi
-    git worktree remove "$wt" && echo "removed:            $wt"
+    git worktree remove -f -f "$wt" && echo "removed:            $wt"
   done
   git worktree prune
 }
 
 # "git update"
-alias gu='git checkout -q main && git pull && git for-each-ref refs/heads/ "--format=%(refname:short)" | while read branch; do mergeBase=$(git merge-base main $branch) && [[ $(git cherry main $(git commit-tree $(git rev-parse "$branch^{tree}") -p $mergeBase -m _)) == "-"* ]] && git branch -D $branch; done'
+unalias gu 2>/dev/null
+gu() {
+  git checkout -q main && git pull || return 1
+  gwtp
+  git for-each-ref refs/heads/ --format='%(refname:short)' | while read -r branch; do
+    [[ "$branch" == "main" ]] && continue
+    mergeBase=$(git merge-base main "$branch") || continue
+    [[ $(git cherry main $(git commit-tree $(git rev-parse "$branch^{tree}") -p "$mergeBase" -m _)) == "-"* ]] && git branch -D "$branch"
+  done
+}
 
 # github
 alias ghpo='gh pr view --web'
