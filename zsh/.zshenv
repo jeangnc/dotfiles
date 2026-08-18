@@ -59,7 +59,7 @@ export PATH="$QLTY_INSTALL/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 
 # android
-export ANDROID_HOME="$HOME/Library/Android/sdk"
+export ANDROID_HOME="/opt/homebrew/share/android-commandlinetools"
 export PATH="$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator"
 
 # pnpm
