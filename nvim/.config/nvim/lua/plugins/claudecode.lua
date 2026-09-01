@@ -1,4 +1,4 @@
-local split_pct = 0.50
+local split_pct = 0.30
 local window = require("utils.window")
 
 return {

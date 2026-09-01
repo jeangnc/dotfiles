@@ -1,15 +1,26 @@
+local outline_pct = 0.4
+
+local function toggle_outline()
+  local source_width = vim.api.nvim_win_get_width(0)
+  if not require("aerial").toggle() then
+    return
+  end
+  local outline_win = vim.api.nvim_get_current_win()
+  vim.api.nvim_win_set_width(outline_win, math.floor(source_width * outline_pct))
+  vim.w[outline_win].aerial_set_width = true
+end
+
 return {
   {
     "stevearc/aerial.nvim",
     keys = {
-      { "<localleader><tab>", "<cmd>AerialToggle<cr>", desc = "Toggle Outline/ToC" },
+      { "<localleader><tab>", toggle_outline, desc = "Toggle Outline/ToC" },
     },
     opts = {
       -- Priority list of preferred backends for aerial.
       -- This can be a filetype map (see :help aerial-filetype-map)
       backends = { "treesitter", "lsp", "markdown", "asciidoc", "man" },
       layout = {
-        min_width = 0.3,
         default_direction = "left",
       },
 
