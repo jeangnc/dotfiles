@@ -1,17 +1,61 @@
 local outline_pct = 0.40
 local window = require("utils.window")
 
+local right_tools = {
+  {
+    visible = function()
+      local terminal = require("claudecode.terminal")
+      return window.find_by_buf(terminal.get_active_terminal_bufnr()) ~= nil
+    end,
+    hide = function()
+      require("claudecode.terminal").simple_toggle()
+    end,
+    show = function()
+      require("claudecode.terminal").ensure_visible()
+    end,
+  },
+}
+
 local function outline_win()
   return select(2, require("aerial.util").get_winids())
 end
 
+local function hide_visible_tools()
+  local hidden = {}
+  for _, tool in ipairs(right_tools) do
+    if tool.visible() then
+      tool.hide()
+      table.insert(hidden, tool)
+    end
+  end
+  return hidden
+end
+
+local function restore_when_closed(win, hidden)
+  vim.api.nvim_create_autocmd("WinClosed", {
+    pattern = tostring(win),
+    once = true,
+    callback = function()
+      vim.schedule(function()
+        for _, tool in ipairs(hidden) do
+          tool.show()
+        end
+      end)
+    end,
+  })
+end
+
 local function toggle_outline()
-  if not require("aerial").toggle() then
+  if outline_win() then
+    require("aerial").close()
     return
   end
+  local hidden = hide_visible_tools()
+  require("aerial").open()
   local win = vim.api.nvim_get_current_win()
   window.set_width_pct(win, outline_pct)
   vim.w[win].aerial_set_width = true
+  restore_when_closed(win, hidden)
 end
 
 return {
