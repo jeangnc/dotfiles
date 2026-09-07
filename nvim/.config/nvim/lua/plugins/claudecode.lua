@@ -1,9 +1,12 @@
+local agent = require("config.ai_agent")
+
 local split_pct = 0.40
 local window = require("utils.window")
 
 return {
   {
     "coder/claudecode.nvim",
+    enabled = agent.name == "claude",
     dependencies = {
       "folke/snacks.nvim",
     },
@@ -68,16 +71,6 @@ return {
         end,
         desc = "AI Commands",
         mode = { "n", "v" },
-      },
-    },
-  },
-  {
-    "folke/which-key.nvim",
-    event = "VeryLazy",
-    opts_extend = { "spec" },
-    opts = {
-      spec = {
-        { "<leader>a", group = "AI", icon = "🤖" },
       },
     },
   },

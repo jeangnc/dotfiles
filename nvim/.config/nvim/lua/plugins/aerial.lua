@@ -1,17 +1,18 @@
 local outline_pct = 0.40
 local window = require("utils.window")
+local ai_terminal = require("utils.ai_terminal")
 
 local right_tools = {
   {
     visible = function()
-      local terminal = require("claudecode.terminal")
+      local terminal = ai_terminal.active()
       return window.find_by_buf(terminal.get_active_terminal_bufnr()) ~= nil
     end,
     hide = function()
-      require("claudecode.terminal").simple_toggle()
+      ai_terminal.active().simple_toggle()
     end,
     show = function()
-      require("claudecode.terminal").ensure_visible()
+      ai_terminal.active().ensure_visible()
     end,
   },
 }

@@ -14,11 +14,15 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+local agent = require("config.ai_agent")
+
+local ai_extra = agent.name == "claude" and { import = "lazyvim.plugins.extras.ai.claudecode" } or {}
+
 require("lazy").setup({
   spec = {
     -- add LazyVim and import its plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    { import = "lazyvim.plugins.extras.ai.claudecode" },
+    ai_extra,
     { import = "lazyvim.plugins.extras.lang.go" },
     { import = "lazyvim.plugins.extras.test.core" },
     { import = "lazyvim.plugins.extras.editor.aerial" },
