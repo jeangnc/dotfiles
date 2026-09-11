@@ -11,3 +11,4 @@ cover.out
 
 .env
 .envrc
+.tmux-server

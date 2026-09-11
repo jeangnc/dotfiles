@@ -12,6 +12,8 @@ ZSH_DOTENV_FILE=.env.local
 plugins=(git rails bundler docker-compose dotenv)
 source $ZSH/oh-my-zsh.sh
 
+source "$HOME/.config/zsh/tp.zsh"
+
 # rbenv (interactive function + completion; PATH lives in .zshenv)
 eval "$(rbenv init - --no-rehash zsh)"
 
