@@ -76,7 +76,7 @@ tp_add_main_pane() {
     tmux new-session -d -s main -c "$1" || return
     tp_mark_initial_pane main "$1"
   elif ! tp_has_pane main "$1"; then
-    pane_id="$(tmux split-window -v -P -F '#{pane_id}' -t =main -c "$1")" || return
+    pane_id="$(tmux split-window -v -P -F '#{pane_id}' -t '=main:' -c "$1")" || return
     tmux set-option -p -t "$pane_id" @tp_project "$1"
   fi
 }
@@ -89,7 +89,7 @@ tp_add_server_pane() {
     tmux new-session -d -s server -c "$1" "$server_command" || return
     tp_mark_initial_pane server "$1"
   elif ! tp_has_pane server "$1"; then
-    pane_id="$(tmux split-window -h -P -F '#{pane_id}' -t =server -c "$1" "$server_command")" || return
+    pane_id="$(tmux split-window -h -P -F '#{pane_id}' -t '=server:' -c "$1" "$server_command")" || return
     tmux set-option -p -t "$pane_id" @tp_project "$1"
   fi
 }
