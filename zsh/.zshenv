@@ -72,3 +72,5 @@ esac
 
 # local overrides
 [ -f "$HOME/.zshenv.local" ] && source "$HOME/.zshenv.local"
+
+source "$HOME/.dotfiles/zsh/docker-host.zsh"

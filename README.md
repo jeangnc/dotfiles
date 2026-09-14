@@ -15,7 +15,7 @@ cd ~/.dotfiles
 
 ## What's Included
 
-- **zsh**: Shell configuration with aliases and environment settings
+- **zsh**: Shell configuration with aliases and environment settings. [Docker machine routing](docs/docker-machines.md) selects the project engine automatically.
 - **git**: Git configuration and global gitignore
 - **kitty**: Terminal emulator configuration with themes
 - **nvim**: Neovim configuration with plugins and settings
