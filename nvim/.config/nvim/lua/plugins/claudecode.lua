@@ -28,10 +28,7 @@ return {
       terminal_cmd = "claude",
       -- For local installations: "~/.claude/local/claude"
       -- For native binary: use output from 'which claude'
-
-      -- Selection Tracking
-      track_selection = true,
-      visual_demotion_delay_ms = 50,
+      track_selection = false,
 
       -- Terminal Configuration
       terminal = {
