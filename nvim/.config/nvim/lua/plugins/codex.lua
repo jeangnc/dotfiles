@@ -23,6 +23,9 @@ return {
     track_selection = true,
     visual_demotion_delay_ms = 50,
     keymaps = false,
+    status_indicator = {
+      enabled = false,
+    },
     terminal = {
       split_side = "right",
       split_width_percentage = split_pct,
