@@ -1,3 +1,3 @@
-vim.g.ai_agent = vim.g.ai_agent or "codex"
+vim.g.ai_agent = "codex"
 require("config.ai_agent")
 require("config.lazy")
