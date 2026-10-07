@@ -35,8 +35,9 @@ gwte() {
 
 alias gwtc='rm -rf /tmp/git-worktrees && git worktree prune'
 
-# Safe prune: drop dead entries + remove worktrees that are clean AND fully pushed.
-# -f: also remove worktrees with uncommitted changes, no upstream, or unpushed commits.
+# Safe prune: drop dead entries, worktrees not on a local branch (detached HEAD),
+# and branch worktrees that are clean AND fully pushed.
+# -f: also remove branch worktrees with uncommitted changes, no upstream, or unpushed commits.
 gwtp() {
   local force=0
   [[ "$1" == "-f" ]] && force=1
@@ -45,25 +46,30 @@ gwtp() {
   git worktree prune
   git worktree list --porcelain | awk '/^worktree /{print $2}' | while read -r wt; do
     [[ "$wt" == "$main" ]] && continue
-    if [[ "$force" -eq 0 && -n "$(git -C "$wt" status --porcelain)" ]]; then
-      echo "skip (uncommitted): $wt" >&2
-      continue
-    fi
-    if [[ "$force" -eq 0 ]]; then
-      local upstream=""
-      upstream=$(git -C "$wt" rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' 2>/dev/null) || true
-      if [[ -z "$upstream" ]]; then
-        echo "skip (no upstream): $wt" >&2
-        continue
-      fi
-      if [[ -n "$(git -C "$wt" rev-list "$upstream"..HEAD)" ]]; then
-        echo "skip (unpushed):    $wt" >&2
-        continue
-      fi
-    fi
+    [[ "$force" -eq 0 ]] && _gwt_is_kept "$wt" && continue
     git worktree remove -f -f "$wt" && echo "removed:            $wt"
   done
   git worktree prune
+}
+
+_gwt_is_kept() {
+  local wt="$1"
+  git -C "$wt" symbolic-ref -q HEAD >/dev/null || return 1
+  if [[ -n "$(git -C "$wt" status --porcelain)" ]]; then
+    echo "skip (uncommitted): $wt" >&2
+    return 0
+  fi
+  local upstream
+  upstream=$(git -C "$wt" rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' 2>/dev/null)
+  if [[ -z "$upstream" ]]; then
+    echo "skip (no upstream): $wt" >&2
+    return 0
+  fi
+  if [[ -n "$(git -C "$wt" rev-list "$upstream"..HEAD)" ]]; then
+    echo "skip (unpushed):    $wt" >&2
+    return 0
+  fi
+  return 1
 }
 
 # "git update"
