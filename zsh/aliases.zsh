@@ -114,6 +114,9 @@ npr() {
 
 alias wt="CLICOLOR_FORCE=1 watch --color"
 
+# ai
+alias claude="claude --dangerously-skip-permissions"
+
 
 # misc
 alias dotf="~/.dotfiles"
