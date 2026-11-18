@@ -6,7 +6,11 @@ function M.find_by_buf(bufnr)
   if not bufnr then
     return nil
   end
-  return vim.fn.win_findbuf(bufnr)[1]
+  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+    if vim.api.nvim_win_get_buf(win) == bufnr then
+      return win
+    end
+  end
 end
 
 function M.set_width_pct(win, pct)

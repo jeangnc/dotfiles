@@ -4,6 +4,29 @@
 
 local map = vim.keymap.set
 local unmap = vim.api.nvim_del_keymap
+local agent = require("config.ai_agent")
+
+Snacks.toggle({
+  name = "Codex",
+  get = function()
+    return agent.current() == "codex"
+  end,
+  set = function(enabled)
+    local name = enabled and "codex" or "claude"
+    local ok, error_message = agent.select(name)
+    if not ok then
+      vim.notify("Could not switch AI model: " .. error_message, vim.log.levels.ERROR)
+      return
+    end
+    vim.notify("AI model: " .. name, vim.log.levels.INFO)
+  end,
+  wk_desc = { enabled = "Switch to Claude from ", disabled = "Switch to " },
+  notify = false,
+}):map("<leader>aM", { desc = "Switch AI model" })
+
+map("n", "<leader>ac", function()
+  vim.cmd(agent.current() == "claude" and "ClaudeCode" or "Codex")
+end, { desc = "Toggle AI pane" })
 
 -- Cleanup: Remove unused default keymaps
 unmap("n", "<leader><tab>d")

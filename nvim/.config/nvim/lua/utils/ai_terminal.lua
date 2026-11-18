@@ -1,14 +1,19 @@
-local agent = require("config.ai_agent")
-
 local terminals = {
-  claude = "claudecode.terminal",
-  codex = "codex.terminal",
+  "claudecode.terminal",
+  "codex.terminal",
 }
 
 local M = {}
 
-function M.active()
-  return require(terminals[agent.name])
+function M.loaded()
+  local loaded = {}
+  for _, module_name in ipairs(terminals) do
+    local terminal = package.loaded[module_name]
+    if terminal then
+      table.insert(loaded, terminal)
+    end
+  end
+  return loaded
 end
 
 return M

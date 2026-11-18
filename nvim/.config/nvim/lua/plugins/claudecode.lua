@@ -1,14 +1,28 @@
-local agent = require("config.ai_agent")
-
 local split_pct = 0.40
 local window = require("utils.window")
 
 return {
   {
     "coder/claudecode.nvim",
-    enabled = agent.name == "claude",
     dependencies = {
       "folke/snacks.nvim",
+    },
+    cmd = {
+      "ClaudeCode",
+      "ClaudeCodeFocus",
+      "ClaudeCodeSelectModel",
+      "ClaudeCodeAdd",
+      "ClaudeCodeSend",
+      "ClaudeCodeSendText",
+      "ClaudeCodeTreeAdd",
+      "ClaudeCodeStatus",
+      "ClaudeCodeStart",
+      "ClaudeCodeStop",
+      "ClaudeCodeOpen",
+      "ClaudeCodeClose",
+      "ClaudeCodeDiffAccept",
+      "ClaudeCodeDiffDeny",
+      "ClaudeCodeCloseAllDiffs",
     },
     config = true,
     init = function()
@@ -16,7 +30,8 @@ return {
         name = "claudecode_resize",
         pct = split_pct,
         window = function()
-          return window.find_by_buf(require("claudecode.terminal").get_active_terminal_bufnr())
+          local terminal = package.loaded["claudecode.terminal"]
+          return terminal and window.find_by_buf(terminal.get_active_terminal_bufnr())
         end,
       })
     end,
@@ -50,24 +65,6 @@ return {
         vertical_split = true,
         open_in_current_tab = false,
         keep_terminal_focus = true, -- If true, moves focus back to terminal after diff opens
-      },
-    },
-    keys = {
-      { "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
-      {
-        "<leader>as",
-        "<cmd>ClaudeCodeTreeAdd<cr>",
-        desc = "Add file",
-        ft = { "NvimTree", "neo-tree", "oil", "minifiles" },
-      },
-      { "<leader>aD", "<cmd>ClaudeCode --dangerously-skip-permissions<cr>", desc = "Claude (skip permissions)" },
-      {
-        "<localleader>a",
-        function()
-          require("utils.claude").show_command_picker()
-        end,
-        desc = "AI Commands",
-        mode = { "n", "v" },
       },
     },
   },

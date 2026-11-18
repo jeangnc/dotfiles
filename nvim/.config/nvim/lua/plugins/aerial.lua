@@ -2,34 +2,32 @@ local outline_pct = 0.40
 local window = require("utils.window")
 local ai_terminal = require("utils.ai_terminal")
 
-local right_tools = {
-  {
-    visible = function()
-      local terminal = ai_terminal.active()
-      return window.find_by_buf(terminal.get_active_terminal_bufnr()) ~= nil
-    end,
-    hide = function()
-      ai_terminal.active().simple_toggle()
-    end,
-    show = function()
-      ai_terminal.active().ensure_visible()
-    end,
-  },
-}
-
 local function outline_win()
   return select(2, require("aerial.util").get_winids())
 end
 
 local function hide_visible_tools()
   local hidden = {}
-  for _, tool in ipairs(right_tools) do
-    if tool.visible() then
-      tool.hide()
-      table.insert(hidden, tool)
+  for _, terminal in ipairs(ai_terminal.loaded()) do
+    local bufnr = terminal.get_active_terminal_bufnr()
+    if window.find_by_buf(bufnr) then
+      terminal.simple_toggle()
+      table.insert(hidden, { terminal = terminal, bufnr = bufnr })
     end
   end
   return hidden
+end
+
+local function restore_hidden_tools(hidden)
+  for _, tool in ipairs(hidden) do
+    local bufnr = tool.bufnr
+    if vim.api.nvim_buf_is_valid(bufnr) and tool.terminal.get_active_terminal_bufnr() == bufnr then
+      local job = vim.b[bufnr].terminal_job_id
+      if job and vim.fn.jobwait({ job }, 0)[1] == -1 then
+        tool.terminal.ensure_visible()
+      end
+    end
+  end
 end
 
 local function restore_when_closed(win, hidden)
@@ -38,9 +36,7 @@ local function restore_when_closed(win, hidden)
     once = true,
     callback = function()
       vim.schedule(function()
-        for _, tool in ipairs(hidden) do
-          tool.show()
-        end
+        restore_hidden_tools(hidden)
       end)
     end,
   })
@@ -52,8 +48,15 @@ local function toggle_outline()
     return
   end
   local hidden = hide_visible_tools()
-  require("aerial").open()
-  local win = vim.api.nvim_get_current_win()
+  local ok, error_message = pcall(require("aerial").open)
+  local win = outline_win()
+  if not ok or not win then
+    restore_hidden_tools(hidden)
+    if not ok then
+      error(error_message)
+    end
+    return
+  end
   window.set_width_pct(win, outline_pct)
   vim.w[win].aerial_set_width = true
   restore_when_closed(win, hidden)
